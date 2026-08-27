@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="TrainTimetable.App/TrainTimetable.App.csproj" />
+  <Project Path="TrainTimetable.Business/TrainTimetable.Business.csproj" />
+  <Project Path="TrainTimetable.Data/TrainTimetable.Data.csproj" />
+</Solution>
