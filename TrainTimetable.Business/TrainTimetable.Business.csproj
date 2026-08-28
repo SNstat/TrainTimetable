@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TrainTimetable.Data\TrainTimetable.Data.csproj" />
+  </ItemGroup>
+
 </Project>
