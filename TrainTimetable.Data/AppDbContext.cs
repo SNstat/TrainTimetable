@@ -23,6 +23,9 @@ public class AppDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+
+        optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=TrainTimetable;Integrated Security=True");
+
         base.OnConfiguring(optionsBuilder);
     }
 

@@ -7,10 +7,8 @@ public class Line
     [Key]
     public int ID { get; set; }
 
-    public int LineNumber { get; set; }
-
     [Required]
-    public Stop StartSegment { get; set; } = null!;
+    public int LineNumber { get; set; }
 
     [Required]
     public virtual Stop? FirstStop { get; set; }

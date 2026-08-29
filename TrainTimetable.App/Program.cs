@@ -13,7 +13,7 @@ public class Program
             .AddInteractiveServerComponents();
 
         builder.Services.AddDbContextFactory<AppDbContext>(options =>
-            options.UseSqlite(builder.Configuration.GetConnectionString("Default")));
+            options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
 
         var app = builder.Build();
 
