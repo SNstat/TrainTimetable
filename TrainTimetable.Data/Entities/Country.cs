@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using TrainTimetable.Data.Repositories;
 
 namespace TrainTimetable.Data.Entities;
 
-public class Country
+public class Country : IDbSet
 {
     [Key]
     public int ID { get; set; }

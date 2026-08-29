@@ -1,18 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using TrainTimetable.Data.Repositories;
 
 namespace TrainTimetable.Data.Entities;
 
-public class Station
+public class Station : IDbSet
 {
     [Key]
     public int ID { get; set; }
 
     [Required]
-    public string Location { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
 
-    [Required]
     public virtual Station? BaseStation { get; set; }
 
-    [Required]
     public virtual Country? Country { get; set; }
 }

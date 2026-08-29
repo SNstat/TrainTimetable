@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <Folder Include="Seeds\" />
-    <Folder Include="Repositories\" />
   </ItemGroup>
 
 </Project>
