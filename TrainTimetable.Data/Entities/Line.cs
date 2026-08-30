@@ -11,8 +11,5 @@ public class Line : IDbSet
     [Required]
     public int LineNumber { get; set; }
 
-    [Required]
-    public virtual Stop? FirstStop { get; set; }
-
-    public virtual IEnumerable<Stop> Stops { get; set; } = [];
+    public virtual ICollection<Stop> Stops { get; set; } = [];
 }

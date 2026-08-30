@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using TrainTimetable.Business.Services;
 using TrainTimetable.Data;
+using TrainTimetable.Data.Entities;
+using TrainTimetable.Data.Repositories;
 
 namespace TrainTimetable.App;
 
@@ -14,6 +17,9 @@ public class Program
 
         builder.Services.AddDbContextFactory<AppDbContext>(options =>
             options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
+
+        builder.Services.AddScoped<IBaseRepository<Train>, BaseRepository<Train>>();
+        builder.Services.AddScoped<ITrainService, TrainService>();
 
         var app = builder.Build();
 

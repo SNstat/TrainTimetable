@@ -7,7 +7,7 @@ public interface IDbSet
     int ID { get; set; }
 }
 
-public interface IGenericRepository<T> where T : class, IDbSet
+public interface IBaseRepository<T> where T : class, IDbSet
 {
     Task<IEnumerable<T>> GetAll();
     Task<T> GetByID(int id);
@@ -16,11 +16,11 @@ public interface IGenericRepository<T> where T : class, IDbSet
     Task Delete(T ob);
 }
 
-public class GenericRepository<T> : IGenericRepository<T> where T : class, IDbSet
+public class BaseRepository<T> : IBaseRepository<T> where T : class, IDbSet
 {
     private readonly IDbContextFactory<AppDbContext> _dbContextFactory;
     
-    public GenericRepository(IDbContextFactory<AppDbContext> dbContextFactory)
+    public BaseRepository(IDbContextFactory<AppDbContext> dbContextFactory)
     {
         _dbContextFactory = dbContextFactory;
     }
