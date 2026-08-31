@@ -1,13 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using TrainTimetable.Data.Repositories;
 
 namespace TrainTimetable.Data.Entities;
 
-public class Country : IDbSet
+public class Country : BaseEntity
 {
-    [Key]
-    public int ID { get; set; }
-
-    [Required]
+    [Required, StringLength(Constants.NAME_LENGTH)]
     public string Name { get; set; } = string.Empty;
 }

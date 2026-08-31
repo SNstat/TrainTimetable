@@ -35,19 +35,14 @@ public class AppDbContext : DbContext
     {
         modelBuilder.Entity<TrainManufacturer>(_ =>
         {
-            _.Property(x => x.Name).HasMaxLength(100);
-        _.HasData(
-            new TrainManufacturer { ID = 1, Name = "FS Trenitalia" },
-            new TrainManufacturer { ID = 2, Name = "Bombardier Transportation" },
-            new TrainManufacturer { ID = 3, Name = "Alstom" });
+            _.HasIndex(_ => _.Name).IsUnique();
+            _.HasData(
+                new TrainManufacturer { ID = 1, Name = "FS Trenitalia" },
+                new TrainManufacturer { ID = 2, Name = "Bombardier Transportation" },
+                new TrainManufacturer { ID = 3, Name = "Alstom" });
         });
 
-        modelBuilder.Entity<TrainManufacturer>()
-            .HasIndex(_ => _.Name)
-            .IsUnique();
-
         modelBuilder.Entity<Train>(_ => {
-            _.Property(x => x.Name).HasMaxLength(100);
             _.HasData(
                 new Train { ID = 1, TrainManufacturerID = 1, Name = "E.403", SeatCount = 60 },
                 new Train { ID = 2, TrainManufacturerID = 2, Name = "S Stock", SeatCount = 50 },
@@ -56,18 +51,14 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<Country>(_ =>
         {
-            _.Property(x => x.Name).HasMaxLength(100);
+            _.HasIndex(_ => _.Name).IsUnique();
             _.HasData(
                 new Country { ID = 1, Name = "Croatia"}
                 );
         });
 
-        modelBuilder.Entity<Country>()
-            .HasIndex(_ => _.Name)
-            .IsUnique();
-
         modelBuilder.Entity<Station>(_ => {
-            _.Property(x => x.Name).HasMaxLength(100);
+            _.HasIndex(_ => _.Name).IsUnique();
             _.HasData(
                 new Station { ID = 1, Name = "Varaždin", BaseStationID = null, CountryID = 1 },
                 new Station { ID = 2, Name = "Turčin", BaseStationID = 1, CountryID = 1 },
@@ -75,10 +66,6 @@ public class AppDbContext : DbContext
                 new Station { ID = 4, Name = "Krušljevec", BaseStationID = 1, CountryID = 1 },
                 new Station { ID = 5, Name = "Čakovec", BaseStationID = 1, CountryID = 1 });
         });
-
-        modelBuilder.Entity<Station>()
-            .HasIndex(_ => _.Name)
-            .IsUnique();
 
         modelBuilder.Entity<Line>(_ =>
         {
@@ -90,6 +77,9 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<Stop>(_ =>
         {
+            _.HasIndex(x => new { x.LineID, x.Order }).IsUnique();
+            _.HasIndex(x => new { x.LineID, x.StationID }).IsUnique();
+
             _.HasData(
                 new Stop { ID = 1, ArrivalTime = null, DepartureTime = new TimeOnly(10, 35, 0), StationID = 4, LineID = 1, Order = 1 },
                 new Stop { ID = 2, ArrivalTime = new TimeOnly(10, 50, 0), DepartureTime = new TimeOnly(10, 55, 0), StationID = 3, LineID = 1, Order = 2 },

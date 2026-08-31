@@ -1,14 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using TrainTimetable.Data.Repositories;
 
 namespace TrainTimetable.Data.Entities;
 
-public class TrainManufacturer : IDbSet
+public class TrainManufacturer : BaseEntity
 {
-    [Key]
-    public int ID { get; set; }
-
-    [Required]
+    [Required, StringLength(Constants.NAME_LENGTH)]
     public string Name { get; set; } = String.Empty;
 
     public virtual ICollection<Train> Trains { get; set; } = [];

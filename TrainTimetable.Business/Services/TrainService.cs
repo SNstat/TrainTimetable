@@ -5,11 +5,15 @@ namespace TrainTimetable.Business.Services;
 
 public interface ITrainService
 {
-    Task RegisterTrainAsync(Train train);
-    Task UpdateTrainAsync(Train train);
-    Task<Train?> GetTrainByIdAsync(int id);
-    Task<IEnumerable<Train>> GetAllActiveTrainsAsync();
-    Task<IEnumerable<Train>> GetAllInactiveTrainsAsync();
+    Task RegisterAsync(Train train);
+
+    Task UpdateInfoAsync(Train train);
+
+    Task<Train?> GetByIdAsync(int id);
+
+    Task<IEnumerable<Train>> GetAllActiveAsync();
+
+    Task<IEnumerable<Train>> GetAllInactiveAsync();
 }
 
 public class TrainService : ITrainService
@@ -21,28 +25,28 @@ public class TrainService : ITrainService
         _trainRepository = trainRepository;
     }
 
-    public async Task RegisterTrainAsync(Train train)
+    public async Task RegisterAsync(Train train)
     {
         await _trainRepository.AddAsync(train);
     }
 
-    public async Task UpdateTrainAsync(Train train)
+    public async Task UpdateInfoAsync(Train train)
     {
         await _trainRepository.UpdateAsync(train);
     }
 
-    public async Task<Train?> GetTrainByIdAsync(int id)
+    public async Task<Train?> GetByIdAsync(int id)
     {
         return await _trainRepository.GetByIDAsync(id);
     }
 
-    public async Task<IEnumerable<Train>> GetAllActiveTrainsAsync()
+    public async Task<IEnumerable<Train>> GetAllActiveAsync()
     {
-        return await _trainRepository.FindAsync(_ => _.IsActive);
+        return await _trainRepository.FilterAsync(_ => _.IsActive);
     }
 
-    public async Task<IEnumerable<Train>> GetAllInactiveTrainsAsync()
+    public async Task<IEnumerable<Train>> GetAllInactiveAsync()
     {
-        return await _trainRepository.FindAsync(_ => !_.IsActive);
+        return await _trainRepository.FilterAsync(_ => !_.IsActive);
     }
 }
