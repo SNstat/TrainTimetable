@@ -10,8 +10,4 @@
     <ProjectReference Include="..\TrainTimetable.Data\TrainTimetable.Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
 </Project>

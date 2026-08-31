@@ -33,14 +33,25 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<TrainManufacturer>(_ =>
+        {
+            _.Property(x => x.Name).HasMaxLength(100);
+        _.HasData(
+            new TrainManufacturer { ID = 1, Name = "FS Trenitalia" },
+            new TrainManufacturer { ID = 2, Name = "Bombardier Transportation" },
+            new TrainManufacturer { ID = 3, Name = "Alstom" });
+        });
+
+        modelBuilder.Entity<TrainManufacturer>()
+            .HasIndex(_ => _.Name)
+            .IsUnique();
 
         modelBuilder.Entity<Train>(_ => {
             _.Property(x => x.Name).HasMaxLength(100);
-            _.Property(x => x.Manufacturer).HasMaxLength(100);
             _.HasData(
-                new Train { ID = 1, Manufacturer = "FS Trenitalia", Name = "E.403", SeatCount = 60 },
-                new Train { ID = 2, Manufacturer = "Bombardier Transportation", Name = "S Stock", SeatCount = 50 },
-                new Train { ID = 3, Manufacturer = "Alstom", Name = "SL X60", SeatCount = 76 });
+                new Train { ID = 1, TrainManufacturerID = 1, Name = "E.403", SeatCount = 60 },
+                new Train { ID = 2, TrainManufacturerID = 2, Name = "S Stock", SeatCount = 50 },
+                new Train { ID = 3, TrainManufacturerID = 3, Name = "X65", SeatCount = 76 });
         });
 
         modelBuilder.Entity<Country>(_ =>
@@ -51,7 +62,7 @@ public class AppDbContext : DbContext
                 );
         });
 
-        modelBuilder.Entity<Station>()
+        modelBuilder.Entity<Country>()
             .HasIndex(_ => _.Name)
             .IsUnique();
 
@@ -65,11 +76,15 @@ public class AppDbContext : DbContext
                 new Station { ID = 5, Name = "Čakovec", BaseStationID = 1, CountryID = 1 });
         });
 
+        modelBuilder.Entity<Station>()
+            .HasIndex(_ => _.Name)
+            .IsUnique();
+
         modelBuilder.Entity<Line>(_ =>
         {
             _.HasData(
-                new Line { ID = 1, LineNumber = 1 },
-                new Line { ID = 2, LineNumber = 2 }
+                new Line { ID = 1, LineNumber = 1, TrainID = 1 },
+                new Line { ID = 2, LineNumber = 2, TrainID = 2 }
                 );
         });
 

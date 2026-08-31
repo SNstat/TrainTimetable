@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace TrainTimetable.Data.Repositories;
 
@@ -9,11 +10,12 @@ public interface IDbSet
 
 public interface IBaseRepository<T> where T : class, IDbSet
 {
-    Task<IEnumerable<T>> GetAll();
-    Task<T> GetByID(int id);
-    Task Insert(T ob);
-    Task Update(T ob);
-    Task Delete(T ob);
+    Task<IEnumerable<T>> GetAllAsync();
+    Task<T?> GetByIDAsync(int id);
+    Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate);
+    Task AddAsync(T ob);
+    Task UpdateAsync(T ob);
+    Task RemoveAsync(T ob);
 }
 
 public class BaseRepository<T> : IBaseRepository<T> where T : class, IDbSet
@@ -25,33 +27,39 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class, IDbSet
         _dbContextFactory = dbContextFactory;
     }
 
-    public async Task<IEnumerable<T>> GetAll()
+    public async Task<IEnumerable<T>> GetAllAsync()
     {
-        using var dbContext = _dbContextFactory.CreateDbContext();
-        return await dbContext.Set<T>().ToListAsync();
+        await using var _dbContext = await _dbContextFactory.CreateDbContextAsync();
+        return await _dbContext.Set<T>().ToListAsync();
     }
 
-    public async Task<T> GetByID(int id)
+    public async Task<T?> GetByIDAsync(int id)
     {
-        using var dbContext = _dbContextFactory.CreateDbContext();
-        return await dbContext.Set<T>().SingleAsync(_ => _.ID == id);
+        await using var _dbContext = await _dbContextFactory.CreateDbContextAsync();
+        return await _dbContext.Set<T>().FirstOrDefaultAsync(_ => _.ID == id);
     }
 
-    public async Task Insert(T ob) {
-        await using var dbContext = _dbContextFactory.CreateDbContext();
-        await dbContext.Set<T>().AddAsync(ob);
-        await dbContext.SaveChangesAsync();
+    public async Task<IEnumerable<T>> FindAsync(Expression<Func<T, bool>> predicate)
+    {
+        await using var _dbContext = await _dbContextFactory.CreateDbContextAsync();
+        return await _dbContext.Set<T>().Where(predicate).ToListAsync();
     }
 
-    public async Task Update(T ob) {
-        using var dbContext = _dbContextFactory.CreateDbContext();
-        dbContext.Set<T>().Update(ob);
-        await dbContext.SaveChangesAsync();
+    public async Task AddAsync(T ob) {
+        await using var _dbContext = await _dbContextFactory.CreateDbContextAsync();
+        await _dbContext.Set<T>().AddAsync(ob);
+        await _dbContext.SaveChangesAsync();
     }
 
-    public async Task Delete(T ob) {
-        await using var dbContext = _dbContextFactory.CreateDbContext();
-        dbContext.Set<T>().Remove(ob);
-        await dbContext.SaveChangesAsync();
+    public async Task UpdateAsync(T ob) {
+        await using var _dbContext = await _dbContextFactory.CreateDbContextAsync();
+        _dbContext.Set<T>().Update(ob);
+        await _dbContext.SaveChangesAsync();
+    }
+
+    public async Task RemoveAsync(T ob) {
+        await using var _dbContext = await _dbContextFactory.CreateDbContextAsync();
+        _dbContext.Set<T>().Remove(ob);
+        await _dbContext.SaveChangesAsync();
     }
 }
