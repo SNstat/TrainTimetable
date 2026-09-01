@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using MudBlazor.Services;
 using TrainTimetable.Business.Services;
 using TrainTimetable.Data;
 using TrainTimetable.Data.Entities;
@@ -20,6 +21,8 @@ public class Program
 
         builder.Services.AddScoped<IBaseRepository<Train>, BaseRepository<Train>>();
         builder.Services.AddScoped<ITrainService, TrainService>();
+
+        builder.Services.AddMudServices();
 
         var app = builder.Build();
 
