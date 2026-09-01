@@ -29,7 +29,8 @@ internal class FakeBaseRepository<TEntity> : IBaseRepository<TEntity> where TEnt
 
     public async Task<IEnumerable<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> predicate)
     {
-        return entities;
+        var compiledPredicate = predicate.Compile();
+        return entities.Where(compiledPredicate).ToList();
     }
 
 
