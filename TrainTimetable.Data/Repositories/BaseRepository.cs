@@ -12,11 +12,11 @@ public interface IBaseRepository<TEntity> where TEntity : class, IBaseEntity
 
     Task<IEnumerable<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> predicate);
 
-    Task AddAsync(TEntity ob);
+    Task InsertAsync(TEntity entity);
 
-    Task UpdateAsync(TEntity ob);
+    Task UpdateAsync(TEntity entity);
 
-    Task RemoveAsync(TEntity ob);
+    Task DeleteAsync(TEntity entity);
 }
 
 public class BaseRepository<TEntity>(
@@ -40,22 +40,22 @@ public class BaseRepository<TEntity>(
         return await dbContext.Set<TEntity>().Where(predicate).ToListAsync();
     }
 
-    public async Task AddAsync(TEntity ob) 
+    public async Task InsertAsync(TEntity entity)
     {
         await using var dbContext = await dbContextFactory.CreateDbContextAsync();
-        await dbContext.Set<TEntity>().AddAsync(ob);
+        await dbContext.Set<TEntity>().AddAsync(entity);
         await dbContext.SaveChangesAsync();
     }
 
-    public async Task UpdateAsync(TEntity ob) {
+    public async Task UpdateAsync(TEntity entity) {
         await using var _dbContext = await dbContextFactory.CreateDbContextAsync();
-        _dbContext.Set<TEntity>().Update(ob);
+        _dbContext.Set<TEntity>().Update(entity);
         await _dbContext.SaveChangesAsync();
     }
 
-    public async Task RemoveAsync(TEntity ob) {
+    public async Task DeleteAsync(TEntity entity) {
         await using var _dbContext = await dbContextFactory.CreateDbContextAsync();
-        _dbContext.Set<TEntity>().Remove(ob);
+        _dbContext.Set<TEntity>().Remove(entity);
         await _dbContext.SaveChangesAsync();
     }
 }

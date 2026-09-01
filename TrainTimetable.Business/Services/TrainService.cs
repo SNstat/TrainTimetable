@@ -16,28 +16,18 @@ public interface ITrainService
     Task<IEnumerable<Train>> GetAllInactiveAsync();
 }
 
-public class TrainService : ITrainService
+public class TrainService(
+    IBaseRepository<Train> trainRepository) : ITrainService
 {
-    private readonly IBaseRepository<Train> _trainRepository;
+    private readonly IBaseRepository<Train> _trainRepository = trainRepository;
 
-    public TrainService(IBaseRepository<Train> trainRepository)
+    private static async Task ValidateTrain(Train train)
     {
-        _trainRepository = trainRepository;
-    }
+        ArgumentNullException.ThrowIfNull(train);
 
-    private void ValidateTrain(Train train)
-    {
-        if (train == null)
-            throw new ArgumentNullException(nameof(train));
-
-        if (string.IsNullOrEmpty(train.Name))
+        if (string.IsNullOrWhiteSpace(train.Name) || train.Name.Length > 250)
         {
-            throw new ApplicationException("Invalid name. Name must not be null or empty.");
-        }
-
-        if (train.Name.Length < 1 || train.Name.Length > 250)
-        {
-            throw new ApplicationException("Invalid name. Name must be between 1 and 250 characters long.");
+            throw new ApplicationException("Invalid name. Name must not be null or empty and must be between 1 and 250 characters long.");
         }
 
         if (train.SeatCount < 1 || train.SeatCount > 1000)
@@ -53,14 +43,14 @@ public class TrainService : ITrainService
 
     public async Task RegisterAsync(Train train)
     {
-        ValidateTrain(train);
+        await ValidateTrain(train);
 
-        await _trainRepository.AddAsync(train);
+        await _trainRepository.InsertAsync(train);
     }
 
     public async Task UpdateInfoAsync(Train train)
     {
-        ValidateTrain(train);
+        await ValidateTrain(train);
 
         await _trainRepository.UpdateAsync(train);
     }

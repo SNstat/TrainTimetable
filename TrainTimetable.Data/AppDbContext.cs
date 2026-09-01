@@ -30,27 +30,20 @@ public class AppDbContext : DbContext
             optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=TrainTimetable;Integrated Security=True");
         }
 
-        optionsBuilder
-            .UseSeeding(async (dbContext, _) => DataSeeder.SeedDevelopmentData(dbContext));
+        optionsBuilder.UseSeeding(async (dbContext, _) => DataSeeder.SeedDevelopmentData(dbContext));
 
         base.OnConfiguring(optionsBuilder);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<TrainManufacturer>(_ =>
-        {
-            _.HasIndex(_ => _.Name).IsUnique();
-        });
+        modelBuilder.Entity<TrainManufacturer>().HasIndex(_ => _.Name).IsUnique();
 
-        modelBuilder.Entity<Country>(_ =>
-        {
-            _.HasIndex(_ => _.Name).IsUnique();
-        });
+        modelBuilder.Entity<Train>().HasIndex(_ => _.Name).IsUnique();
 
-        modelBuilder.Entity<Station>(_ => {
-            _.HasIndex(_ => _.Name).IsUnique();
-        });
+        modelBuilder.Entity<Country>().HasIndex(_ => _.Name).IsUnique();
+
+        modelBuilder.Entity<Station>().HasIndex(_ => _.Name).IsUnique();
 
         modelBuilder.Entity<Stop>(_ =>
         {

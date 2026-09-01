@@ -6,59 +6,52 @@ namespace TrainTimetable.UnitTests;
 public class TrainServiceTests
 {
     [Fact]
-    public async Task TrainService_RegisterMinimal_Valid()
+    public async Task TrainService_RegisterTrains_Valid()
     {
         // Arrange
-        var repository = new FakeRepository<Train>();
-        var service = new TrainService(repository);
+        var repository = new FakeBaseRepository<Train>();
+        var trainService = new TrainService(repository);
+        var train = new Train
+        {
+            Name = "Thomas",
+            SeatCount = 20,
+            TrainManufacturerID = 1
+        };
 
         // Act
-        await service.RegisterAsync(new Train() { Name = "Pero", SeatCount = 100 });
+        await trainService.RegisterAsync(train);
 
         // Assert
-        var trains = await service.GetAllActiveAsync();
-        Assert.NotNull(trains);
-        Assert.Single(trains);
+        var savedTrains = await repository.GetAllAsync();
+        var savedTrain = Assert.Single(savedTrains);
+
+        Assert.Equal(train.Name, savedTrain.Name);
+        Assert.Equal(train.SeatCount, savedTrain.SeatCount);
+        Assert.Equal(train.TrainManufacturerID, savedTrain.TrainManufacturerID);
     }
 
     [Theory]
-    [InlineData("Ćuću", 20, 1)]
-    [InlineData("Ćerer", 30, 2)]
-    [InlineData("rereu", 1000, 0)]
-    [InlineData("Ćurere", 232, 1)]
-    [InlineData("Ću3213312", 33, 1)]
-    public async Task TrainService_RegisterTrains_Valid(string name, int seatCount, int trainManufacturerID)
+    [InlineData("", 20, 1)]
+    [InlineData(null, 20, 1)]
+    [InlineData("Thomas", 0, 1)]
+    [InlineData("Thomas", 1001, 1)]
+    [InlineData("Thomas", 20, 0)]
+    [InlineData("Thomas", 20, -1)]
+    public async Task TrainService_RegisterTrains_ThrowsAsyncApplicationException(string name, int seatCount, int trainManufacturerID)
     {
         // Arrange
-        var repository = new FakeRepository<Train>();
-        var service = new TrainService(repository);
+        var repository = new FakeBaseRepository<Train>();
+        var trainService = new TrainService(repository);
+        var train = new Train {
+            Name = name,
+            SeatCount = seatCount,
+            TrainManufacturerID = trainManufacturerID
+        };
 
         // Act
-        await service.RegisterAsync(new Train() { Name = name, SeatCount = seatCount, TrainManufacturerID = trainManufacturerID });
-
-        // Assert
-        var trains = await service.GetAllActiveAsync();
-        Assert.NotNull(trains);
-        Assert.Single(trains);
-
-    }
-
-    [Theory]
-    [InlineData("", 10, 1)]
-    [InlineData("Ću123213231", -10, 1)]
-    [InlineData("Ću123213231", 10022, 0)]
-    public async Task TrainService_RegisterTrains_Invalid(string name, int seatCount, int trainManufacturerID)
-    {
-        // Arrange
-        var repository = new FakeRepository<Train>();
-        var service = new TrainService(repository);
-
-        // Act
-        var method = async () => 
-            await service.RegisterAsync(new Train() { Name = name, SeatCount = seatCount, TrainManufacturerID = trainManufacturerID });
+        var method = async () => await trainService.RegisterAsync(train);
 
         // Assert
         await Assert.ThrowsAsync<ApplicationException>(method);
     }
-
 }
