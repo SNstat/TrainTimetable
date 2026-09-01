@@ -2,4 +2,5 @@
   <Project Path="TrainTimetable.App/TrainTimetable.App.csproj" />
   <Project Path="TrainTimetable.Business/TrainTimetable.Business.csproj" />
   <Project Path="TrainTimetable.Data/TrainTimetable.Data.csproj" />
+  <Project Path="TrainTimetable.UnitTests/TrainTimetable.UnitTests.csproj" Id="2b16f58d-cb06-4fb5-962b-a543f9dbdb54" />
 </Solution>
