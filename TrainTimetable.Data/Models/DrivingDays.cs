@@ -19,7 +19,7 @@ public enum DrivingDays
 
 public static class DrivingDaysExtension
 {
-    public static DrivingDays ConvertToDrivingDays(this DayOfWeek dayOfWeek)
+    public static DrivingDays ToDrivingDays(this DayOfWeek dayOfWeek)
     {
         return dayOfWeek switch
         {

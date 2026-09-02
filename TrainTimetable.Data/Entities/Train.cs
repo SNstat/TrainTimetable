@@ -11,9 +11,9 @@ public class Train : BaseEntity
     [Required]
     public int SeatCount { get; set; }
 
+    [Required]
     public int TrainManufacturerID { get; set; }
-    [ForeignKey(nameof(TrainManufacturerID))]
-    public TrainManufacturer? TrainManufacturer { get; set; }
+    public required virtual TrainManufacturer TrainManufacturer { get; set; }
 
     public virtual ICollection<LineSchedule> LineSchedules { get; set; } = [];
 

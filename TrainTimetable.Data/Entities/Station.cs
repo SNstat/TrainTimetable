@@ -9,10 +9,9 @@ public class Station : BaseEntity
     public string Name { get; set; } = string.Empty;
 
     public int? BaseStationID { get; set; }
-    [ForeignKey(nameof(BaseStationID))]
     public virtual Station? BaseStation { get; set; }
 
+    [Required]
     public int CountryID { get; set; }
-    [ForeignKey(nameof(CountryID))]
-    public virtual Country? Country { get; set; }
+    public required virtual Country Country { get; set; }
 }

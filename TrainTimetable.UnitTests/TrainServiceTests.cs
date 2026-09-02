@@ -212,6 +212,7 @@ public class TrainServiceTests
     [InlineData(0)]
     internal async Task TrainService_GetByIdAsync_ThrowsApplicationException(int id)
     {
+        // Arrange
         var repository = new FakeBaseRepository<Train>();
         var trainService = new TrainService(repository);
         var train = new Train
@@ -259,8 +260,7 @@ public class TrainServiceTests
 
         var demandedTrains = await trainService.ListAllAsync();
 
-        // Arange
-
+        // Assert
         Assert.Equal(trains, demandedTrains);
     }
 
@@ -274,9 +274,8 @@ public class TrainServiceTests
         // Act
         var demandedTrains = await trainService.ListAllAsync();
 
-        // Arange
-
-        Assert.Equal(demandedTrains, []);
+        // Assert
+        Assert.Empty(demandedTrains);
     }
 
     [Fact]
@@ -314,8 +313,7 @@ public class TrainServiceTests
 
         var demandedTrains = await trainService.ListAllActiveAsync();
 
-        // Arange
-
+        // Assert
         Assert.Equivalent(activeTrains, demandedTrains);
     }
 
@@ -326,12 +324,22 @@ public class TrainServiceTests
         var repository = new FakeBaseRepository<Train>();
         var trainService = new TrainService(repository);
 
+        var trains = new List<Train>()
+        {
+            new() { ID = 3, TrainManufacturerID = 1, Name = "Henry", SeatCount = 76 },
+            new() { ID = 4, TrainManufacturerID = 2, Name = "Thomas", SeatCount = 100 }
+        };
+
         // Act
+        foreach (var train in trains)
+        {
+            await trainService.RegisterAsync(train);
+        }
+
         var demandedTrains = await trainService.ListAllActiveAsync();
 
-        // Arange
-
-        Assert.Equal(demandedTrains, []);
+        // Assert
+        Assert.Empty(demandedTrains);
     }
 
     [Fact]
@@ -369,8 +377,7 @@ public class TrainServiceTests
 
         var demandedTrains = await trainService.ListAllInactiveAsync();
 
-        // Arange
-
+        // Assert
         Assert.Equivalent(inactiveTrains, demandedTrains);
     }
 
@@ -380,12 +387,28 @@ public class TrainServiceTests
         // Arrange
         var repository = new FakeBaseRepository<Train>();
         var trainService = new TrainService(repository);
+        var lineSchedules = new List<LineSchedule>()
+    {
+        new() { ID = 1 },
+        new() { ID = 2 },
+        new() { ID = 3 }
+    };
+
+        var trains = new List<Train>()
+    {
+        new() { ID = 1, TrainManufacturerID = 1, Name = "Marcus", SeatCount = 60, LineSchedules = lineSchedules },
+        new() { ID = 2, TrainManufacturerID = 2, Name = "Piercy", SeatCount = 50, LineSchedules = lineSchedules }
+    };
 
         // Act
+        foreach (var train in trains)
+        {
+            await trainService.RegisterAsync(train);
+        }
+
         var demandedTrains = await trainService.ListAllInactiveAsync();
 
-        // Arange
-
-        Assert.Equal(demandedTrains, []);
+        // Assert
+        Assert.Empty(demandedTrains);
     }
 }

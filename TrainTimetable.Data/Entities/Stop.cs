@@ -4,14 +4,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace TrainTimetable.Data.Entities;
 
 public class Stop : BaseEntity
-{ 
+{
+    [Required]
     public int StationID { get; set; }
-    [ForeignKey(nameof(StationID))]
-    public virtual Station? Station { get; set; }
+    public required virtual Station Station { get; set; }
 
+    [Required]
     public int LineID {  get; set; }
-    [ForeignKey(nameof(LineID))]
-    public virtual Line? Line { get; set; }
+    public required virtual Line Line { get; set; }
 
     [Required]
     public int Order { get; set; }

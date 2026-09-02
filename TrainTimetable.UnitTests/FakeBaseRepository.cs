@@ -16,15 +16,7 @@ internal class FakeBaseRepository<TEntity> : IBaseRepository<TEntity> where TEnt
 
     public async Task<TEntity?> GetByIDAsync(int id)
     {
-        foreach (var _ in entities)
-        {
-            if (_.ID == id)
-            {
-                return _;
-            }
-        }
-
-        return null;
+        return entities.FirstOrDefault(_ => _.ID == id);
     }
 
     public async Task<IEnumerable<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> predicate)
@@ -33,7 +25,6 @@ internal class FakeBaseRepository<TEntity> : IBaseRepository<TEntity> where TEnt
         return entities.Where(compiledPredicate).ToList();
     }
 
-
     public async Task InsertAsync(TEntity entity)
     {
         entities.Add(entity);
@@ -41,14 +32,12 @@ internal class FakeBaseRepository<TEntity> : IBaseRepository<TEntity> where TEnt
 
     public async Task UpdateAsync(TEntity entity)
     {
-        foreach (var _ in entities)
+        var _ = entities.FirstOrDefault(_ => _.ID == entity.ID);
+
+        if( _ != null)
         {
-            if (entity.ID == _.ID)
-            {
-                entities.Remove(_);
-                entities.Add(entity);
-                break;
-            }
+            entities.Remove(_);
+            entities.Add(entity);
         }
     }
 
