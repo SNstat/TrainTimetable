@@ -21,6 +21,8 @@ public class Program
 
         builder.Services.AddScoped<IBaseRepository<Train>, BaseRepository<Train>>();
         builder.Services.AddScoped<ITrainService, TrainService>();
+        builder.Services.AddScoped<IBaseRepository<Line>, BaseRepository<Line>>();
+        builder.Services.AddScoped<ILineService, LineService>();
 
         builder.Services.AddMudServices();
 

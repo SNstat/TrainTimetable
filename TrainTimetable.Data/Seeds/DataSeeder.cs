@@ -51,8 +51,8 @@ internal static class DataSeeder
         // Line
         var lines = new List<Line>()
         {
-            new() { LineNumber = 1, DriveDays = DrivingDays.WorkDays },
-            new() { LineNumber = 2, DriveDays = DrivingDays.Any }
+            new() { LineNumber = 1 },
+            new() { LineNumber = 2 }
         };
 
         _dbContext.Set<Line>().AddRange(lines);
@@ -60,11 +60,11 @@ internal static class DataSeeder
         // LineSchedule
         var lineSchedules = new List<LineSchedule>()
         {
-            new() { Line = lines[0], Train = trains[0], StartTime = new TimeOnly(8, 30, 0) },
-            new() { Line = lines[0], Train = trains[1], StartTime = new TimeOnly(10, 10, 0) },
+            new() { Line = lines[0], Train = trains[0], StartTime = new TimeOnly(8, 30, 0), DriveDays = DrivingDays.Any },
+            new() { Line = lines[0], Train = trains[1], StartTime = new TimeOnly(10, 10, 0), DriveDays = DrivingDays.WorkDays },
 
-            new() { Line = lines[1], Train = trains[0], StartTime = new TimeOnly(9, 30, 0) },
-            new() { Line = lines[1], Train = trains[1], StartTime = new TimeOnly(11, 10, 0) }
+            new() { Line = lines[1], Train = trains[0], StartTime = new TimeOnly(9, 30, 0), DriveDays = DrivingDays.WorkDays },
+            new() { Line = lines[1], Train = trains[1], StartTime = new TimeOnly(11, 10, 0), DriveDays = DrivingDays.Any }
         };
 
         _dbContext.Set<LineSchedule>().AddRange(lineSchedules);
