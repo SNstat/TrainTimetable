@@ -236,7 +236,7 @@ public class TrainServiceTests
         // Arrange
         var repository = new FakeBaseRepository<Train>();
         var trainService = new TrainService(repository);
-        var lines = new List<Line>()
+        var lineSchedules = new List<LineSchedule>()
         {
             new() { ID = 1 },
             new() { ID = 2 },
@@ -245,8 +245,8 @@ public class TrainServiceTests
 
         var trains = new List<Train>()
         {
-            new() { ID = 1, TrainManufacturerID = 1, Name = "Marcus", SeatCount = 60, Lines = lines },
-            new() { ID = 2, TrainManufacturerID = 2, Name = "Piercy", SeatCount = 50, Lines = lines },
+            new() { ID = 1, TrainManufacturerID = 1, Name = "Marcus", SeatCount = 60, LineSchedules = lineSchedules },
+            new() { ID = 2, TrainManufacturerID = 2, Name = "Piercy", SeatCount = 50, LineSchedules = lineSchedules },
             new() { ID = 3, TrainManufacturerID = 1, Name = "Henry", SeatCount = 76 },
             new() { ID = 4, TrainManufacturerID = 2, Name = "Thomas", SeatCount = 100 }
         };
@@ -285,7 +285,7 @@ public class TrainServiceTests
         // Arrange
         var repository = new FakeBaseRepository<Train>();
         var trainService = new TrainService(repository);
-        var lines = new List<Line>()
+        var lineSchedules = new List<LineSchedule>()
         {
             new() { ID = 1 },
             new() { ID = 2 },
@@ -294,16 +294,16 @@ public class TrainServiceTests
 
         var trains = new List<Train>()
         {
-            new() { ID = 1, TrainManufacturerID = 1, Name = "Marcus", SeatCount = 60, Lines = lines },
-            new() { ID = 2, TrainManufacturerID = 2, Name = "Piercy", SeatCount = 50, Lines = lines },
+            new() { ID = 1, TrainManufacturerID = 1, Name = "Marcus", SeatCount = 60, LineSchedules = lineSchedules },
+            new() { ID = 2, TrainManufacturerID = 2, Name = "Piercy", SeatCount = 50, LineSchedules = lineSchedules },
             new() { ID = 3, TrainManufacturerID = 1, Name = "Henry", SeatCount = 76 },
             new() { ID = 4, TrainManufacturerID = 2, Name = "Thomas", SeatCount = 100 }
         };
 
         var activeTrains = new List<Train>()
         {
-            new() { ID = 1, TrainManufacturerID = 1, Name = "Marcus", SeatCount = 60, Lines = lines },
-            new() { ID = 2, TrainManufacturerID = 2, Name = "Piercy", SeatCount = 50, Lines = lines }
+            new() { ID = 1, TrainManufacturerID = 1, Name = "Marcus", SeatCount = 60, LineSchedules = lineSchedules },
+            new() { ID = 2, TrainManufacturerID = 2, Name = "Piercy", SeatCount = 50, LineSchedules = lineSchedules }
         };
 
         // Act
@@ -340,7 +340,7 @@ public class TrainServiceTests
         // Arrange
         var repository = new FakeBaseRepository<Train>();
         var trainService = new TrainService(repository);
-        var lines = new List<Line>()
+        var lineSchedules = new List<LineSchedule>()
         {
             new() { ID = 1 },
             new() { ID = 2 },
@@ -349,8 +349,8 @@ public class TrainServiceTests
 
         var trains = new List<Train>()
         {
-            new() { ID = 1, TrainManufacturerID = 1, Name = "Marcus", SeatCount = 60, Lines = lines },
-            new() { ID = 2, TrainManufacturerID = 2, Name = "Piercy", SeatCount = 50, Lines = lines },
+            new() { ID = 1, TrainManufacturerID = 1, Name = "Marcus", SeatCount = 60, LineSchedules = lineSchedules },
+            new() { ID = 2, TrainManufacturerID = 2, Name = "Piercy", SeatCount = 50, LineSchedules = lineSchedules },
             new() { ID = 3, TrainManufacturerID = 1, Name = "Henry", SeatCount = 76 },
             new() { ID = 4, TrainManufacturerID = 2, Name = "Thomas", SeatCount = 100 }
         };
