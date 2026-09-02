@@ -19,9 +19,8 @@ public enum DrivingDays
 
 public static class DrivingDaysExtension
 {
-    public static DrivingDays ToDrivingDays(this DayOfWeek dayOfWeek)
-    {
-        return dayOfWeek switch
+    public static DrivingDays ToDrivingDays(this DayOfWeek dayOfWeek) =>
+        dayOfWeek switch
         {
             DayOfWeek.Monday => DrivingDays.Monday,
             DayOfWeek.Tuesday => DrivingDays.Tuesday,
@@ -32,5 +31,10 @@ public static class DrivingDaysExtension
             DayOfWeek.Sunday => DrivingDays.Sunday,
             _ => throw new ArgumentException("Invalid argument!"),
         };
-    }
+
+    public static DrivingDays ToDrivingDays(this DateOnly dateOnly) =>
+        dateOnly.DayOfWeek.ToDrivingDays();
+
+    public static DrivingDays ToDrivingDays(this DateTime dateTime) =>
+        dateTime.DayOfWeek.ToDrivingDays();
 }

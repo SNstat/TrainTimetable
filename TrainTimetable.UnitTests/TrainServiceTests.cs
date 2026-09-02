@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualStudio.TestPlatform.ObjectModel;
-using TrainTimetable.Business.Services;
+﻿using TrainTimetable.Business.Services;
 using TrainTimetable.Data.Entities;
 
 namespace TrainTimetable.UnitTests;

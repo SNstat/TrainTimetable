@@ -20,10 +20,10 @@ public class Ticket : BaseEntity
     public string ArrivalStationName { get; set; } = String.Empty;
 
     [Required]
-    public TimeOnly DepartureTime { get; set; }
+    public DateTime DepartureTime { get; set; }
 
     [Required]
-    public TimeOnly ArrivalTime { get; set; }
+    public DateTime ArrivalTime { get; set; }
 
     [Required]
     public int SeatCount { get; set; } = 1;
