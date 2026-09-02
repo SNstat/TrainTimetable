@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TrainTimetable.Data.Entities;
 
@@ -13,5 +12,6 @@ public class Station : BaseEntity
 
     [Required]
     public int CountryID { get; set; }
-    public required virtual Country Country { get; set; }
+    [Required]
+    public virtual Country Country { get; set; } = new Country();
 }

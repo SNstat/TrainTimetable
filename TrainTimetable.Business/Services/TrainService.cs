@@ -9,13 +9,13 @@ public interface ITrainService
 
     Task UpdateInfoAsync(Train train);
 
-    Task<Train?> GetByIdAsync(int id);
+    Task<Train?> FetchByIdAsync(int id);
 
-    Task<IEnumerable<Train>> ListAllAsync();
+    Task<IEnumerable<Train>> FetchAllAsync();
 
-    Task<IEnumerable<Train>> ListAllActiveAsync();
+    Task<IEnumerable<Train>> FetchAllActiveAsync();
 
-    Task<IEnumerable<Train>> ListAllInactiveAsync();
+    Task<IEnumerable<Train>> FetchAllInactiveAsync();
 }
 
 public class TrainService(
@@ -57,7 +57,7 @@ public class TrainService(
         await _trainRepository.UpdateAsync(train);
     }
 
-    public async Task<Train?> GetByIdAsync(int id)
+    public async Task<Train?> FetchByIdAsync(int id)
     {
         if (id <= 0)
             throw new ApplicationException("Invalid search ID. ID must be at least 1.");
@@ -65,17 +65,17 @@ public class TrainService(
         return await _trainRepository.GetByIDAsync(id);
     }
 
-    public async Task<IEnumerable<Train>> ListAllAsync()
+    public async Task<IEnumerable<Train>> FetchAllAsync()
     {
         return await _trainRepository.GetAllAsync();
     }
 
-    public async Task<IEnumerable<Train>> ListAllActiveAsync()
+    public async Task<IEnumerable<Train>> FetchAllActiveAsync()
     {
         return await _trainRepository.FilterAsync(_ => _.IsActive);
     }
 
-    public async Task<IEnumerable<Train>> ListAllInactiveAsync()
+    public async Task<IEnumerable<Train>> FetchAllInactiveAsync()
     {
         return await _trainRepository.FilterAsync(_ => !_.IsActive);
     }

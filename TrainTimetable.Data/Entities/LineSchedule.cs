@@ -7,11 +7,13 @@ public class LineSchedule : BaseEntity
 {
     [Required]
     public int LineID { get; set; }
-    public required virtual Line Line { get; set; }
+    [Required]
+    public virtual Line Line { get; set; } = new Line();
 
     [Required]
     public int TrainID { get; set; }
-    public required virtual Train Train { get; set; }
+    [Required]
+    public virtual Train Train { get; set; } = new Train();
 
     [Required]
     public TimeOnly StartTime { get; set; }

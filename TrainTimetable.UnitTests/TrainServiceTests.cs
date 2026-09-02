@@ -175,7 +175,7 @@ public class TrainServiceTests
         // Act
         await trainService.RegisterAsync(train);
 
-        Train? demandedTrain = await trainService.GetByIdAsync(1);
+        Train? demandedTrain = await trainService.FetchByIdAsync(1);
 
         // Assert
         Assert.Equal(train.ID, demandedTrain.ID);
@@ -201,7 +201,7 @@ public class TrainServiceTests
         // Act
         await trainService.RegisterAsync(train);
 
-        Train? demandedTrain = await trainService.GetByIdAsync(2);
+        Train? demandedTrain = await trainService.FetchByIdAsync(2);
 
         // Assert
         Assert.Null(demandedTrain);
@@ -225,7 +225,7 @@ public class TrainServiceTests
         // Act
         await trainService.RegisterAsync(train);
 
-        var method = async () => await trainService.GetByIdAsync(id);
+        var method = async () => await trainService.FetchByIdAsync(id);
 
         // Assert
         await Assert.ThrowsAsync<ApplicationException>(method);
@@ -258,7 +258,7 @@ public class TrainServiceTests
             await trainService.RegisterAsync(train);
         }
 
-        var demandedTrains = await trainService.ListAllAsync();
+        var demandedTrains = await trainService.FetchAllAsync();
 
         // Assert
         Assert.Equal(trains, demandedTrains);
@@ -272,7 +272,7 @@ public class TrainServiceTests
         var trainService = new TrainService(repository);
 
         // Act
-        var demandedTrains = await trainService.ListAllAsync();
+        var demandedTrains = await trainService.FetchAllAsync();
 
         // Assert
         Assert.Empty(demandedTrains);
@@ -311,7 +311,7 @@ public class TrainServiceTests
             await trainService.RegisterAsync(train);
         }
 
-        var demandedTrains = await trainService.ListAllActiveAsync();
+        var demandedTrains = await trainService.FetchAllActiveAsync();
 
         // Assert
         Assert.Equivalent(activeTrains, demandedTrains);
@@ -336,7 +336,7 @@ public class TrainServiceTests
             await trainService.RegisterAsync(train);
         }
 
-        var demandedTrains = await trainService.ListAllActiveAsync();
+        var demandedTrains = await trainService.FetchAllActiveAsync();
 
         // Assert
         Assert.Empty(demandedTrains);
@@ -375,7 +375,7 @@ public class TrainServiceTests
             await trainService.RegisterAsync(train);
         }
 
-        var demandedTrains = await trainService.ListAllInactiveAsync();
+        var demandedTrains = await trainService.FetchAllInactiveAsync();
 
         // Assert
         Assert.Equivalent(inactiveTrains, demandedTrains);
@@ -406,7 +406,7 @@ public class TrainServiceTests
             await trainService.RegisterAsync(train);
         }
 
-        var demandedTrains = await trainService.ListAllInactiveAsync();
+        var demandedTrains = await trainService.FetchAllInactiveAsync();
 
         // Assert
         Assert.Empty(demandedTrains);

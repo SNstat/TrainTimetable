@@ -36,7 +36,8 @@ public class Ticket : BaseEntity
 
     [Required]
     public int TicketScheduleID { get; set; }
-    public required virtual TicketSchedule TicketSchedule { get; set; }
+    [Required]
+    public virtual TicketSchedule TicketSchedule { get; set; } = new TicketSchedule();
 
     /*
     [Required]
