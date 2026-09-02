@@ -11,15 +11,13 @@ public enum TicketStatus
     Expired // Expired unused ticket. Not usable
 }
 
-public class Ticket
+public class Ticket : BaseEntity
 {
     [Required]
-    public int DepartureStationID { get; set; }
-    public required virtual Station DepartureStation { get; set; }
+    public string DepartureStationName { get; set; } = String.Empty;
 
     [Required]
-    public int ArrivalStationID { get; set; }
-    public required virtual Station ArrivalStation { get; set; }
+    public string ArrivalStationName { get; set; } = String.Empty;
 
     [Required]
     public TimeOnly DepartureTime { get; set; }
@@ -35,6 +33,10 @@ public class Ticket
 
     [Required]
     public TicketStatus TicketStatus { get; set; } = TicketStatus.Valid;
+
+    [Required]
+    public int TicketScheduleID { get; set; }
+    public required virtual TicketSchedule TicketSchedule { get; set; }
 
     /*
     [Required]

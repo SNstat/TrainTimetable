@@ -13,6 +13,8 @@ public class AppDbContext : DbContext
     public DbSet<Line> Lines { get; set; }
     public DbSet<LineSchedule> LineSchedules { get; set; }
     public DbSet<Stop> Stops { get; set; }
+    public DbSet<TicketSchedule> TicketSchedules { get; set; }
+    public DbSet<Ticket> Tickets { get; set; }
 
     public AppDbContext()
     {
@@ -51,6 +53,8 @@ public class AppDbContext : DbContext
             _.HasIndex(x => new { x.LineID, x.Order }).IsUnique();
             _.HasIndex(x => new { x.LineID, x.StationID }).IsUnique();
         });
+
+        modelBuilder.Entity<TicketSchedule>().HasIndex(_ => new { _.LineScheduleID, _.Date } ).IsUnique();
 
         base.OnModelCreating(modelBuilder);
     }
