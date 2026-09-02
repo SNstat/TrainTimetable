@@ -23,7 +23,7 @@ public class Program
         builder.Services.AddScoped<ITrainService, TrainService>();
         builder.Services.AddScoped<IBaseRepository<Line>, BaseRepository<Line>>();
         builder.Services.AddScoped<IBaseRepository<LineSchedule>, BaseRepository<LineSchedule>>();
-        builder.Services.AddScoped<ILineService, LineService>();
+        builder.Services.AddScoped<ILineScheduleService, LineScheduleService>();
 
         builder.Services.AddMudServices();
 

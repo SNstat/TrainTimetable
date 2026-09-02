@@ -7,24 +7,26 @@ using TrainTimetable.Data.Repositories;
 
 namespace TrainTimetable.Business.Services;
 
-public interface ILineService
+public interface ILineScheduleService
 {
-    Task<IEnumerable<LineItem>?> FetchLineItems(Station departureStation, Station arrivalStation, DateOnly date);
+    Task<IEnumerable<LineItem>?> FetchLineItems(int departureStationID, int arrivalStationID, DateOnly date);
 }
 
-public class LineService : ILineService
+public class LineScheduleService : ILineScheduleService
 {
     private readonly IBaseRepository<LineSchedule> _lineScheduleRepository;
 
-    public LineService(IBaseRepository<LineSchedule> lineScheduleRepository)
+    public LineScheduleService(IBaseRepository<LineSchedule> lineScheduleRepository)
     {
         _lineScheduleRepository = lineScheduleRepository;
     }
 
-    public async Task<IEnumerable<LineItem>?> FetchLineItems(Station departureStation, Station arrivalStation, DateOnly date)
+    public async Task<IEnumerable<LineItem>?> FetchLineItems(int departureStationID, int arrivalStationID, DateOnly date)
     {
-        ArgumentNullException.ThrowIfNull(departureStation);
-        ArgumentNullException.ThrowIfNull(arrivalStation);
+        if (departureStationID <= 0 || arrivalStationID <= 0)
+        {
+            throw new ApplicationException("Argumens are invalid. ID values must be at least 1.");
+        }
 
         var utcDateTime = DateTime.UtcNow;
         var utcDateOnly = DateOnly.FromDateTime(utcDateTime);
@@ -36,13 +38,13 @@ public class LineService : ILineService
 
         var drivingDays = date.ToDrivingDays();
 
-        Expression<Func<LineSchedule, bool>> predicateExpression = _ =>
+        Expression<Func<LineSchedule, bool>> query = _ =>
             _.DriveDays == drivingDays &&
-            _.Line.Stops.Any(dep => dep.Station == departureStation &&
-            _.Line.Stops.Any(arr => arr.Station == arrivalStation &&
-            dep.Order < arr.Order));     
+            _.Line.Stops.Any(dep => dep.StationID == departureStationID &&
+            _.Line.Stops.Any(arr => arr.StationID == arrivalStationID &&
+            dep.Order < arr.Order));
 
-        var lineSchedules = await _lineScheduleRepository.FilterAsync(predicateExpression);
+        var lineSchedules = await _lineScheduleRepository.FilterAsync(query);
 
         if (lineSchedules.IsNullOrEmpty())
         {
@@ -61,10 +63,10 @@ public class LineService : ILineService
             }
 
             var departureStop = lineSchedule.Line.Stops
-                .FirstOrDefault(_ => _.Station == departureStation);
+                .FirstOrDefault(_ => _.StationID == departureStationID);
 
             var arrivalStop = lineSchedule.Line.Stops
-                .FirstOrDefault(_ => _.Station == arrivalStation);
+                .FirstOrDefault(_ => _.StationID == arrivalStationID);
 
             if (departureStop != null && arrivalStop != null)
             {
