@@ -15,8 +15,8 @@ public class Train : BaseEntity
     [ForeignKey(nameof(TrainManufacturerID))]
     public TrainManufacturer? TrainManufacturer { get; set; }
 
-    public virtual ICollection<Line> Lines { get; set; } = [];
+    public virtual ICollection<LineSchedule> LineSchedules { get; set; } = [];
 
     [NotMapped]
-    public bool IsActive => Lines.Count > 0;
+    public bool IsActive => LineSchedules.Count > 0;
 }

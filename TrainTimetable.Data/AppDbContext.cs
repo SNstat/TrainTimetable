@@ -11,6 +11,7 @@ public class AppDbContext : DbContext
     public DbSet<Station> Stations { get; set; }
     public DbSet<Country> Countries { get; set; }
     public DbSet<Line> Lines { get; set; }
+    public DbSet<LineSchedule> LineSchedules { get; set; }
     public DbSet<Stop> Stops { get; set; }
 
     public AppDbContext()

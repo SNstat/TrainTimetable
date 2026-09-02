@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TrainTimetable.Data.Entities;
+using TrainTimetable.Data.Models;
 
 namespace TrainTimetable.Data.Seeds;
 
@@ -50,23 +51,35 @@ internal static class DataSeeder
         // Line
         var lines = new List<Line>()
         {
-            new() { LineNumber = 1, Train = trains[0] },
-            new() { LineNumber = 2, Train = trains[1] }
+            new() { LineNumber = 1, DriveDays = DrivingDays.WorkDays },
+            new() { LineNumber = 2, DriveDays = DrivingDays.Any }
         };
 
         _dbContext.Set<Line>().AddRange(lines);
 
+        // LineSchedule
+        var lineSchedules = new List<LineSchedule>()
+        {
+            new() { Line = lines[0], Train = trains[0], StartTime = new TimeOnly(8, 30, 0) },
+            new() { Line = lines[0], Train = trains[1], StartTime = new TimeOnly(10, 10, 0) },
+
+            new() { Line = lines[1], Train = trains[0], StartTime = new TimeOnly(9, 30, 0) },
+            new() { Line = lines[1], Train = trains[1], StartTime = new TimeOnly(11, 10, 0) }
+        };
+
+        _dbContext.Set<LineSchedule>().AddRange(lineSchedules);
+
         // Stop
         var stops = new List<Stop>()
         {
-            new() { ArrivalTime = null, DepartureTime = new TimeOnly(10, 35, 0), Station = stations[3], Line = lines[0], Order = 1 },
-            new() { ArrivalTime = new TimeOnly(10, 50, 0), DepartureTime = new TimeOnly(10, 55, 0), Station = stations[2], Line = lines[0], Order = 2 },
-            new() { ArrivalTime = new TimeOnly(11, 10, 0), DepartureTime = new TimeOnly(11, 15, 0), Station = stations[1], Line = lines[0], Order = 3 },
-            new() { ArrivalTime = new TimeOnly(11, 30, 0), DepartureTime = null, Station = stations[0], Line = lines[0], Order = 4 },
+            new() { Station = stations[3], Line = lines[0], Order = 1, ArrivalOffset = null, DepartureOffset = new TimeSpan(0, 5, 0) },
+            new() { Station = stations[2], Line = lines[0], Order = 2, ArrivalOffset = new TimeSpan(0, 20, 0), DepartureOffset = new TimeSpan(0, 25, 0) },
+            new() { Station = stations[1], Line = lines[0], Order = 3, ArrivalOffset = new TimeSpan(0, 40, 0), DepartureOffset = new TimeSpan(0, 45, 0) },
+            new() { Station = stations[0], Line = lines[0], Order = 4, ArrivalOffset = new TimeSpan(0, 55, 0), DepartureOffset = null },
 
-            new() { ArrivalTime = null, DepartureTime = new TimeOnly(12, 35, 0), Station = stations[1], Line = lines[1], Order = 1 },
-            new() { ArrivalTime = new TimeOnly(12, 50, 0), DepartureTime = new TimeOnly(12, 55, 0), Station = stations[0], Line = lines[1], Order = 2 },
-            new() { ArrivalTime = new TimeOnly(13, 10, 0), DepartureTime = null, Station = stations[4], Line = lines[1], Order = 3 }
+            new() { Station = stations[1], Line = lines[1], Order = 1, ArrivalOffset = null, DepartureOffset = new TimeSpan(0, 5, 0) },
+            new() { Station = stations[0], Line = lines[1], Order = 2, ArrivalOffset = new TimeSpan(0, 30, 0), DepartureOffset = new TimeSpan(0, 40, 0) },
+            new() { Station = stations[4], Line = lines[1], Order = 3, ArrivalOffset = new TimeSpan(0, 50, 0), DepartureOffset = null }
         };
 
         _dbContext.Set<Stop>().AddRange(stops);

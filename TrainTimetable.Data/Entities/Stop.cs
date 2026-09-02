@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+
 namespace TrainTimetable.Data.Entities;
 
 public class Stop : BaseEntity
@@ -16,7 +16,7 @@ public class Stop : BaseEntity
     [Required]
     public int Order { get; set; }
 
-    public TimeOnly? ArrivalTime { get; set; }
+    public TimeSpan? ArrivalOffset{ get; set; }
 
-    public TimeOnly? DepartureTime { get; set; }
+    public TimeSpan? DepartureOffset { get; set; }
 }
