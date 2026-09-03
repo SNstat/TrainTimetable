@@ -24,8 +24,9 @@ internal static class DataSeeder
             await context.SaveChangesAsync();
         }
 
-        // Station
         var croatia = await context.Countries.FirstAsync(c => c.Name == "Croatia");
+
+        // Station
         if (!await context.Stations.AnyAsync())
         {
             await context.Stations.AddRangeAsync(new List<Station>

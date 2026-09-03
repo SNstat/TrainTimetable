@@ -1,0 +1,51 @@
+[
+  {
+    "order": 1,
+    "arrivalOffset": null,
+    "departureOffset": "00:05:00",
+    "stationId": 4,
+    "lineId": 1
+  },
+  {
+    "order": 2,
+    "arrivalOffset": "00:20:00",
+    "departureOffset": "00:25:00",
+    "stationId": 3,
+    "lineId": 1
+  },
+  {
+    "order": 3,
+    "arrivalOffset": "00:40:00",
+    "departureOffset": "00:45:00",
+    "stationId": 2,
+    "lineId": 1
+  },
+  {
+    "order": 4,
+    "arrivalOffset": "00:55:00",
+    "departureOffset": null,
+    "stationId": 1,
+    "lineId": 1
+  },
+  {
+    "order": 1,
+    "arrivalOffset": null,
+    "departureOffset": "00:05:00",
+    "stationId": 2,
+    "lineId": 2
+  },
+  {
+    "order": 2,
+    "arrivalOffset": "00:30:00",
+    "departureOffset": "00:40:00",
+    "stationId": 1,
+    "lineId": 2
+  },
+  {
+    "order": 3,
+    "arrivalOffset": "00:50:00",
+    "departureOffset": null,
+    "stationId": 5,
+    "lineId": 2
+  }
+]

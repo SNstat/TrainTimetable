@@ -1,0 +1,26 @@
+[
+  {
+    "startTime": "08:30:00",
+    "driveDays": "Any",
+    "lineId": 1,
+    "trainId": 1
+  },
+  {
+    "startTime": "10:10:00",
+    "driveDays": "WorkDays",
+    "lineId": 1,
+    "trainId": 2
+  },
+  {
+    "startTime": "09:30:00",
+    "driveDays": "Any",
+    "lineId": 2,
+    "trainId": 1
+  },
+  {
+    "startTime": "11:10:00",
+    "driveDays": "WorkDays",
+    "lineId": 2,
+    "trainId": 2
+  }
+]

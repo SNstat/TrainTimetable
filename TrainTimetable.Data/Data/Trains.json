@@ -1,0 +1,17 @@
+[
+  {
+    "name": "E.403",
+    "seatCount": 60,
+    "trainManufacturerId": 1
+  },
+  {
+    "name": "S Stock",
+    "seatCount": 50,
+    "trainManufacturerId": 2
+  },
+  {
+    "name": "X65",
+    "seatCount": 76,
+    "trainManufacturerId": 3
+  }
+]
