@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Linq.Expressions;
 using TrainTimetable.Business.Models;
 using TrainTimetable.Data.Entities;
@@ -9,7 +10,7 @@ namespace TrainTimetable.Business.Services;
 
 public interface ILineScheduleService
 {
-    Task<IEnumerable<LineItem>?> FetchLineItems(int departureStationID, int arrivalStationID, DateOnly date);
+    Task<IEnumerable<LineItem>> FetchLineItemsAsync(int departureStationID, int arrivalStationID, DateOnly date);
 }
 
 public class LineScheduleService : ILineScheduleService
@@ -21,7 +22,7 @@ public class LineScheduleService : ILineScheduleService
         _lineScheduleRepository = lineScheduleRepository;
     }
 
-    public async Task<IEnumerable<LineItem>?> FetchLineItems(int departureStationID, int arrivalStationID, DateOnly date)
+    public async Task<IEnumerable<LineItem>> FetchLineItemsAsync(int departureStationID, int arrivalStationID, DateOnly date)
     {
         if (departureStationID <= 0 || arrivalStationID <= 0)
         {
@@ -39,28 +40,34 @@ public class LineScheduleService : ILineScheduleService
         var drivingDays = date.ToDrivingDays();
 
         Expression<Func<LineSchedule, bool>> query = _ =>
-            _.DriveDays == drivingDays &&
-            _.Line.Stops.Any(dep => dep.StationID == departureStationID &&
-            _.Line.Stops.Any(arr => arr.StationID == arrivalStationID &&
-            dep.Order < arr.Order));
+            _.DriveDays.HasFlag(drivingDays) &&
+            _.Line.Stops.Any(dep => dep.StationID == departureStationID) &&
+            _.Line.Stops.Any(arr => arr.StationID == arrivalStationID) &&
+            _.Line.Stops.Where(dep => dep.StationID == departureStationID).Select(dep => dep.Order).FirstOrDefault() <
+            _.Line.Stops.Where(arr => arr.StationID == arrivalStationID).Select(arr => arr.Order).FirstOrDefault();
 
-        var lineSchedules = await _lineScheduleRepository.FilterAsync(query);
+        var lineSchedules = await _lineScheduleRepository.FilterAsync(
+            query,
+            ls => ls
+                .Include(_ => _.Train)
+                .Include(_ => _.Line)
+                .ThenInclude(_ => _.Stops)
+                .ThenInclude(_ => _.Station)
+            );
 
         if (lineSchedules.IsNullOrEmpty())
         {
-            return null;
+            return (IEnumerable<LineItem>)[];
         }
 
         var lineItems = new List<LineItem>();
 
         foreach (var lineSchedule in lineSchedules)
         {
-            var lineScheduleStartTime = utcDateOnly.ToDateTime(lineSchedule.StartTime);
+            var lineScheduleStartTime = date.ToDateTime(lineSchedule.StartTime);
 
-            if(utcDateTime >  lineScheduleStartTime)
-            {
+            if(utcDateTime > lineScheduleStartTime) // Skips the schedules that have passed today
                 continue;
-            }
 
             var departureStop = lineSchedule.Line.Stops
                 .FirstOrDefault(_ => _.StationID == departureStationID);
@@ -84,7 +91,7 @@ public class LineScheduleService : ILineScheduleService
                     Train = lineSchedule.Train,
                     DepartureTime = departureTime,
                     ArrivalTime = arrivalTime,
-                    Price = (departureTime - arrivalTime).ToPrice()
+                    Price = (arrivalTime - departureTime).ToPrice()
                 });
             }
         }
