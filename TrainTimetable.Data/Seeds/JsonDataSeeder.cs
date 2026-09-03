@@ -6,7 +6,7 @@ namespace TrainTimetable.Data.Seeds;
 
 internal class JsonDataSeeder
 {
-    internal static async Task SeedDevelopmentDataAsync(DbContext _dbContext)
+    internal static void SeedDevelopmentData(DbContext _dbContext)
     {
         var context = _dbContext as AppDbContext;
 
@@ -18,29 +18,29 @@ internal class JsonDataSeeder
             PropertyNameCaseInsensitive = true
         };
 
-        await Seed<Country>(context, jsonOptions, "Countries");
-        await Seed<Station>(context, jsonOptions, "Stations");
-        await Seed<TrainManufacturer>(context, jsonOptions, "TrainManufacturers");
-        await Seed<Train>(context, jsonOptions, "Trains");
-        await Seed<Line>(context, jsonOptions, "Lines");
-        await Seed<LineSchedule>(context, jsonOptions, "LineSchedules");
-        await Seed<Stop>(context, jsonOptions, "Stops");
+        Seed<Country>(context, jsonOptions, "Countries");
+        Seed<Station>(context, jsonOptions, "Stations");
+        Seed<TrainManufacturer>(context, jsonOptions, "TrainManufacturers");
+        Seed<Train>(context, jsonOptions, "Trains");
+        Seed<Line>(context, jsonOptions, "Lines");
+        Seed<LineSchedule>(context, jsonOptions, "LineSchedules");
+        Seed<Stop>(context, jsonOptions, "Stops");
     }
 
-    private async static Task Seed<TEntity>(AppDbContext _context, JsonSerializerOptions _options, string _fileName) where TEntity : class, IBaseEntity
+    private static void Seed<TEntity>(AppDbContext _context, JsonSerializerOptions _options, string _fileName) where TEntity : class, IBaseEntity
     {
-        if (!await _context.Set<TEntity>().AnyAsync())
+        if (!_context.Set<TEntity>().Any())
         {
             string filePath = String.Concat("../TrainTimetable.Data/Data/", _fileName, ".json");
 
-            await using var stream = File.OpenRead(filePath);
+            using var stream = File.OpenRead(filePath);
 
-            var list = await JsonSerializer.DeserializeAsync<List<TEntity>>( stream, _options);
+            var list = JsonSerializer.Deserialize<List<TEntity>>( stream, _options);
 
             if (list != null)
             {
-                await _context.Set<TEntity>().AddRangeAsync(list);
-                await _context.SaveChangesAsync();
+                _context.Set<TEntity>().AddRange(list);
+                _context.SaveChanges();
             }
         }
     }

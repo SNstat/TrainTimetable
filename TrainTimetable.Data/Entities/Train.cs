@@ -5,6 +5,9 @@ namespace TrainTimetable.Data.Entities;
 
 public class Train : BaseEntity
 {
+    [Required]
+    public int TrainNumber { get; set; }
+
     [Required, StringLength(Constants.NAME_LENGTH)]
     public string Name { get; set; } = string.Empty;
 

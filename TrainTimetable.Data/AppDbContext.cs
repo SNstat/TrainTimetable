@@ -33,7 +33,11 @@ public class AppDbContext : DbContext
             optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=TrainTimetableDB;Integrated Security=True");
         }
 
-        optionsBuilder.UseAsyncSeeding(async (dbContext, _, _) => await JsonDataSeeder.SeedDevelopmentDataAsync(dbContext));
+        optionsBuilder.UseSeeding((dbContext, _) =>
+            JsonDataSeeder.SeedDevelopmentData(dbContext));
+
+        optionsBuilder.UseAsyncSeeding(async (dbContext, _, _) =>
+            await JsonDataSeederAsync.SeedDevelopmentDataAsync(dbContext));
 
         base.OnConfiguring(optionsBuilder);
     }
@@ -46,7 +50,11 @@ public class AppDbContext : DbContext
 
         modelBuilder.Entity<TrainManufacturer>().HasIndex(_ => _.Name).IsUnique();
 
-        modelBuilder.Entity<Train>().HasIndex(_ => _.Name).IsUnique();
+        modelBuilder.Entity<Train>(_ =>
+        {
+            _.HasIndex(_ => _.TrainNumber).IsUnique();
+            _.HasIndex(_ => _.Name).IsUnique();
+        });
 
         modelBuilder.Entity<Country>().HasIndex(_ => _.Name).IsUnique();
 

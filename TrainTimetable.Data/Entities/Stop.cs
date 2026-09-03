@@ -6,7 +6,7 @@ public class Stop : BaseEntity
 {
     [Required]
     public int StationID { get; set; }
-    public required virtual Station Station { get; set; }
+    public virtual Station Station { get; set; }
 
     [Required]
     public int LineID {  get; set; }

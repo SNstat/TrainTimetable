@@ -1,6 +1,9 @@
-﻿namespace TrainTimetable.Data.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace TrainTimetable.Data.Models;
 
 [Flags]
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum DrivingDays
 {
     NotActive = 0,

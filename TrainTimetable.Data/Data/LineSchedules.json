@@ -1,26 +1,26 @@
 [
   {
-    "startTime": "08:30:00",
-    "driveDays": "Any",
-    "lineId": 1,
-    "trainId": 1
+    "StartTime": "08:30:00",
+    "DriveDays": "Any",
+    "LineID": 1,
+    "TrainID": 1
   },
   {
-    "startTime": "10:10:00",
-    "driveDays": "WorkDays",
-    "lineId": 1,
-    "trainId": 2
+    "StartTime": "10:10:00",
+    "DriveDays": "WorkDays",
+    "LineID": 1,
+    "TrainID": 2
   },
   {
-    "startTime": "09:30:00",
-    "driveDays": "Any",
-    "lineId": 2,
-    "trainId": 1
+    "StartTime": "09:30:00",
+    "DriveDays": "Any",
+    "LineID": 2,
+    "TrainID": 1
   },
   {
-    "startTime": "11:10:00",
-    "driveDays": "WorkDays",
-    "lineId": 2,
-    "trainId": 2
+    "StartTime": "11:10:00",
+    "DriveDays": "WorkDays",
+    "LineID": 2,
+    "TrainID": 2
   }
 ]

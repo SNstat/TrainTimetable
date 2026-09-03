@@ -1,27 +1,27 @@
 [
   {
     "Name": "Varaždin",
-    "BaseStationID": null,
+    "IsNode": true,
     "CountryID": 1
   },
   {
     "Name": "Turčin",
-    "BaseStationID": 1,
+    "IsNode": false,
     "CountryID": 1
   },
   {
     "Name": "Doljan",
-    "BaseStationID": 1,
+    "IsNode": false,
     "CountryID": 1
   },
   {
     "Name": "Krušljevec",
-    "BaseStationID": 1,
+    "IsNode": false,
     "CountryID": 1
   },
   {
     "Name": "Čakovec",
-    "BaseStationID": 1,
+    "IsNode": false,
     "CountryID": 1
   }
 ]

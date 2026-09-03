@@ -1,17 +1,20 @@
 [
   {
-    "name": "E.403",
-    "seatCount": 60,
-    "trainManufacturerId": 1
+    "TrainNumber": 1000,
+    "Name": "E.403",
+    "SeatCount": 60,
+    "TrainManufacturerId": 1
   },
   {
-    "name": "S Stock",
-    "seatCount": 50,
-    "trainManufacturerId": 2
+    "TrainNumber": 1001,
+    "Name": "S Stock",
+    "SeatCount": 50,
+    "TrainManufacturerId": 2
   },
   {
-    "name": "X65",
-    "seatCount": 76,
-    "trainManufacturerId": 3
+    "TrainNumber": 1002,
+    "Name": "X65",
+    "SeatCount": 76,
+    "TrainManufacturerId": 3
   }
 ]
