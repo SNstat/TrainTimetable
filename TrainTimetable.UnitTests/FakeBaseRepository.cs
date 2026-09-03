@@ -8,7 +8,6 @@ internal class FakeBaseRepository<TEntity> : IBaseRepository<TEntity> where TEnt
 {
     private readonly ICollection<TEntity> entities = [];
 
-
     public async Task<IEnumerable<TEntity>> GetAllAsync()
     {
         return entities;
