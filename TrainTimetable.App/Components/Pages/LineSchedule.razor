@@ -7,7 +7,7 @@
 
 <PageTitle>Line Schedule</PageTitle>
 
-<h1>For @DateTime.Today.ToString("MMMM dd, yyyy")</h1>
+<h1>Line schedule</h1>
 
 Departure Station:
 <select></select>
@@ -31,17 +31,19 @@ Search for time table:
             <th>Arrival Time</th>
             <th>Origin</th>
             <th>Destination</th>
+            <th>Price</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in _table)
         {
             <tr>
-                <td>@item.Train!.Name</td>
+                <td>@item.Train?.Name</td>
                 <td>@item.DepartureTime?.ToString("HH:mm")</td>
                 <td>@item.ArrivalTime?.ToString("HH:mm")</td>
-                <td>@item.DepartureStation</td>
-                <td>@item.ArrivalStation</td>
+                <td>@item.DepartureStation?.Name</td>
+                <td>@item.ArrivalStation?.Name</td>
+                <td>@item.Price €</td>
             </tr>
         }
     </tbody>

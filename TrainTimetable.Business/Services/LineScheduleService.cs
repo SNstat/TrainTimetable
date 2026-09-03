@@ -63,9 +63,6 @@ public class LineScheduleService : ILineScheduleService
         {
             var lineScheduleStartTime = date.ToDateTime(lineSchedule.StartTime);
 
-            if(utcDateTime > lineScheduleStartTime) // Skips the schedules that have passed today
-                continue;
-
             var departureStop = lineSchedule.Line.Stops
                 .FirstOrDefault(_ => _.StationID == departureStationID);
 
@@ -81,6 +78,9 @@ public class LineScheduleService : ILineScheduleService
 
                 var departureTime = lineScheduleStartTime + (departureStop.DepartureOffset ?? TimeSpan.Zero);
                 var arrivalTime = lineScheduleStartTime + (arrivalStop.ArrivalOffset ?? TimeSpan.Zero);
+
+                if (utcDateTime > departureTime) // Skips the schedules that have passed today at the specific departure station
+                    continue;
 
                 lineItems.Add(new()
                 {

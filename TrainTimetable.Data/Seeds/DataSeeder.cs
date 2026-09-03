@@ -6,26 +6,29 @@ namespace TrainTimetable.Data.Seeds;
 
 internal static class DataSeeder
 {
-    internal static void SeedDevelopmentData(DbContext _dbContext)
+    internal static async Task SeedDevelopmentDataAsync(DbContext _dbContext)
     {
         var context = _dbContext as AppDbContext;
 
+        if (context == null)
+            throw new ArgumentNullException("Argument dbContext is invalid. The context must be not null.");
+
         // Country
-        if (!context.Countries.Any())
+        if (!await context.Countries.AnyAsync())
         {
-            var countries = new List<Country>()
+            await context.Countries.AddRangeAsync(new List<Country>
             {
                 new() { Name = "Croatia" }
-            };
+            });
 
-            context.Countries.AddRange(countries);
+            await context.SaveChangesAsync();
         }
 
         // Station
-        var croatia = context.Countries.First(c => c.Name == "Croatia");
-        if (!context.Stations.Any(_ => _.Country == croatia))
+        var croatia = await context.Countries.FirstAsync(c => c.Name == "Croatia");
+        if (!await context.Stations.AnyAsync())
         {
-            context.Stations.AddRange(new List<Station>()
+            await context.Stations.AddRangeAsync(new List<Station>
             {
                 new() { Name = "Varaždin", BaseStationID = null, Country = croatia },
                 new() { Name = "Turčin", BaseStationID = 1, Country = croatia },
@@ -33,68 +36,87 @@ internal static class DataSeeder
                 new() { Name = "Krušljevec", BaseStationID = 1, Country = croatia },
                 new() { Name = "Čakovec", BaseStationID = 1, Country = croatia }
             });
+
+            await context.SaveChangesAsync();
         }
-        var stations = context.Stations.Where(_ => _.Country == croatia).ToList();
 
-        return;
-        // TODO : za Šimuna ;)
-       
+        var stations = await context.Set<Station>().ToListAsync();
+
         // TrainManufacturer
-        var trainManufacturers = new List<TrainManufacturer>()
+        if (!await context.TrainManufacturers.AnyAsync())
         {
-            new() { Name = "FS Trenitalia" },
-            new() { Name = "Bombardier Transportation" },
-            new() { Name = "Alstom" }
-        };
+            await context.TrainManufacturers.AddRangeAsync(new List<TrainManufacturer>
+            {
+                new() { Name = "FS Trenitalia" },
+                new() { Name = "Bombardier Transportation" },
+                new() { Name = "Alstom" }
+            });
 
-        context.Set<TrainManufacturer>().AddRange(trainManufacturers);
+            await context.SaveChangesAsync();
+        }
+
+        var trainManufacturers = await context.Set<TrainManufacturer>().ToListAsync();
 
         // Train
-        var trains = new List<Train>()
+        if (!await context.Trains.AnyAsync())
         {
-            new() { TrainManufacturer = trainManufacturers[0], Name = "E.403", SeatCount = 60 },
-            new() { TrainManufacturer = trainManufacturers[1], Name = "S Stock", SeatCount = 50 },
-            new() { TrainManufacturer = trainManufacturers[2], Name = "X65", SeatCount = 76 }
-        };
+            await context.Trains.AddRangeAsync(new List<Train>
+            {
+                new() { TrainManufacturer = trainManufacturers[0], Name = "E.403", SeatCount = 60 },
+                new() { TrainManufacturer = trainManufacturers[1], Name = "S Stock", SeatCount = 50 },
+                new() { TrainManufacturer = trainManufacturers[2], Name = "X65", SeatCount = 76 }
+            });
 
-        context.Set<Train>().AddRange(trains);
+            await context.SaveChangesAsync();
+        }
+
+        var trains = await context.Set<Train>().ToListAsync();
 
         // Line
-        var lines = new List<Line>()
+        if(!await context.Lines.AnyAsync())
         {
-            new() { LineNumber = 1 },
-            new() { LineNumber = 2 }
-        };
+            await context.Lines.AddRangeAsync(new List<Line>
+            {
+                new() { LineNumber = 1 },
+                new() { LineNumber = 2 }
+            });
 
-        context.Set<Line>().AddRange(lines);
+            await context.SaveChangesAsync();
+        }
+
+        var lines = await context.Set<Line>().ToListAsync();
 
         // LineSchedule
-        var lineSchedules = new List<LineSchedule>()
+        if (!await context.LineSchedules.AnyAsync())
         {
-            new() { Line = lines[0], Train = trains[0], StartTime = new TimeOnly(8, 30, 0), DriveDays = DrivingDays.Any },
-            new() { Line = lines[0], Train = trains[1], StartTime = new TimeOnly(10, 10, 0), DriveDays = DrivingDays.WorkDays },
+            await context.LineSchedules.AddRangeAsync(new List<LineSchedule>
+            {
+                new() { Line = lines[0], Train = trains[0], StartTime = new TimeOnly(8, 30, 0), DriveDays = DrivingDays.Any },
+                new() { Line = lines[0], Train = trains[1], StartTime = new TimeOnly(10, 10, 0), DriveDays = DrivingDays.WorkDays },
 
-            new() { Line = lines[1], Train = trains[0], StartTime = new TimeOnly(9, 30, 0), DriveDays = DrivingDays.WorkDays },
-            new() { Line = lines[1], Train = trains[1], StartTime = new TimeOnly(11, 10, 0), DriveDays = DrivingDays.Any }
-        };
+                new() { Line = lines[1], Train = trains[0], StartTime = new TimeOnly(9, 30, 0), DriveDays = DrivingDays.WorkDays },
+                new() { Line = lines[1], Train = trains[1], StartTime = new TimeOnly(11, 10, 0), DriveDays = DrivingDays.Any }
+            });
 
-        context.Set<LineSchedule>().AddRange(lineSchedules);
+            await context.SaveChangesAsync();
+        }
 
         // Stop
-        var stops = new List<Stop>()
+        if (!await context.Stops.AnyAsync())
         {
-            new() { Station = stations[3], Line = lines[0], Order = 1, ArrivalOffset = null, DepartureOffset = new TimeSpan(0, 5, 0) },
-            new() { Station = stations[2], Line = lines[0], Order = 2, ArrivalOffset = new TimeSpan(0, 20, 0), DepartureOffset = new TimeSpan(0, 25, 0) },
-            new() { Station = stations[1], Line = lines[0], Order = 3, ArrivalOffset = new TimeSpan(0, 40, 0), DepartureOffset = new TimeSpan(0, 45, 0) },
-            new() { Station = stations[0], Line = lines[0], Order = 4, ArrivalOffset = new TimeSpan(0, 55, 0), DepartureOffset = null },
+            await context.Stops.AddRangeAsync(new List<Stop>
+            {
+                new() { Station = stations[3], Line = lines[0], Order = 1, ArrivalOffset = null, DepartureOffset = new TimeSpan(0, 5, 0) },
+                new() { Station = stations[2], Line = lines[0], Order = 2, ArrivalOffset = new TimeSpan(0, 20, 0), DepartureOffset = new TimeSpan(0, 25, 0) },
+                new() { Station = stations[1], Line = lines[0], Order = 3, ArrivalOffset = new TimeSpan(0, 40, 0), DepartureOffset = new TimeSpan(0, 45, 0) },
+                new() { Station = stations[0], Line = lines[0], Order = 4, ArrivalOffset = new TimeSpan(0, 55, 0), DepartureOffset = null },
 
-            new() { Station = stations[1], Line = lines[1], Order = 1, ArrivalOffset = null, DepartureOffset = new TimeSpan(0, 5, 0) },
-            new() { Station = stations[0], Line = lines[1], Order = 2, ArrivalOffset = new TimeSpan(0, 30, 0), DepartureOffset = new TimeSpan(0, 40, 0) },
-            new() { Station = stations[4], Line = lines[1], Order = 3, ArrivalOffset = new TimeSpan(0, 50, 0), DepartureOffset = null }
-        };
+                new() { Station = stations[1], Line = lines[1], Order = 1, ArrivalOffset = null, DepartureOffset = new TimeSpan(0, 5, 0) },
+                new() { Station = stations[0], Line = lines[1], Order = 2, ArrivalOffset = new TimeSpan(0, 30, 0), DepartureOffset = new TimeSpan(0, 40, 0) },
+                new() { Station = stations[4], Line = lines[1], Order = 3, ArrivalOffset = new TimeSpan(0, 50, 0), DepartureOffset = null }
+            });
 
-        _dbContext.Set<Stop>().AddRange(stops);
-
-        _dbContext.SaveChanges();
+            await context.SaveChangesAsync();
+        }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using TrainTimetable.Data.Entities;
+﻿using TrainTimetable.Data.Entities;
 using TrainTimetable.Data.Repositories;
 
 namespace TrainTimetable.Business.Services;
