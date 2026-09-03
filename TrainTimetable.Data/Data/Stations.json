@@ -1,27 +1,27 @@
 [
   {
-    "name": "Varaždin",
-    "baseStationID": null,
-    "countryId": 1
+    "Name": "Varaždin",
+    "BaseStationID": null,
+    "CountryID": 1
   },
   {
-    "name": "Turčin",
-    "baseStationID": 1,
-    "countryId": 1
+    "Name": "Turčin",
+    "BaseStationID": 1,
+    "CountryID": 1
   },
   {
-    "name": "Doljan",
-    "baseStationID": 1,
-    "countryId": 1
+    "Name": "Doljan",
+    "BaseStationID": 1,
+    "CountryID": 1
   },
   {
-    "name": "Krušljevec",
-    "baseStationID": 1,
-    "countryId": 1
+    "Name": "Krušljevec",
+    "BaseStationID": 1,
+    "CountryID": 1
   },
   {
-    "name": "Čakovec",
-    "baseStationID": 1,
-    "countryId": 1
+    "Name": "Čakovec",
+    "BaseStationID": 1,
+    "CountryID": 1
   }
 ]

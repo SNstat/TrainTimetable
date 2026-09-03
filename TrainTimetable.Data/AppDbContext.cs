@@ -30,7 +30,7 @@ public class AppDbContext : DbContext
     {
         if(!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=TrainTimetable;Integrated Security=True");
+            optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=TrainTimetableDB;Integrated Security=True");
         }
 
         optionsBuilder.UseAsyncSeeding(async (dbContext, _, _) => await JsonDataSeeder.SeedDevelopmentDataAsync(dbContext));
@@ -40,6 +40,10 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Country>()
+            .Property(_ => _.ID)
+            .ValueGeneratedNever();
+
         modelBuilder.Entity<TrainManufacturer>().HasIndex(_ => _.Name).IsUnique();
 
         modelBuilder.Entity<Train>().HasIndex(_ => _.Name).IsUnique();

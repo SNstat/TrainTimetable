@@ -12,8 +12,8 @@ using TrainTimetable.Data;
 namespace TrainTimetable.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260903104922_Init")]
-    partial class Init
+    [Migration("20260903153606_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,10 +28,7 @@ namespace TrainTimetable.Data.Migrations
             modelBuilder.Entity("TrainTimetable.Data.Entities.Country", b =>
                 {
                     b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<string>("Name")
                         .IsRequired()

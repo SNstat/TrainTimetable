@@ -8,7 +8,7 @@ public class TicketSchedule : BaseEntity
     [Required]
     public int LineScheduleID { get; set; }
     [Required]
-    public virtual LineSchedule LineSchedule { get; set; } = new LineSchedule();
+    public virtual LineSchedule LineSchedule { get; set; }
 
     [Required]
     public DateOnly Date { get; set; }

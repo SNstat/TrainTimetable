@@ -11,7 +11,7 @@ public class Stop : BaseEntity
     [Required]
     public int LineID {  get; set; }
     [Required]
-    public virtual Line Line { get; set; } = new Line();
+    public virtual Line Line { get; set; }
 
     [Required]
     public int Order { get; set; }

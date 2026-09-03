@@ -1,8 +1,55 @@
 [
   {
-    "lineNumber": 1
+    "LineNumber": 1,
+    "Stops": [
+      {
+        "order": 1,
+        "arrivalOffset": null,
+        "departureOffset": "00:05:00",
+        "stationId": 4
+      },
+      {
+        "order": 2,
+        "arrivalOffset": "00:20:00",
+        "departureOffset": "00:25:00",
+        "stationId": 3
+      },
+      {
+        "order": 3,
+        "arrivalOffset": "00:40:00",
+        "departureOffset": "00:45:00",
+        "stationId": 2
+      },
+      {
+        "order": 4,
+        "arrivalOffset": "00:55:00",
+        "departureOffset": null,
+        "stationId": 1
+      }
+    ]
   },
   {
-    "lineNumber": 2
+    "LineNumber": 2,
+    "Stops": [
+      {
+        "order": 1,
+        "arrivalOffset": null,
+        "departureOffset": "00:05:00",
+        "stationId": 2,
+      },
+      {
+        "order": 2,
+        "arrivalOffset": "00:30:00",
+        "departureOffset": "00:40:00",
+        "stationId": 1,
+      },
+      {
+        "order": 3,
+        "arrivalOffset": "00:50:00",
+        "departureOffset": null,
+        "stationId": 5,
+      }
+    ]
+
   }
 ]

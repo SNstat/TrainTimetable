@@ -13,5 +13,5 @@ public class Station : BaseEntity
     [Required]
     public int CountryID { get; set; }
     [Required]
-    public virtual Country Country { get; set; } = new Country();
+    public virtual Country Country { get; set; }
 }

@@ -14,7 +14,7 @@ public class Train : BaseEntity
     [Required]
     public int TrainManufacturerID { get; set; }
     [Required]
-    public virtual TrainManufacturer TrainManufacturer { get; set; } = new TrainManufacturer();
+    public virtual TrainManufacturer TrainManufacturer { get; set; }
 
     public virtual ICollection<LineSchedule> LineSchedules { get; set; } = [];
 

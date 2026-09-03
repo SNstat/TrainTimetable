@@ -25,10 +25,7 @@ namespace TrainTimetable.Data.Migrations
             modelBuilder.Entity("TrainTimetable.Data.Entities.Country", b =>
                 {
                     b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
                     b.Property<string>("Name")
                         .IsRequired()
