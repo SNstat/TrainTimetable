@@ -8,26 +8,37 @@ internal static class DataSeeder
 {
     internal static void SeedDevelopmentData(DbContext _dbContext)
     {
-        // Country
-        var countries = new List<Country>()
-        {
-            new() { Name = "Croatia" }
-        };
+        var context = _dbContext as AppDbContext;
 
-        _dbContext.Set<Country>().AddRange(countries);
+        // Country
+        if (!context.Countries.Any())
+        {
+            var countries = new List<Country>()
+            {
+                new() { Name = "Croatia" }
+            };
+
+            context.Countries.AddRange(countries);
+        }
 
         // Station
-        var stations = new List<Station>()
+        var croatia = context.Countries.First(c => c.Name == "Croatia");
+        if (!context.Stations.Any(_ => _.Country == croatia))
         {
-            new() { Name = "Varaždin", BaseStationID = null, Country = countries[0] },
-            new() { Name = "Turčin", BaseStationID = 1, Country = countries[0] },
-            new() { Name = "Doljan", BaseStationID = 1, Country = countries[0] },
-            new() { Name = "Krušljevec", BaseStationID = 1, Country = countries[0] },
-            new() { Name = "Čakovec", BaseStationID = 1, Country = countries[0] }
-        };
+            context.Stations.AddRange(new List<Station>()
+            {
+                new() { Name = "Varaždin", BaseStationID = null, Country = croatia },
+                new() { Name = "Turčin", BaseStationID = 1, Country = croatia },
+                new() { Name = "Doljan", BaseStationID = 1, Country = croatia },
+                new() { Name = "Krušljevec", BaseStationID = 1, Country = croatia },
+                new() { Name = "Čakovec", BaseStationID = 1, Country = croatia }
+            });
+        }
+        var stations = context.Stations.Where(_ => _.Country == croatia).ToList();
 
-        _dbContext.Set<Station>().AddRange(stations);
-
+        return;
+        // TODO : za Šimuna ;)
+       
         // TrainManufacturer
         var trainManufacturers = new List<TrainManufacturer>()
         {
@@ -36,7 +47,7 @@ internal static class DataSeeder
             new() { Name = "Alstom" }
         };
 
-        _dbContext.Set<TrainManufacturer>().AddRange(trainManufacturers);
+        context.Set<TrainManufacturer>().AddRange(trainManufacturers);
 
         // Train
         var trains = new List<Train>()
@@ -46,7 +57,7 @@ internal static class DataSeeder
             new() { TrainManufacturer = trainManufacturers[2], Name = "X65", SeatCount = 76 }
         };
 
-        _dbContext.Set<Train>().AddRange(trains);
+        context.Set<Train>().AddRange(trains);
 
         // Line
         var lines = new List<Line>()
@@ -55,7 +66,7 @@ internal static class DataSeeder
             new() { LineNumber = 2 }
         };
 
-        _dbContext.Set<Line>().AddRange(lines);
+        context.Set<Line>().AddRange(lines);
 
         // LineSchedule
         var lineSchedules = new List<LineSchedule>()
@@ -67,7 +78,7 @@ internal static class DataSeeder
             new() { Line = lines[1], Train = trains[1], StartTime = new TimeOnly(11, 10, 0), DriveDays = DrivingDays.Any }
         };
 
-        _dbContext.Set<LineSchedule>().AddRange(lineSchedules);
+        context.Set<LineSchedule>().AddRange(lineSchedules);
 
         // Stop
         var stops = new List<Stop>()

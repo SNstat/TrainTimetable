@@ -10,7 +10,7 @@ public interface IBaseRepository<TEntity> where TEntity : class, IBaseEntity
 
     Task<TEntity?> GetByIDAsync(int id);
 
-    Task<IEnumerable<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>>? include = null);
+    IEnumerable<TEntity> BuildQuery(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>>? include = null);
 
     Task InsertAsync(TEntity entity);
 
@@ -34,17 +34,20 @@ public class BaseRepository<TEntity>(
         return await dbContext.Set<TEntity>().FirstOrDefaultAsync(_ => _.ID == id);
     }
 
-    public async Task<IEnumerable<TEntity>> FilterAsync(
-        Expression<Func<TEntity, bool>> predicate,
+    public IEnumerable<TEntity> BuildQuery(Expression<Func<TEntity, bool>> predicate,
         Func<IQueryable<TEntity>, IQueryable<TEntity>>? include = null)
     {
-        await using var dbContext = await dbContextFactory.CreateDbContextAsync();
-        IQueryable<TEntity> query = dbContext.Set<TEntity>().Where(predicate);
+        using var dbContext = dbContextFactory.CreateDbContext();
+        IQueryable<TEntity> query = dbContext.Set<TEntity>()
+            .AsNoTracking()
+            .Where(predicate);
 
         if (include != null)
+        {
             query = include(query);
+        }
 
-        return await query.ToListAsync();
+        return query.ToList();
     }
 
     public async Task InsertAsync(TEntity entity)

@@ -1,4 +1,5 @@
-﻿using TrainTimetable.Data.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using TrainTimetable.Data.Entities;
 using TrainTimetable.Data.Repositories;
 
 namespace TrainTimetable.Business.Services;
@@ -70,11 +71,13 @@ public class TrainService(
 
     public async Task<IEnumerable<Train>> FetchAllActiveAsync()
     {
-        return await trainRepository.FilterAsync(_ => _.IsActive);
+        var query = trainRepository.BuildQuery(_ => _.IsActive);
+        return query.ToList();
     }
 
     public async Task<IEnumerable<Train>> FetchAllInactiveAsync()
     {
-        return await trainRepository.FilterAsync(_ => !_.IsActive);
+        var query = trainRepository.BuildQuery(_ => !_.IsActive);
+        return query.ToList();
     }
 }

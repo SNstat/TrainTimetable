@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.Linq.Expressions;
 using TrainTimetable.Business.Models;
 using TrainTimetable.Data.Entities;
 using TrainTimetable.Data.Models;
@@ -39,15 +38,13 @@ public class LineScheduleService : ILineScheduleService
 
         var drivingDays = date.ToDrivingDays();
 
-        Expression<Func<LineSchedule, bool>> query = _ =>
+        var lineSchedules = _lineScheduleRepository.BuildQuery(
+            _ =>
             _.DriveDays.HasFlag(drivingDays) &&
             _.Line.Stops.Any(dep => dep.StationID == departureStationID) &&
             _.Line.Stops.Any(arr => arr.StationID == arrivalStationID) &&
             _.Line.Stops.Where(dep => dep.StationID == departureStationID).Select(dep => dep.Order).FirstOrDefault() <
-            _.Line.Stops.Where(arr => arr.StationID == arrivalStationID).Select(arr => arr.Order).FirstOrDefault();
-
-        var lineSchedules = await _lineScheduleRepository.FilterAsync(
-            query,
+            _.Line.Stops.Where(arr => arr.StationID == arrivalStationID).Select(arr => arr.Order).FirstOrDefault(),
             ls => ls
                 .Include(_ => _.Train)
                 .Include(_ => _.Line)

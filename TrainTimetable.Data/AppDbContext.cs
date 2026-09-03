@@ -33,7 +33,7 @@ public class AppDbContext : DbContext
             optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=TrainTimetable;Integrated Security=True");
         }
 
-        optionsBuilder.UseSeeding(async (dbContext, _) => DataSeeder.SeedDevelopmentData(dbContext));
+        optionsBuilder.UseAsyncSeeding(async (dbContext, _, _) => DataSeeder.SeedDevelopmentData(dbContext));
 
         base.OnConfiguring(optionsBuilder);
     }

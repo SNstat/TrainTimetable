@@ -1,0 +1,65 @@
+﻿@page "/line-schedule"
+
+@using TrainTimetable.Business.Models
+@using TrainTimetable.Business.Services
+
+@inject ILineScheduleService LineScheduleService
+
+<PageTitle>Line Schedule</PageTitle>
+
+<h1>For @DateTime.Today.ToString("MMMM dd, yyyy")</h1>
+
+Departure Station:
+<select></select>
+
+Arrival Station:
+<select></select>
+
+Date of departure:
+<input type="date" @bind="_departureDate" />
+
+<button @onclick="Search">Search</button>
+
+
+Search for time table:
+
+<table>
+    <thead>
+        <tr>
+            <th>Train Number</th>
+            <th>Departure Time</th>
+            <th>Arrival Time</th>
+            <th>Origin</th>
+            <th>Destination</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in _table)
+        {
+            <tr>
+                <td>@item.Train!.Name</td>
+                <td>@item.DepartureTime?.ToString("HH:mm")</td>
+                <td>@item.ArrivalTime?.ToString("HH:mm")</td>
+                <td>@item.DepartureStation</td>
+                <td>@item.ArrivalStation</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+
+    private DateOnly _departureDate;
+
+    private IEnumerable<LineItem> _table = new List<LineItem>();
+
+    override protected async Task OnInitializedAsync()
+    {
+        _table = await LineScheduleService.FetchLineItemsAsync(3, 1, new DateOnly(2026, 09, 04));
+    }
+
+    private void Search()
+    {
+        
+    }
+}

@@ -19,10 +19,18 @@ internal class FakeBaseRepository<TEntity> : IBaseRepository<TEntity> where TEnt
         return entities.FirstOrDefault(_ => _.ID == id);
     }
 
-    public async Task<IEnumerable<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> predicate)
+    public IEnumerable<TEntity> BuildQuery(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>>? include = null)
     {
         var compiledPredicate = predicate.Compile();
-        return entities.Where(compiledPredicate).ToList();
+
+        var query = entities.Where(compiledPredicate).AsQueryable();
+
+        if (include != null)
+        {
+            query = include(query);
+        }
+
+        return query;
     }
 
     public async Task InsertAsync(TEntity entity)

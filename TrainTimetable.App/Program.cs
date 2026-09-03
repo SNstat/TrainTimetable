@@ -9,7 +9,7 @@ namespace TrainTimetable.App;
 
 public class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +43,12 @@ public class Program
         app.MapStaticAssets();
         app.MapRazorComponents<Components.App>()
             .AddInteractiveServerRenderMode();
+
+        using var serviceScope = app.Services.CreateScope();
+        var dbContextFactory = serviceScope.ServiceProvider.GetRequiredService<IDbContextFactory<AppDbContext>>();       
+        var dbContext = await dbContextFactory.CreateDbContextAsync();
+        
+        await dbContext.Database.MigrateAsync();
 
         app.Run();
     }
