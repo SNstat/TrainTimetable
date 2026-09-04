@@ -3,18 +3,24 @@
     "TrainNumber": 1000,
     "Name": "E.403",
     "SeatCount": 60,
-    "TrainManufacturerId": 1
+    "TrainManufacturer": {
+      "Name": "FS Trenitalia"
+    }
   },
   {
     "TrainNumber": 1001,
     "Name": "S Stock",
     "SeatCount": 50,
-    "TrainManufacturerId": 2
+    "TrainManufacturer": {
+      "Name": "Bombardier Transportation"
+    }
   },
   {
     "TrainNumber": 1002,
     "Name": "X65",
     "SeatCount": 76,
-    "TrainManufacturerId": 3
+    "TrainManufacturer": {
+      "Name": "Alstom"
+    }
   }
 ]

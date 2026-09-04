@@ -43,7 +43,7 @@ Search for time table:
                 <td>@item.ArrivalTime?.ToString("HH:mm")</td>
                 <td>@item.DepartureStation?.Name</td>
                 <td>@item.ArrivalStation?.Name</td>
-                <td>@item.Price €</td>
+                <td>@item.Price.ToDoubleDigit() €</td>
             </tr>
         }
     </tbody>
@@ -57,7 +57,7 @@ Search for time table:
 
     override protected async Task OnInitializedAsync()
     {
-        _table = await LineScheduleService.FetchLineItemsAsync(3, 1, new DateOnly(2026, 09, 04));
+        _table = await LineScheduleService.FetchLineItemsAsync(4, 1, DateOnly.FromDateTime(DateTime.UtcNow.AddDays(4)));
     }
 
     private void Search()

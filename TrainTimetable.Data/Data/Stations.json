@@ -2,26 +2,36 @@
   {
     "Name": "Varaždin",
     "IsNode": true,
-    "CountryID": 1
+    "Country": {
+      "Name": "Croatia"
+    }
   },
   {
     "Name": "Turčin",
     "IsNode": false,
-    "CountryID": 1
+    "Country": {
+      "Name": "Croatia"
+    }
   },
   {
     "Name": "Doljan",
     "IsNode": false,
-    "CountryID": 1
+    "Country": {
+      "Name": "Croatia"
+    }
   },
   {
     "Name": "Krušljevec",
     "IsNode": false,
-    "CountryID": 1
+    "Country": {
+      "Name": "Croatia"
+    }
   },
   {
     "Name": "Čakovec",
     "IsNode": false,
-    "CountryID": 1
+    "Country": {
+      "Name": "Croatia"
+    }
   }
 ]
