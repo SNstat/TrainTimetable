@@ -1,10 +1,10 @@
 [
   {
     "TrainNumber": 1000,
-    "Name": "E.403",
+    "Name": "Plavi",
     "SeatCount": 60,
     "TrainManufacturer": {
-      "Name": "FS Trenitalia"
+      "Name": "Končar"
     }
   },
   {
@@ -21,6 +21,22 @@
     "SeatCount": 76,
     "TrainManufacturer": {
       "Name": "Alstom"
+    }
+  },
+  {
+    "TrainNumber": 1003,
+    "Name": "X66",
+    "SeatCount": 80,
+    "TrainManufacturer": {
+      "Name": "Alstom"
+    }
+  },
+  {
+    "TrainNumber": 1004,
+    "Name": "E.403",
+    "SeatCount": 40,
+    "TrainManufacturer": {
+      "Name": "FS Trenitalia"
     }
   }
 ]

@@ -38,7 +38,7 @@ Search for time table:
         @foreach (var item in _table)
         {
             <tr>
-                <td>@item.Train?.Name</td>
+                <td>@item.Train?.TrainNumber</td>
                 <td>@item.DepartureTime?.ToString("HH:mm")</td>
                 <td>@item.ArrivalTime?.ToString("HH:mm")</td>
                 <td>@item.DepartureStation?.Name</td>
@@ -57,7 +57,7 @@ Search for time table:
 
     override protected async Task OnInitializedAsync()
     {
-        _table = await LineScheduleService.FetchLineItemsAsync(4, 1, DateOnly.FromDateTime(DateTime.UtcNow.AddDays(4)));
+        _table = await LineScheduleService.FetchLineItemsAsync(15, 18, DateOnly.FromDateTime(DateTime.UtcNow.AddDays(4)));
     }
 
     private void Search()

@@ -1,16 +1,16 @@
 [
   {
-    "StartTime": "08:30:00",
+    "StartTime": "06:05:00",
     "DriveDays": "Any",
     "Line": {
-      "LineNumber":  1
+      "LineNumber": 1
     },
     "Train": {
-      "TrainNumber":  1000
+      "TrainNumber": 1000
     }
   },
   {
-    "StartTime": "10:10:00",
+    "StartTime": "07:30:00",
     "DriveDays": "WorkDays",
     "Line": {
       "LineNumber": 1
@@ -20,8 +20,43 @@
     }
   },
   {
-    "StartTime": "09:30:00",
+    "StartTime": "10:05:00",
     "DriveDays": "Any",
+    "Line": {
+      "LineNumber": 1
+    },
+    "Train": {
+      "TrainNumber": 1003
+    }
+  },
+  {
+    "StartTime": "20:15:00",
+    "DriveDays": "Any",
+    "Line": {
+      "LineNumber": 1
+    },
+    "Train": {
+      "TrainNumber": 1004
+    }
+  },
+
+
+
+
+
+  {
+    "StartTime": "07:10:00",
+    "DriveDays": "Any",
+    "Line": {
+      "LineNumber": 2
+    },
+    "Train": {
+      "TrainNumber": 1004
+    }
+  },
+  {
+    "StartTime": "11:40:00",
+    "DriveDays": "WorkDays",
     "Line": {
       "LineNumber": 2
     },
@@ -30,13 +65,143 @@
     }
   },
   {
-    "StartTime": "11:10:00",
+    "StartTime": "16:25:00",
     "DriveDays": "WorkDays",
     "Line": {
       "LineNumber": 2
     },
     "Train": {
       "TrainNumber": 1001
+    }
+  },
+
+
+
+
+
+  {
+    "StartTime": "05:35:00",
+    "DriveDays": "Any",
+    "Line": {
+      "LineNumber": 3
+    },
+    "Train": {
+      "TrainNumber": 1000
+    }
+  },
+  {
+    "StartTime": "07:45:00",
+    "DriveDays": "Any",
+    "Line": {
+      "LineNumber": 3
+    },
+    "Train": {
+      "TrainNumber": 1001
+    }
+  },
+  {
+    "StartTime": "10:02:00",
+    "DriveDays": "WorkDays",
+    "Line": {
+      "LineNumber": 3
+    },
+    "Train": {
+      "TrainNumber": 1003
+    }
+  },
+  {
+    "StartTime": "13:30:00",
+    "DriveDays": "WorkDays",
+    "Line": {
+      "LineNumber": 3
+    },
+    "Train": {
+      "TrainNumber": 1002
+    }
+  },
+  {
+    "StartTime": "18:25:00",
+    "DriveDays": "Any",
+    "Line": {
+      "LineNumber": 3
+    },
+    "Train": {
+      "TrainNumber": 1004
+    }
+  },
+
+
+
+
+
+  {
+    "StartTime": "06:50:00",
+    "DriveDays": "Any",
+    "Line": {
+      "LineNumber": 4
+    },
+    "Train": {
+      "TrainNumber": 1004
+    }
+  },
+  {
+    "StartTime": "08:05:00",
+    "DriveDays": "Any",
+    "Line": {
+      "LineNumber": 4
+    },
+    "Train": {
+      "TrainNumber": 1001
+    }
+  },
+  {
+    "StartTime": "09:10:00",
+    "DriveDays": "WorkDays",
+    "Line": {
+      "LineNumber": 4
+    },
+    "Train": {
+      "TrainNumber": 1000
+    }
+  },
+  {
+    "StartTime": "10:20:00",
+    "DriveDays": "WorkDays",
+    "Line": {
+      "LineNumber": 4
+    },
+    "Train": {
+      "TrainNumber": 1001
+    }
+  },
+  {
+    "StartTime": "14:12:00",
+    "DriveDays": "Any",
+    "Line": {
+      "LineNumber": 4
+    },
+    "Train": {
+      "TrainNumber": 1004
+    }
+  },
+  {
+    "StartTime": "17:40:00",
+    "DriveDays": "WorkDays",
+    "Line": {
+      "LineNumber": 4
+    },
+    "Train": {
+      "TrainNumber": 1003
+    }
+  },
+  {
+    "StartTime": "21:00:00",
+    "DriveDays": "Any",
+    "Line": {
+      "LineNumber": 4
+    },
+    "Train": {
+      "TrainNumber": 1000
     }
   }
 ]

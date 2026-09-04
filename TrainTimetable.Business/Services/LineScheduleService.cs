@@ -93,6 +93,6 @@ public class LineScheduleService : ILineScheduleService
             }
         }
 
-        return lineItems;
+        return lineItems.OrderBy(_ => _.DepartureTime);
     }
 }

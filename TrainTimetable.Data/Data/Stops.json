@@ -2,7 +2,161 @@
   {
     "Order": 1,
     "ArrivalOffset": null,
-    "DepartureOffset": "00:05:00",
+    "DepartureOffset": "00:00:00",
+    "Station": {
+      "Name": "Zabok"
+    },
+    "Line": {
+      "LineNumber": 1
+    }
+  },
+  {
+    "Order": 2,
+    "ArrivalOffset": "00:03:00",
+    "DepartureOffset": "00:04:00",
+    "Station": {
+      "Name": "Hum-Lug"
+    },
+    "Line": {
+      "LineNumber": 1
+    }
+  },
+  {
+    "Order": 3,
+    "ArrivalOffset": "00:08:00",
+    "DepartureOffset": "00:09:00",
+    "Station": {
+      "Name": "Dubrava Zabočka"
+    },
+    "Line": {
+      "LineNumber": 1
+    }
+  },
+  {
+    "Order": 4,
+    "ArrivalOffset": "00:12:00",
+    "DepartureOffset": "00:13:00",
+    "Station": {
+      "Name": "Špičkovina"
+    },
+    "Line": {
+      "LineNumber": 1
+    }
+  },
+  {
+    "Order": 5,
+    "ArrivalOffset": "00:16:00",
+    "DepartureOffset": "00:17:00",
+    "Station": {
+      "Name": "Bedekovčina"
+    },
+    "Line": {
+      "LineNumber": 1
+    }
+  },
+  {
+    "Order": 6,
+    "ArrivalOffset": "00:20:00",
+    "DepartureOffset": "00:21:00",
+    "Station": {
+      "Name": "Poznanovec"
+    },
+    "Line": {
+      "LineNumber": 1
+    }
+  },
+  {
+    "Order": 7,
+    "ArrivalOffset": "00:30:00",
+    "DepartureOffset": "00:31:00",
+    "Station": {
+      "Name": "Zlatar Bistrica"
+    },
+    "Line": {
+      "LineNumber": 1
+    }
+  },
+  {
+    "Order": 8,
+    "ArrivalOffset": "00:36:00",
+    "DepartureOffset": "00:37:00",
+    "Station": {
+      "Name": "Donji Lipovec"
+    },
+    "Line": {
+      "LineNumber": 1
+    }
+  },
+  {
+    "Order": 9,
+    "ArrivalOffset": "00:42:00",
+    "DepartureOffset": "00:43:00",
+    "Station": {
+      "Name": "Konjšćina"
+    },
+    "Line": {
+      "LineNumber": 1
+    }
+  },
+  {
+    "Order": 10,
+    "ArrivalOffset": "00:49:00",
+    "DepartureOffset": "00:50:00",
+    "Station": {
+      "Name": "Hrašćina-Trgovišće"
+    },
+    "Line": {
+      "LineNumber": 1
+    }
+  },
+  {
+    "Order": 11,
+    "ArrivalOffset": "00:58:00",
+    "DepartureOffset": "00:59:00",
+    "Station": {
+      "Name": "Budinšćina"
+    },
+    "Line": {
+      "LineNumber": 1
+    }
+  },
+  {
+    "Order": 12,
+    "ArrivalOffset": "01:07:00",
+    "DepartureOffset": "01:08:00",
+    "Station": {
+      "Name": "Podrute"
+    },
+    "Line": {
+      "LineNumber": 1
+    }
+  },
+  {
+    "Order": 13,
+    "ArrivalOffset": "01:17:00",
+    "DepartureOffset": "01:18:00",
+    "Station": {
+      "Name": "Mađarevo"
+    },
+    "Line": {
+      "LineNumber": 1
+    }
+  },
+  {
+    "Order": 14,
+    "ArrivalOffset": "01:29:00",
+    "DepartureOffset": "01:30:00",
+    "Station": {
+      "Name": "Novi Marof"
+    },
+    "Line": {
+      "LineNumber": 1
+    }
+  },
+  {
+    "Order": 15,
+    "ArrivalOffset": "01:40:00",
+    "DepartureOffset": "01:41:00",
     "Station": {
       "Name": "Krušljevec"
     },
@@ -11,9 +165,9 @@
     }
   },
   {
-    "Order": 2,
-    "ArrivalOffset": "00:20:00",
-    "DepartureOffset": "00:25:00",
+    "Order": 16,
+    "ArrivalOffset": "01:47:00",
+    "DepartureOffset": "01:48:00",
     "Station": {
       "Name": "Doljan"
     },
@@ -22,9 +176,9 @@
     }
   },
   {
-    "Order": 3,
-    "ArrivalOffset": "00:40:00",
-    "DepartureOffset": "00:45:00",
+    "Order": 17,
+    "ArrivalOffset": "01:53:00",
+    "DepartureOffset": "01:54:00",
     "Station": {
       "Name": "Turčin"
     },
@@ -33,9 +187,9 @@
     }
   },
   {
-    "Order": 4,
-    "ArrivalOffset": "00:55:00",
-    "DepartureOffset": null,
+    "Order": 18,
+    "ArrivalOffset": "02:02:00",
+    "DepartureOffset": "02:03:00",
     "Station": {
       "Name": "Varaždin"
     },
@@ -44,11 +198,93 @@
     }
   },
   {
+    "Order": 19,
+    "ArrivalOffset": "02:16:00",
+    "DepartureOffset": "02:21:00",
+    "Station": {
+      "Name": "Čakovec"
+    },
+    "Line": {
+      "LineNumber": 1
+    }
+  },
+  {
+    "Order": 20,
+    "ArrivalOffset": "02:24:00",
+    "DepartureOffset": "02:25:00",
+    "Station": {
+      "Name": "Čakovec-Buzovec"
+    },
+    "Line": {
+      "LineNumber": 1
+    }
+  },
+  {
+    "Order": 21,
+    "ArrivalOffset": "02:32:00",
+    "DepartureOffset": "02:33:00",
+    "Station": {
+      "Name": "Mala Subotica"
+    },
+    "Line": {
+      "LineNumber": 1
+    }
+  },
+  {
+    "Order": 22,
+    "ArrivalOffset": "02:38:00",
+    "DepartureOffset": "02:39:00",
+    "Station": {
+      "Name": "Čehovec"
+    },
+    "Line": {
+      "LineNumber": 1
+    }
+  },
+  {
+    "Order": 23,
+    "ArrivalOffset": "02:49:00",
+    "DepartureOffset": "02:50:00",
+    "Station": {
+      "Name": "Donji Kraljevec"
+    },
+    "Line": {
+      "LineNumber": 1
+    }
+  },
+  {
+    "Order": 24,
+    "ArrivalOffset": "02:55:00",
+    "DepartureOffset": "02:56:00",
+    "Station": {
+      "Name": "Donji Mihaljevec"
+    },
+    "Line": {
+      "LineNumber": 1
+    }
+  },
+  {
+    "Order": 25,
+    "ArrivalOffset": "03:02:00",
+    "DepartureOffset": null,
+    "Station": {
+      "Name": "Kotoriba"
+    },
+    "Line": {
+      "LineNumber": 1
+    }
+  },
+
+
+
+
+
+  {
     "Order": 1,
     "ArrivalOffset": null,
-    "DepartureOffset": "00:05:00",
+    "DepartureOffset": "00:00:00",
     "Station": {
-      "Name": "Turčin"
+      "Name": "Kotoriba"
     },
     "Line": {
       "LineNumber": 2
@@ -56,8 +292,74 @@
   },
   {
     "Order": 2,
-    "ArrivalOffset": "00:30:00",
-    "DepartureOffset": "00:40:00",
+    "ArrivalOffset": "00:06:00",
+    "DepartureOffset": "00:07:00",
+    "Station": {
+      "Name": "Donji Mihaljevec"
+    },
+    "Line": {
+      "LineNumber": 2
+    }
+  },
+  {
+    "Order": 3,
+    "ArrivalOffset": "00:12:00",
+    "DepartureOffset": "00:13:00",
+    "Station": {
+      "Name": "Donji Kraljevec"
+    },
+    "Line": {
+      "LineNumber": 2
+    }
+  },
+  {
+    "Order": 4,
+    "ArrivalOffset": "00:23:00",
+    "DepartureOffset": "00:24:00",
+    "Station": {
+      "Name": "Čehovec"
+    },
+    "Line": {
+      "LineNumber": 2
+    }
+  },
+  {
+    "Order": 5,
+    "ArrivalOffset": "00:29:00",
+    "DepartureOffset": "00:30:00",
+    "Station": {
+      "Name": "Mala Subotica"
+    },
+    "Line": {
+      "LineNumber": 2
+    }
+  },
+  {
+    "Order": 6,
+    "ArrivalOffset": "00:38:00",
+    "DepartureOffset": "00:39:00",
+    "Station": {
+      "Name": "Čakovec-Buzovec"
+    },
+    "Line": {
+      "LineNumber": 2
+    }
+  },
+  {
+    "Order": 7,
+    "ArrivalOffset": "00:42:00",
+    "DepartureOffset": "00:47:00",
+    "Station": {
+      "Name": "Čakovec"
+    },
+    "Line": {
+      "LineNumber": 2
+    }
+  },
+  {
+    "Order": 8,
+    "ArrivalOffset": "01:00:00",
+    "DepartureOffset": "01:01:00",
     "Station": {
       "Name": "Varaždin"
     },
@@ -66,14 +368,904 @@
     }
   },
   {
+    "Order": 9,
+    "ArrivalOffset": "01:10:00",
+    "DepartureOffset": "01:11:00",
+    "Station": {
+      "Name": "Turčin"
+    },
+    "Line": {
+      "LineNumber": 2
+    }
+  },
+  {
+    "Order": 10,
+    "ArrivalOffset": "01:16:00",
+    "DepartureOffset": "01:17:00",
+    "Station": {
+      "Name": "Doljan"
+    },
+    "Line": {
+      "LineNumber": 2
+    }
+  },
+  {
+    "Order": 11,
+    "ArrivalOffset": "01:23:00",
+    "DepartureOffset": "01:24:00",
+    "Station": {
+      "Name": "Krušljevec"
+    },
+    "Line": {
+      "LineNumber": 2
+    }
+  },
+  {
+    "Order": 12,
+    "ArrivalOffset": "01:34:00",
+    "DepartureOffset": "01:35:00",
+    "Station": {
+      "Name": "Novi Marof"
+    },
+    "Line": {
+      "LineNumber": 2
+    }
+  },
+  {
+    "Order": 13,
+    "ArrivalOffset": "01:46:00",
+    "DepartureOffset": "01:47:00",
+    "Station": {
+      "Name": "Mađarevo"
+    },
+    "Line": {
+      "LineNumber": 2
+    }
+  },
+  {
+    "Order": 14,
+    "ArrivalOffset": "01:56:00",
+    "DepartureOffset": "01:57:00",
+    "Station": {
+      "Name": "Podrute"
+    },
+    "Line": {
+      "LineNumber": 2
+    }
+  },
+  {
+    "Order": 15,
+    "ArrivalOffset": "02:05:00",
+    "DepartureOffset": "02:06:00",
+    "Station": {
+      "Name": "Budinšćina"
+    },
+    "Line": {
+      "LineNumber": 2
+    }
+  },
+  {
+    "Order": 16,
+    "ArrivalOffset": "02:14:00",
+    "DepartureOffset": "02:15:00",
+    "Station": {
+      "Name": "Hrašćina-Trgovišće"
+    },
+    "Line": {
+      "LineNumber": 2
+    }
+  },
+  {
+    "Order": 17,
+    "ArrivalOffset": "02:21:00",
+    "DepartureOffset": "02:22:00",
+    "Station": {
+      "Name": "Konjšćina"
+    },
+    "Line": {
+      "LineNumber": 2
+    }
+  },
+  {
+    "Order": 18,
+    "ArrivalOffset": "02:27:00",
+    "DepartureOffset": "02:28:00",
+    "Station": {
+      "Name": "Donji Lipovec"
+    },
+    "Line": {
+      "LineNumber": 2
+    }
+  },
+  {
+    "Order": 19,
+    "ArrivalOffset": "02:33:00",
+    "DepartureOffset": "02:34:00",
+    "Station": {
+      "Name": "Zlatar Bistrica"
+    },
+    "Line": {
+      "LineNumber": 2
+    }
+  },
+  {
+    "Order": 20,
+    "ArrivalOffset": "02:43:00",
+    "DepartureOffset": "02:44:00",
+    "Station": {
+      "Name": "Poznanovec"
+    },
+    "Line": {
+      "LineNumber": 2
+    }
+  },
+  {
+    "Order": 21,
+    "ArrivalOffset": "02:47:00",
+    "DepartureOffset": "02:48:00",
+    "Station": {
+      "Name": "Bedekovčina"
+    },
+    "Line": {
+      "LineNumber": 2
+    }
+  },
+  {
+    "Order": 22,
+    "ArrivalOffset": "02:51:00",
+    "DepartureOffset": "02:52:00",
+    "Station": {
+      "Name": "Špičkovina"
+    },
+    "Line": {
+      "LineNumber": 2
+    }
+  },
+  {
+    "Order": 23,
+    "ArrivalOffset": "02:55:00",
+    "DepartureOffset": "02:56:00",
+    "Station": {
+      "Name": "Dubrava Zabočka"
+    },
+    "Line": {
+      "LineNumber": 2
+    }
+  },
+  {
+    "Order": 24,
+    "ArrivalOffset": "03:00:00",
+    "DepartureOffset": "03:01:00",
+    "Station": {
+      "Name": "Hum-Lug"
+    },
+    "Line": {
+      "LineNumber": 2
+    }
+  },
+  {
+    "Order": 25,
+    "ArrivalOffset": "03:04:00",
+    "DepartureOffset": null,
+    "Station": {
+      "Name": "Zabok"
+    },
+    "Line": {
+      "LineNumber": 2
+    }
+  },
+
+
+
+
+
+  {
+    "Order": 1,
+    "ArrivalOffset": null,
+    "DepartureOffset": "00:00:00",
+    "Station": {
+      "Name": "Čakovec"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+  {
+    "Order": 2,
+    "ArrivalOffset": "00:17:00",
+    "DepartureOffset": "00:18:00",
+    "Station": {
+      "Name": "Varaždin"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+  {
     "Order": 3,
-    "ArrivalOffset": "00:50:00",
+    "ArrivalOffset": "00:24:00",
+    "DepartureOffset": "00:25:00",
+    "Station": {
+      "Name": "Turčin"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+  {
+    "Order": 4,
+    "ArrivalOffset": "00:29:00",
+    "DepartureOffset": "00:30:00",
+    "Station": {
+      "Name": "Doljan"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+  {
+    "Order": 5,
+    "ArrivalOffset": "00:36:00",
+    "DepartureOffset": "00:37:00",
+    "Station": {
+      "Name": "Krušljevec"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+  {
+    "Order": 6,
+    "ArrivalOffset": "00:48:00",
+    "DepartureOffset": "00:49:00",
+    "Station": {
+      "Name": "Novi Marof"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+  {
+    "Order": 7,
+    "ArrivalOffset": "00:54:00",
+    "DepartureOffset": "00:55:00",
+    "Station": {
+      "Name": "Mađarevo"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+  {
+    "Order": 8,
+    "ArrivalOffset": "01:04:00",
+    "DepartureOffset": "01:05:00",
+    "Station": {
+      "Name": "Podrute"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+  {
+    "Order": 9,
+    "ArrivalOffset": "01:39:00",
+    "DepartureOffset": "01:40:00",
+    "Station": {
+      "Name": "Budinšćina"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+  {
+    "Order": 10,
+    "ArrivalOffset": "01:43:00",
+    "DepartureOffset": "01:44:00",
+    "Station": {
+      "Name": "Hrašćina-Trgovišće"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+  {
+    "Order": 11,
+    "ArrivalOffset": "01:51:00",
+    "DepartureOffset": "01:52:00",
+    "Station": {
+      "Name": "Konjšćina"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+  {
+    "Order": 12,
+    "ArrivalOffset": "01:56:00",
+    "DepartureOffset": "01:57:00",
+    "Station": {
+      "Name": "Donji Lipovec"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+  {
+    "Order": 13,
+    "ArrivalOffset": "02:03:00",
+    "DepartureOffset": "02:04:00",
+    "Station": {
+      "Name": "Zlatar Bistrica"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+  {
+    "Order": 14,
+    "ArrivalOffset": "02:09:00",
+    "DepartureOffset": "02:10:00",
+    "Station": {
+      "Name": "Poznanovec"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+  {
+    "Order": 15,
+    "ArrivalOffset": "02:14:00",
+    "DepartureOffset": "02:15:00",
+    "Station": {
+      "Name": "Bedekovčina"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+  {
+    "Order": 16,
+    "ArrivalOffset": "02:18:00",
+    "DepartureOffset": "02:19:00",
+    "Station": {
+      "Name": "Špičkovina"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+  {
+    "Order": 17,
+    "ArrivalOffset": "02:22:00",
+    "DepartureOffset": "02:23:00",
+    "Station": {
+      "Name": "Dubrava Zabočka"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+  {
+    "Order": 18,
+    "ArrivalOffset": "02:27:00",
+    "DepartureOffset": "02:28:00",
+    "Station": {
+      "Name": "Hum-Lug"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+  {
+    "Order": 19,
+    "ArrivalOffset": "02:42:00",
+    "DepartureOffset": "02:47:00",
+    "Station": {
+      "Name": "Zabok"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+  {
+    "Order": 20,
+    "ArrivalOffset": "02:53:00",
+    "DepartureOffset": "02:54:00",
+    "Station": {
+      "Name": "Veliko Trgovišće"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+  {
+    "Order": 21,
+    "ArrivalOffset": "02:57:00",
+    "DepartureOffset": "02:58:00",
+    "Station": {
+      "Name": "Žeinci"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+  {
+    "Order": 22,
+    "ArrivalOffset": "03:02:00",
+    "DepartureOffset": "03:03:00",
+    "Station": {
+      "Name": "Luka"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+  {
+    "Order": 23,
+    "ArrivalOffset": "03:06:00",
+    "DepartureOffset": "03:07:00",
+    "Station": {
+      "Name": "Kupljenovo"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+  {
+    "Order": 24,
+    "ArrivalOffset": "03:09:00",
+    "DepartureOffset": "03:10:00",
+    "Station": {
+      "Name": "Pojatno"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+  {
+    "Order": 25,
+    "ArrivalOffset": "03:14:00",
+    "DepartureOffset": "03:15:00",
+    "Station": {
+      "Name": "Novi Dvori"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+  {
+    "Order": 26,
+    "ArrivalOffset": "03:20:00",
+    "DepartureOffset": "03:21:00",
+    "Station": {
+      "Name": "Zaprešić"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+  {
+    "Order": 27,
+    "ArrivalOffset": "03:25:00",
+    "DepartureOffset": "03:26:00",
+    "Station": {
+      "Name": "Podsused Stajalište"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+  {
+    "Order": 28,
+    "ArrivalOffset": "03:29:00",
+    "DepartureOffset": "03:30:00",
+    "Station": {
+      "Name": "Gajnice"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+  {
+    "Order": 29,
+    "ArrivalOffset": "03:33:00",
+    "DepartureOffset": "03:34:00",
+    "Station": {
+      "Name": "Vrapče"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+  {
+    "Order": 30,
+    "ArrivalOffset": "03:37:00",
+    "DepartureOffset": "03:38:00",
+    "Station": {
+      "Name": "Kustošija"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+  {
+    "Order": 31,
+    "ArrivalOffset": "03:42:00",
+    "DepartureOffset": "03:43:00",
+    "Station": {
+      "Name": "Zagreb zapadni kolodvor"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+  {
+    "Order": 32,
+    "ArrivalOffset": "03:47:00",
+    "DepartureOffset": null,
+    "Station": {
+      "Name": "Zagreb glavni kolodvor"
+    },
+    "Line": {
+      "LineNumber": 3
+    }
+  },
+
+
+
+
+
+  {
+    "Order": 1,
+    "ArrivalOffset": null,
+    "DepartureOffset": "00:00:00",
+    "Station": {
+      "Name": "Zagreb glavni kolodvor"
+    },
+    "Line": {
+      "LineNumber": 4
+    }
+  },
+  {
+    "Order": 2,
+    "ArrivalOffset": "00:04:00",
+    "DepartureOffset": "00:05:00",
+    "Station": {
+      "Name": "Zagreb zapadni kolodvor"
+    },
+    "Line": {
+      "LineNumber": 4
+    }
+  },
+  {
+    "Order": 3,
+    "ArrivalOffset": "00:09:00",
+    "DepartureOffset": "00:10:00",
+    "Station": {
+      "Name": "Kustošija"
+    },
+    "Line": {
+      "LineNumber": 4
+    }
+  },
+  {
+    "Order": 4,
+    "ArrivalOffset": "00:13:00",
+    "DepartureOffset": "00:14:00",
+    "Station": {
+      "Name": "Vrapče"
+    },
+    "Line": {
+      "LineNumber": 4
+    }
+  },
+  {
+    "Order": 5,
+    "ArrivalOffset": "00:17:00",
+    "DepartureOffset": "00:18:00",
+    "Station": {
+      "Name": "Gajnice"
+    },
+    "Line": {
+      "LineNumber": 4
+    }
+  },
+  {
+    "Order": 6,
+    "ArrivalOffset": "00:21:00",
+    "DepartureOffset": "00:22:00",
+    "Station": {
+      "Name": "Podsused Stajalište"
+    },
+    "Line": {
+      "LineNumber": 4
+    }
+  },
+  {
+    "Order": 7,
+    "ArrivalOffset": "00:26:00",
+    "DepartureOffset": "00:27:00",
+    "Station": {
+      "Name": "Zaprešić"
+    },
+    "Line": {
+      "LineNumber": 4
+    }
+  },
+  {
+    "Order": 8,
+    "ArrivalOffset": "00:32:00",
+    "DepartureOffset": "00:33:00",
+    "Station": {
+      "Name": "Novi Dvori"
+    },
+    "Line": {
+      "LineNumber": 4
+    }
+  },
+  {
+    "Order": 9,
+    "ArrivalOffset": "00:37:00",
+    "DepartureOffset": "00:38:00",
+    "Station": {
+      "Name": "Pojatno"
+    },
+    "Line": {
+      "LineNumber": 4
+    }
+  },
+  {
+    "Order": 10,
+    "ArrivalOffset": "00:40:00",
+    "DepartureOffset": "00:41:00",
+    "Station": {
+      "Name": "Kupljenovo"
+    },
+    "Line": {
+      "LineNumber": 4
+    }
+  },
+  {
+    "Order": 11,
+    "ArrivalOffset": "00:44:00",
+    "DepartureOffset": "00:45:00",
+    "Station": {
+      "Name": "Luka"
+    },
+    "Line": {
+      "LineNumber": 4
+    }
+  },
+  {
+    "Order": 12,
+    "ArrivalOffset": "00:49:00",
+    "DepartureOffset": "00:50:00",
+    "Station": {
+      "Name": "Žeinci"
+    },
+    "Line": {
+      "LineNumber": 4
+    }
+  },
+  {
+    "Order": 13,
+    "ArrivalOffset": "00:53:00",
+    "DepartureOffset": "00:54:00",
+    "Station": {
+      "Name": "Veliko Trgovišće"
+    },
+    "Line": {
+      "LineNumber": 4
+    }
+  },
+  {
+    "Order": 14,
+    "ArrivalOffset": "01:00:00",
+    "DepartureOffset": "01:05:00",
+    "Station": {
+      "Name": "Zabok"
+    },
+    "Line": {
+      "LineNumber": 4
+    }
+  },
+  {
+    "Order": 15,
+    "ArrivalOffset": "01:19:00",
+    "DepartureOffset": "01:20:00",
+    "Station": {
+      "Name": "Hum-Lug"
+    },
+    "Line": {
+      "LineNumber": 4
+    }
+  },
+  {
+    "Order": 16,
+    "ArrivalOffset": "01:24:00",
+    "DepartureOffset": "01:25:00",
+    "Station": {
+      "Name": "Dubrava Zabočka"
+    },
+    "Line": {
+      "LineNumber": 4
+    }
+  },
+  {
+    "Order": 17,
+    "ArrivalOffset": "01:28:00",
+    "DepartureOffset": "01:29:00",
+    "Station": {
+      "Name": "Špičkovina"
+    },
+    "Line": {
+      "LineNumber": 4
+    }
+  },
+  {
+    "Order": 18,
+    "ArrivalOffset": "01:32:00",
+    "DepartureOffset": "01:33:00",
+    "Station": {
+      "Name": "Bedekovčina"
+    },
+    "Line": {
+      "LineNumber": 4
+    }
+  },
+  {
+    "Order": 19,
+    "ArrivalOffset": "01:37:00",
+    "DepartureOffset": "01:38:00",
+    "Station": {
+      "Name": "Poznanovec"
+    },
+    "Line": {
+      "LineNumber": 4
+    }
+  },
+  {
+    "Order": 20,
+    "ArrivalOffset": "01:43:00",
+    "DepartureOffset": "01:44:00",
+    "Station": {
+      "Name": "Zlatar Bistrica"
+    },
+    "Line": {
+      "LineNumber": 4
+    }
+  },
+  {
+    "Order": 21,
+    "ArrivalOffset": "01:50:00",
+    "DepartureOffset": "01:51:00",
+    "Station": {
+      "Name": "Donji Lipovec"
+    },
+    "Line": {
+      "LineNumber": 4
+    }
+  },
+  {
+    "Order": 22,
+    "ArrivalOffset": "01:55:00",
+    "DepartureOffset": "01:56:00",
+    "Station": {
+      "Name": "Konjšćina"
+    },
+    "Line": {
+      "LineNumber": 4
+    }
+  },
+  {
+    "Order": 23,
+    "ArrivalOffset": "02:03:00",
+    "DepartureOffset": "02:04:00",
+    "Station": {
+      "Name": "Hrašćina-Trgovišće"
+    },
+    "Line": {
+      "LineNumber": 4
+    }
+  },
+  {
+    "Order": 24,
+    "ArrivalOffset": "02:07:00",
+    "DepartureOffset": "02:08:00",
+    "Station": {
+      "Name": "Budinšćina"
+    },
+    "Line": {
+      "LineNumber": 4
+    }
+  },
+  {
+    "Order": 25,
+    "ArrivalOffset": "02:42:00",
+    "DepartureOffset": "02:43:00",
+    "Station": {
+      "Name": "Podrute"
+    },
+    "Line": {
+      "LineNumber": 4
+    }
+  },
+  {
+    "Order": 26,
+    "ArrivalOffset": "02:52:00",
+    "DepartureOffset": "02:53:00",
+    "Station": {
+      "Name": "Mađarevo"
+    },
+    "Line": {
+      "LineNumber": 4
+    }
+  },
+  {
+    "Order": 27,
+    "ArrivalOffset": "02:58:00",
+    "DepartureOffset": "02:59:00",
+    "Station": {
+      "Name": "Novi Marof"
+    },
+    "Line": {
+      "LineNumber": 4
+    }
+  },
+  {
+    "Order": 28,
+    "ArrivalOffset": "03:10:00",
+    "DepartureOffset": "03:11:00",
+    "Station": {
+      "Name": "Krušljevec"
+    },
+    "Line": {
+      "LineNumber": 4
+    }
+  },
+  {
+    "Order": 29,
+    "ArrivalOffset": "03:17:00",
+    "DepartureOffset": "03:18:00",
+    "Station": {
+      "Name": "Doljan"
+    },
+    "Line": {
+      "LineNumber": 4
+    }
+  },
+  {
+    "Order": 30,
+    "ArrivalOffset": "03:22:00",
+    "DepartureOffset": "03:23:00",
+    "Station": {
+      "Name": "Turčin"
+    },
+    "Line": {
+      "LineNumber": 4
+    }
+  },
+  {
+    "Order": 31,
+    "ArrivalOffset": "03:29:00",
+    "DepartureOffset": "03:30:00",
+    "Station": {
+      "Name": "Varaždin"
+    },
+    "Line": {
+      "LineNumber": 4
+    }
+  },
+  {
+    "Order": 32,
+    "ArrivalOffset": "03:47:00",
     "DepartureOffset": null,
     "Station": {
       "Name": "Čakovec"
     },
     "Line": {
-      "LineNumber": 2
+      "LineNumber": 4
     }
   }
 ]

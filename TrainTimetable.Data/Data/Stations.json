@@ -1,20 +1,97 @@
 [
   {
-    "Name": "Varaždin",
+    "Name": "Zabok",
     "IsNode": true,
     "Country": {
       "Name": "Croatia"
     }
   },
   {
-    "Name": "Turčin",
+    "Name": "Hum-Lug",
     "IsNode": false,
     "Country": {
       "Name": "Croatia"
     }
   },
   {
-    "Name": "Doljan",
+    "Name": "Dubrava Zabočka",
+    "IsNode": false,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Špičkovina",
+    "IsNode": false,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Bedekovčina",
+    "IsNode": false,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Poznanovec",
+    "IsNode": false,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Zlatar Bistrica",
+    "IsNode": false,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Donji Lipovec",
+    "IsNode": false,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Konjšćina",
+    "IsNode": false,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Hrašćina-Trgovišće",
+    "IsNode": false,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Budinšćina",
+    "IsNode": false,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Podrute",
+    "IsNode": false,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Mađarevo",
+    "IsNode": false,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Novi Marof",
     "IsNode": false,
     "Country": {
       "Name": "Croatia"
@@ -28,8 +105,162 @@
     }
   },
   {
-    "Name": "Čakovec",
+    "Name": "Doljan",
     "IsNode": false,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Turčin",
+    "IsNode": false,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Varaždin",
+    "IsNode": true,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Čakovec",
+    "IsNode": true,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Čakovec-Buzovec",
+    "IsNode": false,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Mala Subotica",
+    "IsNode": false,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Čehovec",
+    "IsNode": false,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Donji Kraljevec",
+    "IsNode": false,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Donji Mihaljevec",
+    "IsNode": false,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Kotoriba",
+    "IsNode": false,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Veliko Trgovišće",
+    "IsNode": false,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Žeinci",
+    "IsNode": false,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Luka",
+    "IsNode": false,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Kupljenovo",
+    "IsNode": false,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Pojatno",
+    "IsNode": false,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Novi Dvori",
+    "IsNode": false,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Zaprešić",
+    "IsNode": true,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Podsused Stajalište",
+    "IsNode": false,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Gajnice",
+    "IsNode": false,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Vrapče",
+    "IsNode": false,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Kustošija",
+    "IsNode": false,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Zagreb zapadni kolodvor",
+    "IsNode": false,
+    "Country": {
+      "Name": "Croatia"
+    }
+  },
+  {
+    "Name": "Zagreb glavni kolodvor",
+    "IsNode": true,
     "Country": {
       "Name": "Croatia"
     }
