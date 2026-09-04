@@ -37,7 +37,7 @@ public class AppDbContext : DbContext
             JsonDataSeeder.SeedDevelopmentData(dbContext));
 
         optionsBuilder.UseAsyncSeeding(async (dbContext, _, _) =>
-            await JsonDataSeederAsync.SeedDevelopmentDataAsync(dbContext));
+            await JsonDataSeeder.SeedDevelopmentDataAsync(dbContext));
 
         base.OnConfiguring(optionsBuilder);
     }

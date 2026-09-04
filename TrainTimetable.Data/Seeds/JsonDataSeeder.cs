@@ -8,6 +8,11 @@ internal class JsonDataSeeder
 {
     internal static void SeedDevelopmentData(DbContext _dbContext)
     {
+        SeedDevelopmentDataAsync(_dbContext).GetAwaiter().GetResult();
+    }
+
+    internal static async Task SeedDevelopmentDataAsync(DbContext _dbContext)
+    {
         var context = _dbContext as AppDbContext;
 
         if (context == null)
@@ -18,24 +23,24 @@ internal class JsonDataSeeder
             PropertyNameCaseInsensitive = true
         };
 
-        Seed<Country>(context, jsonOptions, "Countries");
+        await SeedAsync<Country>(context, jsonOptions, "Countries");
 
-        Seed<Station>(context, jsonOptions, "Stations", (T, db) =>
+        await SeedAsync<Station>(context, jsonOptions, "Stations", (T, db) =>
         {
             T.CountryID = db.Countries.First(_ => _.Name == T.Country.Name).ID;
             T.Country = null!;
         });
 
-        Seed<TrainManufacturer>(context, jsonOptions, "TrainManufacturers");
+        await SeedAsync<TrainManufacturer>(context, jsonOptions, "TrainManufacturers");
 
-        Seed<Train>(context, jsonOptions, "Trains", (T, db) => {
+        await SeedAsync<Train>(context, jsonOptions, "Trains", (T, db) => {
             T.TrainManufacturerID = db.TrainManufacturers.First(_ => _.Name == T.TrainManufacturer.Name).ID;
             T.TrainManufacturer = null!;
         });
 
-        Seed<Line>(context, jsonOptions, "Lines");
+        await SeedAsync<Line>(context, jsonOptions, "Lines");
 
-        Seed<LineSchedule>(context, jsonOptions, "LineSchedules",
+        await SeedAsync<LineSchedule>(context, jsonOptions, "LineSchedules",
             (T, db) =>
             {
                 T.LineID = db.Lines.First(_ => _.LineNumber == T.Line.LineNumber).ID;
@@ -47,7 +52,7 @@ internal class JsonDataSeeder
                 T.Train = null!;
             });
 
-        Seed<Stop>(context, jsonOptions, "Stops",
+        await SeedAsync<Stop>(context, jsonOptions, "Stops",
             (T, db) =>
             {
                 T.StationID = db.Stations.First(_ => _.Name == T.Station.Name).ID;
@@ -60,16 +65,16 @@ internal class JsonDataSeeder
             });
     }
 
-    private static void Seed<TEntity>(AppDbContext _context, JsonSerializerOptions _options, string _fileName,
-        params ICollection<Action<TEntity, AppDbContext>> referenceHandlers) where TEntity : class, IBaseEntity
+    private async static Task SeedAsync<TEntity>(AppDbContext _context, JsonSerializerOptions _options, string _fileName,
+        params Action<TEntity, AppDbContext>[] referenceHandlers) where TEntity : class, IBaseEntity
     {
-        if (!_context.Set<TEntity>().Any())
+        if (!await _context.Set<TEntity>().AnyAsync())
         {
             string filePath = String.Concat("../TrainTimetable.Data/Data/", _fileName, ".json");
 
-            using var stream = File.OpenRead(filePath);
+            await using var stream = File.OpenRead(filePath);
 
-            var list = JsonSerializer.Deserialize<List<TEntity>>(stream, _options);
+            var list = await JsonSerializer.DeserializeAsync<List<TEntity>>( stream, _options);
 
             if (list != null)
             {
@@ -80,8 +85,9 @@ internal class JsonDataSeeder
                         referenceHandler(entity, _context);
                     }
                 }
-                _context.Set<TEntity>().AddRange(list);
-                _context.SaveChanges();
+
+                await _context.Set<TEntity>().AddRangeAsync(list);
+                await _context.SaveChangesAsync();
             }
         }
     }
