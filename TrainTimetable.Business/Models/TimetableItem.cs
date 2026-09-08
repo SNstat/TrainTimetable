@@ -2,7 +2,7 @@
 
 namespace TrainTimetable.Business.Models;
 
-public record LineItem
+public record TimetableItem
 {
     public List<Stop>? Stops { get; set; }
 

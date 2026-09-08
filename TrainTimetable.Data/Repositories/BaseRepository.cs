@@ -10,7 +10,7 @@ public interface IBaseRepository<TEntity> where TEntity : class, IBaseEntity
 
     Task<TEntity?> GetByIDAsync(int id);
 
-    IEnumerable<TEntity> BuildQuery(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>>? include = null);
+    Task<IEnumerable<TEntity>> BuildQueryAsync(Expression<Func<TEntity, bool>> predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>>? include = null);
 
     Task InsertAsync(TEntity entity);
 
@@ -34,10 +34,10 @@ public class BaseRepository<TEntity>(
         return await dbContext.Set<TEntity>().FirstOrDefaultAsync(_ => _.ID == id);
     }
 
-    public IEnumerable<TEntity> BuildQuery(Expression<Func<TEntity, bool>> predicate,
+    public async Task<IEnumerable<TEntity>> BuildQueryAsync(Expression<Func<TEntity, bool>> predicate,
         Func<IQueryable<TEntity>, IQueryable<TEntity>>? include = null)
     {
-        using var dbContext = dbContextFactory.CreateDbContext();
+        using var dbContext = await dbContextFactory.CreateDbContextAsync();
         IQueryable<TEntity> query = dbContext.Set<TEntity>()
             .AsNoTracking()
             .Where(predicate);
@@ -47,7 +47,7 @@ public class BaseRepository<TEntity>(
             query = include(query);
         }
 
-        return query.ToList();
+        return await query.ToListAsync();
     }
 
     public async Task InsertAsync(TEntity entity)

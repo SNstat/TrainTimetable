@@ -7,38 +7,33 @@ using TrainTimetable.Data.Repositories;
 
 namespace TrainTimetable.Business.Services;
 
-public interface ILineScheduleService
+public interface ITimetableService
 {
-    Task<IEnumerable<LineItem>> FetchLineItemsAsync(int departureStationID, int arrivalStationID, DateOnly date);
+    Task<IEnumerable<TimetableItem>> FetchLineItemsAsync(int departureStationID, int arrivalStationID, DateOnly date);
 }
 
-public class LineScheduleService : ILineScheduleService
+public class TimetableService(IBaseRepository<LineSchedule> lineScheduleRepository) : ITimetableService
 {
-    private readonly IBaseRepository<LineSchedule> _lineScheduleRepository;
+    private readonly IBaseRepository<LineSchedule> _lineScheduleRepository = lineScheduleRepository;
 
-    public LineScheduleService(IBaseRepository<LineSchedule> lineScheduleRepository)
-    {
-        _lineScheduleRepository = lineScheduleRepository;
-    }
-
-    public async Task<IEnumerable<LineItem>> FetchLineItemsAsync(int departureStationID, int arrivalStationID, DateOnly date)
+    public async Task<IEnumerable<TimetableItem>> FetchLineItemsAsync(int departureStationID, int arrivalStationID, DateOnly date)
     {
         if (departureStationID <= 0 || arrivalStationID <= 0)
         {
             throw new ApplicationException("Argumens are invalid. ID values must be at least 1.");
         }
 
-        var utcDateTime = DateTime.UtcNow;
-        var utcDateOnly = DateOnly.FromDateTime(utcDateTime);
+        var currentDateTime = DateTime.Now;
+        var currentDateOnly = DateOnly.FromDateTime(currentDateTime);
 
-        if (utcDateOnly > date)
+        if (currentDateOnly > date)
         {
             throw new ApplicationException("Argument date is invalid. Date cant reference past date.");
         }
 
         var drivingDays = date.ToDrivingDays();
 
-        var lineSchedules = _lineScheduleRepository.BuildQuery(
+        var lineSchedules = await _lineScheduleRepository.BuildQueryAsync(
             _ =>
             _.DriveDays.HasFlag(drivingDays) &&
             _.Line.Stops.Any(dep => dep.StationID == departureStationID) &&
@@ -54,10 +49,10 @@ public class LineScheduleService : ILineScheduleService
 
         if (lineSchedules.IsNullOrEmpty())
         {
-            return (IEnumerable<LineItem>)[];
+            return Enumerable.Empty<TimetableItem>();
         }
 
-        var lineItems = new List<LineItem>();
+        var timetableItems = new List<TimetableItem>();
 
         foreach (var lineSchedule in lineSchedules)
         {
@@ -79,10 +74,10 @@ public class LineScheduleService : ILineScheduleService
                 var departureTime = lineScheduleStartTime + (departureStop.DepartureOffset ?? TimeSpan.Zero);
                 var arrivalTime = lineScheduleStartTime + (arrivalStop.ArrivalOffset ?? TimeSpan.Zero);
 
-                if (utcDateTime > departureTime) // Skips the schedules that have passed today at the specific departure station
+                if (currentDateTime > departureTime) // Skips the schedules that have passed today at the specific departure station
                     continue;
 
-                lineItems.Add(new()
+                timetableItems.Add(new()
                 {
                     Stops = stopSubset,
                     Train = lineSchedule.Train,
@@ -93,6 +88,6 @@ public class LineScheduleService : ILineScheduleService
             }
         }
 
-        return lineItems.OrderBy(_ => _.DepartureTime);
+        return timetableItems.OrderBy(_ => _.DepartureTime);
     }
 }

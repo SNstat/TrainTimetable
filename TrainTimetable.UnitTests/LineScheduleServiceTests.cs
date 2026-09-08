@@ -7,8 +7,8 @@ namespace TrainTimetable.UnitTests;
 
 public class LineScheduleServiceTests
 {
-    private static DateOnly CorrectDate => DateOnly.FromDateTime(DateTime.UtcNow.AddDays(1));
-    private static DateOnly IncorrectDate => DateOnly.FromDateTime(DateTime.UtcNow.AddDays(-1));
+    private static DateOnly CorrectDate => DateOnly.FromDateTime(DateTime.Now.AddDays(1));
+    private static DateOnly IncorrectDate => DateOnly.FromDateTime(DateTime.Now.AddDays(-1));
 
     public class IncorrectTestData : IEnumerable<object[]>
     {
@@ -32,7 +32,7 @@ public class LineScheduleServiceTests
     {
         // Arrange
         var repository = new FakeBaseRepository<LineSchedule>();
-        var lineScheduleService = new LineScheduleService(repository);
+        var lineScheduleService = new TimetableService(repository);
 
         int departureStationId = 1;
         int arrivalStationId = 2;
@@ -40,7 +40,7 @@ public class LineScheduleServiceTests
 
         // Act
         var method = async () => await lineScheduleService.FetchLineItemsAsync(departureStationId, arrivalStationId, date);
-        IEnumerable<LineItem> list = await method();
+        IEnumerable<TimetableItem> list = await method();
         
         // Assert
         Assert.Empty(list);
@@ -52,7 +52,7 @@ public class LineScheduleServiceTests
     {
         // Arrange
         var repository = new FakeBaseRepository<LineSchedule>();
-        var lineScheduleService = new LineScheduleService(repository);
+        var lineScheduleService = new TimetableService(repository);
 
         int departureStationId = _departureStationID;
         int arrivalStationId = _arrivalStationId;

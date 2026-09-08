@@ -70,13 +70,13 @@ public class TrainService(
 
     public async Task<IEnumerable<Train>> FetchAllActiveAsync()
     {
-        var query = trainRepository.BuildQuery(_ => _.IsActive);
-        return query.ToList();
+        var query = await trainRepository.BuildQueryAsync(_ => _.IsActive);
+        return query;
     }
 
     public async Task<IEnumerable<Train>> FetchAllInactiveAsync()
     {
-        var query = trainRepository.BuildQuery(_ => !_.IsActive);
-        return query.ToList();
+        var query = await trainRepository.BuildQueryAsync(_ => !_.IsActive);
+        return query;
     }
 }
