@@ -79,6 +79,7 @@ public class TimetableService(IBaseRepository<LineSchedule> lineScheduleReposito
 
                 timetableItems.Add(new()
                 {
+                    ID = lineSchedule.ID,
                     Stops = stopSubset,
                     Train = lineSchedule.Train,
                     DepartureTime = departureTime,

@@ -2,10 +2,11 @@
 using TrainTimetable.Business.Models;
 using TrainTimetable.Business.Services;
 using TrainTimetable.Data.Entities;
+using TrainTimetable.UnitTests.Repositories;
 
 namespace TrainTimetable.UnitTests;
 
-public class LineScheduleServiceTests
+public class TimetableServiceTests
 {
     private static DateOnly CorrectDate => DateOnly.FromDateTime(DateTime.Now.AddDays(1));
     private static DateOnly IncorrectDate => DateOnly.FromDateTime(DateTime.Now.AddDays(-1));
@@ -28,18 +29,18 @@ public class LineScheduleServiceTests
     }
 
     [Fact]
-    internal async Task LineScheduleService_FetchLineItemsAsync_ReturnsEmptyLineItemList()
+    internal async Task TimetableServiceTests_FetchLineItemsAsync_ReturnsEmptyLineItemList()
     {
         // Arrange
         var repository = new FakeBaseRepository<LineSchedule>();
-        var lineScheduleService = new TimetableService(repository);
+        var TimetableServiceTests = new TimetableService(repository);
 
         int departureStationId = 1;
         int arrivalStationId = 2;
         var date = CorrectDate;
 
         // Act
-        var method = async () => await lineScheduleService.FetchLineItemsAsync(departureStationId, arrivalStationId, date);
+        var method = async () => await TimetableServiceTests.FetchLineItemsAsync(departureStationId, arrivalStationId, date);
         IEnumerable<TimetableItem> list = await method();
         
         // Assert
@@ -48,18 +49,18 @@ public class LineScheduleServiceTests
 
     [Theory]
     [ClassData(typeof(IncorrectTestData))]
-    internal async Task LineScheduleService_FetchLineItems_ReturnsApplicationException(int _departureStationID, int _arrivalStationId, DateOnly _date)
+    internal async Task TimetableServiceTests_FetchLineItemsAsync_ReturnsApplicationException(int _departureStationID, int _arrivalStationId, DateOnly _date)
     {
         // Arrange
         var repository = new FakeBaseRepository<LineSchedule>();
-        var lineScheduleService = new TimetableService(repository);
+        var TimetableServiceTests = new TimetableService(repository);
 
         int departureStationId = _departureStationID;
         int arrivalStationId = _arrivalStationId;
         var date = _date;
 
         // Act
-        var method = async () => await lineScheduleService.FetchLineItemsAsync(departureStationId, arrivalStationId, date);
+        var method = async () => await TimetableServiceTests.FetchLineItemsAsync(departureStationId, arrivalStationId, date);
 
         // Assert
         await Assert.ThrowsAsync<ApplicationException>(method);

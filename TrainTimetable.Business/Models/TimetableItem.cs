@@ -4,6 +4,8 @@ namespace TrainTimetable.Business.Models;
 
 public record TimetableItem
 {
+    public int ID { get; set; }
+
     public List<Stop>? Stops { get; set; }
 
     public Train? Train { get; set; }
@@ -13,6 +15,8 @@ public record TimetableItem
     public DateTime? ArrivalTime { get; set; }
 
     public decimal Price { get; set; } = 0;
+
+    public bool ShowDetails { get; set; } = false;
 
     // calculated
 

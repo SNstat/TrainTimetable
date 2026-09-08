@@ -2,7 +2,7 @@
 using TrainTimetable.Data.Entities;
 using TrainTimetable.Data.Repositories;
 
-namespace TrainTimetable.UnitTests;
+namespace TrainTimetable.UnitTests.Repositories;
 
 internal class FakeBaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class, IBaseEntity
 {

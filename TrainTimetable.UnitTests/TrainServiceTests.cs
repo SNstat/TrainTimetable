@@ -1,5 +1,6 @@
 ﻿using TrainTimetable.Business.Services;
 using TrainTimetable.Data.Entities;
+using TrainTimetable.UnitTests.Repositories;
 
 namespace TrainTimetable.UnitTests;
 
