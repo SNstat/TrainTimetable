@@ -10,8 +10,8 @@
         <MudText Class="mt-6" Align="Align.Center">There are no schedules for the desired destination.</MudText>
     } else
     {
-        <MudText Class="mb-5" Typo="Typo.h6">Showing available train schedules: </MudText>
-        <MudTable FixedHeader="true" Height="450px" Items="@TimetableItems" Hover="true" Breakpoint="Breakpoint.Sm">
+        <MudText Class="mb-5" Typo="Typo.h6">Timetable of available schedules: </MudText>
+        <MudTable FixedHeader="true" Height="400px" Items="@TimetableItems" Hover="true" Breakpoint="Breakpoint.Sm">
             <ColGroup>
                 <col style="width: 10%">
                 <col style="width: 10%">
@@ -36,12 +36,12 @@
             </HeaderContent>
             <RowTemplate>
                 <MudTd DataLabel="Train Number">@context.Train?.TrainNumber</MudTd>
-                <MudTd DataLabel="Departure Time">@context.DepartureTime?.ToString(@"hh\:mm")</MudTd>
-                <MudTd DataLabel="Arrival Time">@context.ArrivalTime?.ToString(@"hh\:mm")</MudTd>
-                <MudTd DataLabel="Duration">@context.TripDuration?.ToString(@"hh\:mm")</MudTd>
+                <MudTd Style="font-weight: bold;" DataLabel="Departure Time">@context.DepartureTime?.ToString(@"hh\:mm")</MudTd>
+                <MudTd Style="font-weight: bold;" DataLabel="Arrival Time">@context.ArrivalTime?.ToString(@"hh\:mm")</MudTd>
+                <MudTd DataLabel="Duration">@context.TripDuration</MudTd>
                 <MudTd DataLabel="Departure Station">@context.DepartureStation?.Name</MudTd>
                 <MudTd DataLabel="Arrival Station">@context.ArrivalStation?.Name</MudTd>
-                <MudTd DataLabel="Price">@context.Price.ToDoubleDigit() €</MudTd>
+                <MudTd Style="font-weight: bold;" DataLabel="Price">@context.Price.ToDoubleDigit() €</MudTd>
                 <MudTd DataLabel="Seats"><MudText Color="Color.Success">0 / @context.Train?.SeatCount</MudText></MudTd>
                 <MudTd Style="display:flex; justify-content:center; align-items:center;">
                     <MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="@(() => ShowBtnPress(context.ID))">@((context.ShowDetails == true) ? "Hide" : "Show")</MudButton>
@@ -51,7 +51,7 @@
                 @if (context.ShowDetails)
                 {
                     <MudTr>
-                        <td colspan="8">
+                        <td colspan="9">
                             <MudCard>
                                 <MudCardHeader>
                                     <CardHeaderContent>

@@ -1,0 +1,27 @@
+﻿@using TrainTimetable.App.Components.Features.Timetable.Components
+@using TrainTimetable.Business.Models
+
+@page "/timetable"
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge">
+    <MudPaper Elevation="3" Class="px-8 py-8 mx-10 my-12">
+        <SearchBar OnSearch="HandleSearch" />
+    </MudPaper>
+    <MudContainer MaxWidth="MaxWidth.ExtraLarge">
+        @if (TimetableSearchModel != null)
+        {
+            <div class="TableContainer">
+                <SearchTable SearchModel="TimetableSearchModel" />
+            </div>
+        }
+    </MudContainer>
+</MudContainer>
+
+@code {
+    private TimetableSearchModel? TimetableSearchModel { get; set; } = null;
+
+    private void HandleSearch(TimetableSearchModel timetableSearchModel)
+    {
+        TimetableSearchModel = timetableSearchModel;
+    }
+}
