@@ -1,0 +1,27 @@
+﻿@using TrainTimetable.App.Components.Features.TrainSchedule.Components
+@using TrainTimetable.Business.Models
+
+@page "/train-schedule"
+
+<MudContainer Class="mt-16" MaxWidth="MaxWidth.Large">
+    <MudGrid>
+        <MudItem xs="12" sm="12" md="12">
+                <SearchBar OnSearch="HandleSearch" />
+        </MudItem>
+        @if (TimetableSearchModel != null)
+        {
+            <MudItem xs="12" sm="12" md="12">
+                    <SearchTable SearchModel="TimetableSearchModel"/>
+            </MudItem>
+        }
+    </MudGrid>
+</MudContainer>
+
+@code {
+    private TimetableSearchModel? TimetableSearchModel { get; set; } = null;
+
+    private void HandleSearch(TimetableSearchModel timetableSearchModel)
+    {
+        TimetableSearchModel = timetableSearchModel;
+    }
+}

@@ -21,9 +21,10 @@ public class Program
 
         builder.Services.AddScoped<IBaseRepository<Train>, BaseRepository<Train>>();
         builder.Services.AddScoped<ITrainService, TrainService>();
-        builder.Services.AddScoped<IBaseRepository<Line>, BaseRepository<Line>>();
         builder.Services.AddScoped<IBaseRepository<LineSchedule>, BaseRepository<LineSchedule>>();
-        builder.Services.AddScoped<ILineScheduleService, LineScheduleService>();
+        builder.Services.AddScoped<ITimetableService, TimetableService>();
+        builder.Services.AddScoped<IBaseRepository<Station>, BaseRepository<Station>>();
+        builder.Services.AddScoped<IStationService, StationService>();
 
         builder.Services.AddMudServices();
 
@@ -41,7 +42,7 @@ public class Program
         app.UseAntiforgery();
 
         app.MapStaticAssets();
-        app.MapRazorComponents<Components.App>()
+        app.MapRazorComponents<Components.Core.App>()
             .AddInteractiveServerRenderMode();
 
         using var serviceScope = app.Services.CreateScope();

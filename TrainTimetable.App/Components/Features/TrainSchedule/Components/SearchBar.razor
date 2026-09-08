@@ -1,0 +1,114 @@
+﻿@using TrainTimetable.Business.Models
+@using TrainTimetable.Business.Services
+
+@inject IStationService stationService
+
+<EditForm Model="@timetableSearchModel" OnValidSubmit="ValidSubmit" OnInvalidSubmit="InvalidSubmit">
+    <DataAnnotationsValidator/>
+    <MudGrid>
+        <MudItem sm="12">
+            <MudText Align="Align.Left" Typo="Typo.h6">Search train schedules:</MudText>
+        </MudItem>
+        <MudItem md="4" sm="12" xs="12">
+            <MudDatePicker Label="Traveling Date"
+                           @bind-Date="timetableSearchModel.SearchDate"
+                           DateFormat="dd.MM.yyyy"
+                           MinDate="@DateTime.Today"
+                           Variant="Variant.Outlined"/>
+        </MudItem>
+        <MudItem md="4" sm="12" xs="12">
+            <MudNumericField @bind-Value="timetableSearchModel.SeatCount"
+                             Label="Passanger Count"
+                             Variant="Variant.Outlined"
+                             Min="1"
+                             Max="100"
+                             AdornmentIcon="@Icons.Material.Filled.People"/>
+        </MudItem>
+        <MudItem md="4" sm="12" xs="12">
+            <MudSelect @bind-Value="timetableSearchModel.TripType"
+                       Label="Trip type"
+                       AdornmentIcon="@Icons.Material.Filled.DepartureBoard"
+                       Variant="Variant.Outlined">
+                <MudSelectItem Value="@(TripType.OneWay)">One-way Trip</MudSelectItem>
+                <MudSelectItem Value="@(TripType.Return)">Return</MudSelectItem>
+            </MudSelect>
+        </MudItem>
+    </MudGrid>
+
+    <MudStack Row="true" Class="mt-3">
+        <MudAutocomplete T="KeyValuePair<int, string>"
+                         Label="Departure Station"
+                         @bind-Value="timetableSearchModel.DepartureStation"
+                         SearchFunc="@SearchStations"
+                         ToStringFunc="@(_ => _.Value)"
+                         Variant="Variant.Outlined"
+                         ShowProgressIndicator="true"
+                         ProgressIndicatorColor="Color.Default"
+                         OpenOnFocus="true"
+                         Clearable="true"
+                         For="() => timetableSearchModel.DepartureStation" />
+
+        <MudIconButton Icon="@Icons.Material.Filled.SwapHoriz"
+                       Color="Color.Secondary"
+                       Size="Size.Large"
+                       OnClick="SwapStations"
+                       Variant="Variant.Filled"
+                       Class="mt-2"
+                       Style="height: 56px"/>
+
+        <MudAutocomplete T="KeyValuePair<int, string>"
+                         Label="Arrival Station"
+                         @bind-Value="timetableSearchModel.ArrivalStation"
+                         SearchFunc="@SearchStations"
+                         ToStringFunc="@(_ => _.Value)"
+                         Variant="Variant.Outlined"
+                         ShowProgressIndicator="true"
+                         ProgressIndicatorColor="Color.Default"
+                         OpenOnFocus="true"
+                         Clearable="true"
+                         For="() => timetableSearchModel.ArrivalStation" />
+    </MudStack>
+
+    <MudStack>
+        <MudButton Variant="Variant.Filled"
+                   EndIcon="@Icons.Material.Filled.Search"
+                   Color="Color.Primary"
+                   Class="mt-4"
+                   ButtonType="ButtonType.Submit">
+            Search
+        </MudButton>
+    </MudStack>
+</EditForm>
+
+@code {
+    [Parameter]
+    public EventCallback<TimetableSearchModel> OnSearch { get; set; }
+
+    private TimetableSearchModel timetableSearchModel { get; set; } = new();
+
+    protected override void OnInitialized()
+    {
+        timetableSearchModel.TripType = TripType.OneWay;
+    }
+
+    private async Task<IEnumerable<KeyValuePair<int, string>>> SearchStations(string search, CancellationToken ct)
+    {
+        return await stationService.FetchStationItemsAsync(search ?? string.Empty);
+    }
+
+    private void SwapStations()
+    {
+        (timetableSearchModel.DepartureStation, timetableSearchModel.ArrivalStation) =
+        (timetableSearchModel.ArrivalStation, timetableSearchModel.DepartureStation);
+    }
+
+    private void ValidSubmit(EditContext context)
+    {
+        OnSearch.InvokeAsync(timetableSearchModel);
+    }
+
+    private void InvalidSubmit(EditContext context)
+    {
+        OnSearch.InvokeAsync(null);
+    }
+}

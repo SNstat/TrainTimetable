@@ -1,0 +1,99 @@
+﻿@using TrainTimetable.Business.Models
+@using TrainTimetable.Business.Services
+
+@inject ITimetableService timetableService
+
+@if (SearchModel != null && TimetableItems != null)
+{
+    @if (TimetableItems.Count() == 0)
+    {
+        <MudText Class="mt-6" Align="Align.Center">There are no schedules for the desired destination.</MudText>
+    } else
+    {
+        <MudText Class="mb-5" Typo="Typo.h6">Showing available train schedules: </MudText>
+        <MudTable FixedHeader="true" Height="450px" Items="@TimetableItems" Hover="true" Breakpoint="Breakpoint.Sm">
+            <ColGroup>
+                <col style="width: 10%">
+                <col style="width: 10%">
+                <col style="width: 10%">
+                <col style="width: 10%">
+                <col style="width: 15%">
+                <col style="width: 15%">
+                <col style="width: 10%">
+                <col style="width: 10%">
+                <col style="width: 10%">
+            </ColGroup>
+            <HeaderContent>
+                <MudTh>Train Number</MudTh>
+                <MudTh>Departure</MudTh>
+                <MudTh>Arrival</MudTh>
+                <MudTh>Duration</MudTh>
+                <MudTh>From</MudTh>
+                <MudTh>To</MudTh>
+                <MudTh>Price</MudTh>
+                <MudTh>Seats</MudTh>
+                <MudTh></MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Train Number">@context.Train?.TrainNumber</MudTd>
+                <MudTd DataLabel="Departure Time">@context.DepartureTime?.ToString(@"hh\:mm")</MudTd>
+                <MudTd DataLabel="Arrival Time">@context.ArrivalTime?.ToString(@"hh\:mm")</MudTd>
+                <MudTd DataLabel="Duration">@context.TripDuration?.ToString(@"hh\:mm")</MudTd>
+                <MudTd DataLabel="Departure Station">@context.DepartureStation?.Name</MudTd>
+                <MudTd DataLabel="Arrival Station">@context.ArrivalStation?.Name</MudTd>
+                <MudTd DataLabel="Price">@context.Price.ToDoubleDigit() €</MudTd>
+                <MudTd DataLabel="Seats"><MudText Color="Color.Success">0 / @context.Train?.SeatCount</MudText></MudTd>
+                <MudTd Style="display:flex; justify-content:center; align-items:center;">
+                    <MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="@(() => ShowBtnPress(context.ID))">@((context.ShowDetails == true) ? "Hide" : "Show")</MudButton>
+                </MudTd>
+            </RowTemplate>
+            <ChildRowContent>
+                @if (context.ShowDetails)
+                {
+                    <MudTr>
+                        <td colspan="8">
+                            <MudCard>
+                                <MudCardHeader>
+                                    <CardHeaderContent>
+                                        <MudText Typo="Typo.body1">Train schedule details: <strong>@context.Train?.TrainNumber</strong></MudText>
+                                    </CardHeaderContent>
+                                </MudCardHeader>
+                            </MudCard>
+                        </td>
+                    </MudTr>
+                }
+            </ChildRowContent>
+        </MudTable>
+    }
+}
+
+@code {
+    [Parameter]
+    public TimetableSearchModel? SearchModel { get; set; } = null;
+
+    private IEnumerable<TimetableItem>? TimetableItems;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (SearchModel != null)
+        {
+            int depId = SearchModel.DepartureStation.Key;
+            int arrId = SearchModel.ArrivalStation.Key;
+
+            DateOnly date = DateOnly.FromDateTime(SearchModel.SearchDate ?? DateTime.Today);
+
+            TimetableItems = await timetableService.FetchLineItemsAsync(depId, arrId, date);
+        }
+    }
+
+    private void ShowBtnPress(int id)
+    {
+        var timetableItem = TimetableItems?.FirstOrDefault(_ => _.ID == id);
+
+        if (timetableItem != null)
+        {
+            timetableItem.ShowDetails = !timetableItem.ShowDetails;
+        }
+
+    }
+}
