@@ -11,17 +11,15 @@
     } else
     {
         <MudText Class="mb-5" Typo="Typo.h6">Timetable of available schedules: </MudText>
-        <MudTable FixedHeader="true" Height="400px" Items="@TimetableItems" Hover="true" Breakpoint="Breakpoint.Sm">
+        <MudTable FixedHeader="true" Height="calc(100vh - 590px);" Items="@TimetableItems" Hover="true" Breakpoint="Breakpoint.Sm">
             <ColGroup>
-                <col style="width: 10%">
-                <col style="width: 10%">
-                <col style="width: 10%">
-                <col style="width: 10%">
-                <col style="width: 15%">
-                <col style="width: 15%">
-                <col style="width: 10%">
-                <col style="width: 10%">
-                <col style="width: 10%">
+                @for (int i = 1; i <= 9; i++)
+                {
+                    if (i == 5 || i == 6)
+                        { <col style="width: 15%"> }
+                    else
+                        { <col style="width: 10%">}
+                }
             </ColGroup>
             <HeaderContent>
                 <MudTh>Train Number</MudTh>
@@ -43,7 +41,7 @@
                 <MudTd DataLabel="Arrival Station">@context.ArrivalStation?.Name</MudTd>
                 <MudTd Style="font-weight: bold;" DataLabel="Price">@context.Price.ToDoubleDigit() €</MudTd>
                 <MudTd DataLabel="Seats"><MudText Color="Color.Success">0 / @context.Train?.SeatCount</MudText></MudTd>
-                <MudTd Style="display:flex; justify-content:center; align-items:center;">
+                <MudTd>
                     <MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="@(() => ShowBtnPress(context.ID))">@((context.ShowDetails == true) ? "Hide" : "Show")</MudButton>
                 </MudTd>
             </RowTemplate>
