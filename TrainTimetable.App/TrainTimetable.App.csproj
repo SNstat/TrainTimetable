@@ -14,6 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TrainTimetable.App.Identity\TrainTimetable.App.Identity.csproj" />
+    <ProjectReference Include="..\TrainTimetable.App.Shared\TrainTimetable.App.Shared.csproj" />
     <ProjectReference Include="..\TrainTimetable.Business\TrainTimetable.Business.csproj" />
   </ItemGroup>
 

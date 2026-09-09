@@ -1,0 +1,80 @@
+﻿@inherits LayoutComponentBase
+
+@inject NavigationManager NavigationManager
+
+<MudThemeProvider />
+<MudPopoverProvider />
+
+<MudLayout>
+    @if (!IsAccountRoute)
+    {
+        <MudAppBar Elevation="1">
+            <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+            <MudText Typo="Typo.h5" Class="ml-3">Train Timetable</MudText>
+            <MudSpacer />
+            <AuthorizeView>
+                <Authorized>
+                    <MudMenu FullWidth="true"
+                                AnchorOrigin="Origin.BottomLeft">
+                        <ActivatorContent Context="menuContext">
+                            <MudButton id="logout-activator-button"
+                                        OnClick="@menuContext.ToggleAsync"
+                                        Color="Color.Inherit">
+                                <MudText id="logged-in-username"
+                                            Typo="Typo.body2">
+                                    @context.User?.Identity?.Name
+                                </MudText>
+                            </MudButton>
+                        </ActivatorContent>
+                        <ChildContent>
+                            <MudMenuItem id="profile-button"
+                                         OnClick="@Profile">
+                                Profile
+                            </MudMenuItem>
+                            <MudMenuItem id="logout-button"
+                                            OnClick="@SignOut">
+                                Sign Out
+                            </MudMenuItem>
+                        </ChildContent>
+                    </MudMenu>
+                </Authorized>
+                <NotAuthorized>
+                    <MudLink id="login"
+                                Href="/Account/Login"
+                                Typo="Typo.body2"
+                                Color="Color.Inherit">
+                        Login
+                    </MudLink>
+                </NotAuthorized>
+            </AuthorizeView>
+            <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
+        </MudAppBar>
+    }
+    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
+        <Navbar/>
+    </MudDrawer>
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    bool _drawerOpen = false;
+
+    private bool IsAccountRoute => NavigationManager.Uri.Contains("/Account");
+
+    void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+
+    private void Profile()
+    {
+        NavigationManager.NavigateTo("/Account/Manage", true);
+    }
+
+    private void SignOut()
+    {
+        NavigationManager.NavigateTo("/Account/Logout", true);
+    }
+}
