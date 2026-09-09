@@ -1,15 +1,17 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider />
-<MudPopoverProvider />
+<MudThemeProvider Theme="_CustomMudTheme">
+</MudThemeProvider>
 
 <MudLayout>
-    <MudAppBar Elevation="1">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        <MudText Typo="Typo.h5" Class="ml-3">Train Timetable</MudText>
-        <MudSpacer />
-        <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
-    </MudAppBar>
+    <div class="NavigationBar">
+        <MudAppBar Elevation="1">
+            <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+            <MudText Typo="Typo.h5" Class="ml-3">TTT</MudText>
+            <MudSpacer />
+            <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
+        </MudAppBar>
+    </div>
     <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
         <Navbar/>
     </MudDrawer>
@@ -18,7 +20,13 @@
     </MudMainContent>
 </MudLayout>
 
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
 @code {
+    private CustomMudTheme _CustomMudTheme= new CustomMudTheme();
+
     bool _drawerOpen = false;
 
     void DrawerToggle()
