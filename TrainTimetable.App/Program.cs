@@ -82,7 +82,7 @@ public class Program
         var dbContextFactory = serviceScope.ServiceProvider.GetRequiredService<IDbContextFactory<AppDbContext>>();       
         var dbContext = await dbContextFactory.CreateDbContextAsync();
         
-        await dbContext.Database.MigrateAsync();
+        //await dbContext.Database.MigrateAsync();
 
         app.Run();
     }

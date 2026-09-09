@@ -35,11 +35,11 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=TrainTimetableDB;Integrated Security=True");
         }
 
-        optionsBuilder.UseSeeding((dbContext, _) =>
-            JsonDataSeeder.SeedDevelopmentData(dbContext));
+        //optionsBuilder.UseSeeding((dbContext, _) =>
+        //    JsonDataSeeder.SeedDevelopmentData(dbContext));
 
-        optionsBuilder.UseAsyncSeeding(async (dbContext, _, _) =>
-            await JsonDataSeeder.SeedDevelopmentDataAsync(dbContext));
+        //optionsBuilder.UseAsyncSeeding(async (dbContext, _, _) =>
+        //    await JsonDataSeeder.SeedDevelopmentDataAsync(dbContext));
 
         base.OnConfiguring(optionsBuilder);
     }
