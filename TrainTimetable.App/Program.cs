@@ -72,6 +72,8 @@ public class Program
 
         app.UseAntiforgery();
 
+        app.UseAuthorization();
+
         app.MapStaticAssets();
         app.MapRazorComponents<Components.Core.App>()
             .AddInteractiveServerRenderMode();

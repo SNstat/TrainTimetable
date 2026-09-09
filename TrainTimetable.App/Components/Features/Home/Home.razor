@@ -5,5 +5,13 @@
 <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Class="mt-3">
     <h1>Home Page</h1>
 
-    Not implemented...
+    <AuthorizeView>
+        Hello @context.User.Identity?.Name!
+    </AuthorizeView>
+
+    <AuthorizeView Roles="Admin">
+        <p>You have an 'Admin' role claim.</p>
+    </AuthorizeView>
+
 </MudContainer>
+
