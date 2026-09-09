@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using TrainTimetable.Data.Entities;
 using TrainTimetable.Data.Seeds;
 
 namespace TrainTimetable.Data;
 
-public class AppDbContext : DbContext
+public class AppDbContext : IdentityDbContext<ApplicationUser>
 {
     public DbSet<TrainManufacturer> TrainManufacturers { get; set; }
     public DbSet<Train> Trains { get; set; }
@@ -25,6 +26,7 @@ public class AppDbContext : DbContext
     {
 
     }
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
