@@ -3,6 +3,8 @@
     "TrainNumber": 1000,
     "Name": "Plavi",
     "SeatCount": 60,
+    "DisabledSeatCount": 6,
+    "BikeSpaceCount": 2,
     "TrainManufacturer": {
       "Name": "Končar"
     }
@@ -11,6 +13,8 @@
     "TrainNumber": 1001,
     "Name": "S Stock",
     "SeatCount": 50,
+    "DisabledSeatCount": 4,
+    "BikeSpaceCount": 0,
     "TrainManufacturer": {
       "Name": "Bombardier Transportation"
     }
@@ -19,6 +23,8 @@
     "TrainNumber": 1002,
     "Name": "X65",
     "SeatCount": 76,
+    "DisabledSeatCount": 8,
+    "BikeSpaceCount": 4,
     "TrainManufacturer": {
       "Name": "Alstom"
     }
@@ -27,6 +33,8 @@
     "TrainNumber": 1003,
     "Name": "X66",
     "SeatCount": 80,
+    "DisabledSeatCount": 10,
+    "BikeSpaceCount": 3,
     "TrainManufacturer": {
       "Name": "Alstom"
     }
@@ -35,6 +43,8 @@
     "TrainNumber": 1004,
     "Name": "E.403",
     "SeatCount": 40,
+    "DisabledSeatCount": 0,
+    "BikeSpaceCount": 0,
     "TrainManufacturer": {
       "Name": "FS Trenitalia"
     }

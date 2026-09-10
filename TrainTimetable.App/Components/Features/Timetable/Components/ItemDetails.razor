@@ -3,10 +3,56 @@
 
 @if (context != null)
 {
-    <MudTimeline TimelinePosition="TimelinePosition.Left" TimelineOrientation="TimelineOrientation.Vertical">
+    <MudGrid>
+        <MudItem md="4" sm="12" xs="12">
+            <MudPaper Elevation="1" Class="px-5 py-4">
+                <MudStack Row="true" Class="mb-2">
+                    <MudIcon Icon="@Icons.Material.Filled.Train" Color="Color.Primary"></MudIcon>
+                    <MudText Typo="Typo.button" Color="Color.Primary">Train</MudText>
+                </MudStack>
+                <MudText>Train Number: <span style="font-weight: bold;">@context.Train?.TrainNumber</span></MudText>
+                <MudText>Train Name: <span style="font-weight: bold;">@context.Train?.Name</span></MudText>
+            </MudPaper>
+        </MudItem>
+        <MudItem md="4" sm="12" xs="12">
+            <MudPaper Elevation="1" Class="px-5 py-4">
+                <MudStack Row="true" Class="mb-2">
+                    <MudIcon Icon="@Icons.Material.Filled.WheelchairPickup" Color="Color.Primary"></MudIcon>
+                    <MudText Typo="Typo.button" Color="Color.Primary">Facilities</MudText>
+                </MudStack>
+                <MudText>Disabled Seats: <span style="font-weight: bold;">@context.Train?.DisabledSeatCount</span></MudText>
+                <MudText>Bike Spaces: <span style="font-weight: bold;">@context.Train?.BikeSpaceCount</span></MudText>
+            </MudPaper>
+        </MudItem>
+        <MudItem md="4" sm="12" xs="12">
+            <MudPaper Elevation="1" Class="px-5 py-4">
+                <MudGrid>
+                    <MudItem md="6" sm="12" xs="12">
+                        <MudStack Row="true" Class="mb-2">
+                            <MudIcon Icon="@Icons.Material.Filled.CardTravel" Color="Color.Primary"></MudIcon>
+                            <MudText Typo="Typo.button" Color="Color.Primary">Ticket</MudText>
+                        </MudStack>
+                        <MudText>There are 60 seats left.</MudText>
+                    </MudItem>
+                    <MudItem md="6" sm="12" xs="12">
+                        <MudButton Color="Color.Primary" Variant="Variant.Filled" Class="ml-7 mt-5 mb-6">Buy Ticket</MudButton>
+                    </MudItem>
+                </MudGrid>
+            </MudPaper>
+        </MudItem>
+        <MudItem md="12" sm="12" xs="12" Class="mt-6">
+            <MudText Align="Align.Center" Typo="Typo.h6" Color="Color.Primary">
+                Route Stop Timeline:
+            </MudText>
+        </MudItem>
+    </MudGrid>
+
+    <MudTimeline TimelinePosition="TimelinePosition.Alternate" TimelineOrientation="TimelineOrientation.Vertical" Class="mt-5">        
         @foreach (Stop stop in context.Stops!)
         {
-            <MudTimelineItem TimelineAlign="TimelineAlign.End" Color="@(stop == context.FirstStop || stop == context.LastStop ? Color.Primary : Color.Default)">
+            bool IsKeyStop = stop == context.FirstStop || stop == context.LastStop;
+
+            <MudTimelineItem TimelineAlign="TimelineAlign.End" Color="@(IsKeyStop ? Color.Primary : Color.Default)">
                 <MudText Typo="Typo.body2" Class="mud-text-secondary">@(stop == context.FirstStop ? "--:--" : (context.DepartureTime + stop.ArrivalOffset)?.ToString("HH:mm"))</MudText>
                 <MudText Typo="Typo.button">@stop.Station.Name</MudText>
                 <MudText Typo="Typo.body2" Class="mud-text-secondary">@(stop == context.LastStop ? "--:--" : (context.DepartureTime + stop.DepartureOffset)?.ToString("HH:mm"))</MudText>

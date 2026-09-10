@@ -47,13 +47,16 @@ public class TrainServiceTests
     }
 
     [Theory]
-    [InlineData("", 20, 1)]
-    [InlineData(null, 20, 1)]
-    [InlineData("Thomas", 0, 1)]
-    [InlineData("Thomas", 1001, 1)]
-    [InlineData("Thomas", 20, 0)]
-    [InlineData("Thomas", 20, -1)]
-    internal async Task TrainService_RegisterAsync_ThrowsApplicationException(string name, int seatCount, int trainManufacturerID)
+    [InlineData("", 20, 1, 0, 0)]
+    [InlineData(null, 20, 1, 0, 0)]
+    [InlineData("Thomas", 0, 1, 0, 0)]
+    [InlineData("Thomas", 1001, 1, 0, 0)]
+    [InlineData("Thomas", 20, 0, 0, 0)]
+    [InlineData("Thomas", 20, -1, 0, 0)]
+    [InlineData("Thomas", 20, 1, -1, 0)]
+    [InlineData("Thomas", 20, 1, 21, 0)]
+    [InlineData("Thomas", 20, 1, 0, -1)]
+    internal async Task TrainService_RegisterAsync_ThrowsApplicationException(string name, int seatCount, int trainManufacturerID, int disabledSeatCount, int bikeSpaceCount)
     {
         // Arrange
         var repository = new FakeBaseRepository<Train>();
@@ -61,7 +64,9 @@ public class TrainServiceTests
         var train = new Train {
             Name = name,
             SeatCount = seatCount,
-            TrainManufacturerID = trainManufacturerID
+            TrainManufacturerID = trainManufacturerID,
+            DisabledSeatCount = disabledSeatCount,
+            BikeSpaceCount = bikeSpaceCount
         };
 
         // Act

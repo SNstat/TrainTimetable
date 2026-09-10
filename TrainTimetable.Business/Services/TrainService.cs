@@ -39,6 +39,16 @@ public class TrainService(
         {
             throw new ApplicationException("Invalid manufacturer ID. Manufacturer ID must be at least 1.");
         }
+
+        if (train.BikeSpaceCount < 0)
+        {
+            throw new ApplicationException("Invalid bike space count. Bike space count cannot be lower than 0.");
+        }
+
+        if (train.DisabledSeatCount < 0 || train.DisabledSeatCount > train.SeatCount)
+        {
+            throw new ApplicationException("Invalid seat count. Seat count cannot be lower than 0 nor higher than the seat count.");
+        }
     }
 
     public async Task RegisterAsync(Train train)

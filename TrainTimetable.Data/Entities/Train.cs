@@ -15,6 +15,12 @@ public class Train : BaseEntity
     public int SeatCount { get; set; }
 
     [Required]
+    public int DisabledSeatCount { get; set; } = 0;
+
+    [Required]
+    public int BikeSpaceCount { get; set; } = 0;
+
+    [Required]
     public int TrainManufacturerID { get; set; }
     [Required]
     public virtual TrainManufacturer TrainManufacturer { get; set; }
