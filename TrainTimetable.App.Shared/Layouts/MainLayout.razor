@@ -1,8 +1,9 @@
-﻿@inherits LayoutComponentBase
+﻿@using TrainTimetable.App.Shared.Layouts.Themes
+@inherits LayoutComponentBase
 
 @inject NavigationManager NavigationManager
 
-<MudThemeProvider />
+<MudThemeProvider Theme="_CustomMudTheme" />
 <MudPopoverProvider />
 
 <MudLayout>
@@ -59,6 +60,8 @@
 </MudLayout>
 
 @code {
+    private CustomMudTheme _CustomMudTheme = new CustomMudTheme();
+
     bool _drawerOpen = false;
 
     private bool IsAccountRoute => NavigationManager.Uri.Contains("/Account");
