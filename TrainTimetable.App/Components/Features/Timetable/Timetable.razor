@@ -6,24 +6,34 @@
 <PageTitle>Timetable</PageTitle>
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge">
-    <MudPaper Elevation="3" Class="px-8 py-8 mx-10 my-12">
-        <SearchBar OnSearch="HandleSearch" />
-    </MudPaper>
-    <MudContainer MaxWidth="MaxWidth.ExtraLarge">
-        @if (TimetableSearchModel != null)
-        {
-            <div class="TableContainer">
-                <SearchTable SearchModel="TimetableSearchModel" />
-            </div>
-        }
-    </MudContainer>
+    <div id="SearchBar" class="SearchItemContainer @( _colapsedSearchBar ? "Collapsed" : "Expanded")"
+         @onclick="() => _colapsedSearchBar = false">
+        <MudPaper Elevation="3" Class="px-8 py-8 mx-10 my-12">
+            <SearchBar OnSearch="HandleSearch" />
+        </MudPaper>
+    </div>
+    
+    <div id="SearchTable" class="SearchItemContainer @( _colapsedSearchBar ? "Expanded" : "Collapsed")"
+         @onclick="() => _colapsedSearchBar = true">
+        <MudContainer MaxWidth="MaxWidth.ExtraLarge">
+            @if (TimetableSearchModel != null)
+            {
+                <div class="TableContainer">
+                    <SearchTable SearchModel="TimetableSearchModel"/>
+                </div>
+            }
+        </MudContainer>
+    </div>
 </MudContainer>
 
 @code {
     private TimetableSearchModel? TimetableSearchModel { get; set; } = null;
 
+    private bool _colapsedSearchBar = false;
+
     private void HandleSearch(TimetableSearchModel timetableSearchModel)
     {
+        _colapsedSearchBar = timetableSearchModel == null ? false : true;
         TimetableSearchModel = timetableSearchModel;
     }
 }

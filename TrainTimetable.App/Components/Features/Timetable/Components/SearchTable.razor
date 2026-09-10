@@ -10,8 +10,8 @@
         <MudText Class="mt-6" Align="Align.Center">There are no schedules for the desired destination.</MudText>
     } else
     {
-        <MudText Class="mb-5" Typo="Typo.h6">Timetable of available schedules: </MudText>
-        <MudTable FixedHeader="true" Height="calc(100vh - 590px);" Items="@TimetableItems" Hover="true" Breakpoint="Breakpoint.Sm">
+        <MudText Class="mb-5" Typo="Typo.h6">Timetable of route: <span class="RouteLabel">@GetRoute()</span></MudText>
+        <MudTable FixedHeader="true" Items="@TimetableItems" Hover="true" Breakpoint="Breakpoint.Sm">
             <ColGroup>
                 @for (int i = 1; i <= 9; i++)
                 {
@@ -92,6 +92,14 @@
         {
             timetableItem.ShowDetails = !timetableItem.ShowDetails;
         }
+    }
 
+    private string GetRoute()
+    {
+        TimetableItem? item = TimetableItems?.First();
+        
+        ArgumentNullException.ThrowIfNull(item);
+
+        return item.DepartureStation?.Name + " -> " + item.ArrivalStation?.Name;
     }
 }

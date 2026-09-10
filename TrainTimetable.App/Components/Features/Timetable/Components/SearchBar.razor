@@ -3,7 +3,7 @@
 
 @inject IStationService stationService
 
-<EditForm Model="@timetableSearchModel" OnValidSubmit="ValidSubmit" OnInvalidSubmit="InvalidSubmit">
+<EditForm Model="@timetableSearchModel" OnValidSubmit="ValidSubmit">
     <DataAnnotationsValidator/>
     <MudGrid>
         <MudItem sm="12">
@@ -105,10 +105,5 @@
     private void ValidSubmit(EditContext context)
     {
         OnSearch.InvokeAsync(timetableSearchModel);
-    }
-
-    private void InvalidSubmit(EditContext context)
-    {
-        OnSearch.InvokeAsync(null);
     }
 }
