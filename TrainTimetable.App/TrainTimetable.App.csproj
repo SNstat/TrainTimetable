@@ -8,8 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+<<<<<<< Updated upstream
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.11" />
     <PackageReference Include="MudBlazor" Version="9.9.0" />
+=======
+	<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore"/>
+    <PackageReference Include="MudBlazor"/>
+>>>>>>> Stashed changes
   </ItemGroup>
 
   <ItemGroup>

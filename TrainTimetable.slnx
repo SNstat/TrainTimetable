@@ -1,5 +1,16 @@
 <Solution>
+<<<<<<< Updated upstream
   <Project Path="TrainTimetable.App/TrainTimetable.App.csproj" />
+=======
+  <Folder Name="/App/">
+    <Project Path="TrainTimetable.App.Identity/TrainTimetable.App.Identity.csproj" Id="6b857114-8d75-4d12-a1ca-f20bfc0b245c" />
+    <Project Path="TrainTimetable.App.Shared/TrainTimetable.App.Shared.csproj" Id="f99289af-8a45-4686-b1b7-8eb64249d1a1" />
+    <Project Path="TrainTimetable.App/TrainTimetable.App.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="Directory.Packages.props" />
+  </Folder>
+>>>>>>> Stashed changes
   <Project Path="TrainTimetable.Business/TrainTimetable.Business.csproj" />
   <Project Path="TrainTimetable.Data/TrainTimetable.Data.csproj" />
   <Project Path="TrainTimetable.UnitTests/TrainTimetable.UnitTests.csproj" Id="2b16f58d-cb06-4fb5-962b-a543f9dbdb54" />
