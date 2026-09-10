@@ -7,14 +7,13 @@
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge">
     <div id="SearchBar" class="SearchItemContainer @( _colapsedSearchBar ? "Collapsed" : "Expanded")"
-         @onclick="() => _colapsedSearchBar = false">
+         @onclick="ToggleSearchBar">
         <MudPaper Elevation="3" Class="px-8 py-8 mx-10 my-12">
-            <SearchBar OnSearch="HandleSearch" />
+            <SearchBar OnSearch="HandleSearch" IsCollapsed="@_colapsedSearchBar"/>
         </MudPaper>
     </div>
     
-    <div id="SearchTable" class="SearchItemContainer @( _colapsedSearchBar ? "Expanded" : "Collapsed")"
-         @onclick="() => _colapsedSearchBar = true">
+    <div id="SearchTable" class="SearchItemContainer @( _colapsedSearchBar ? "Expanded" : "Collapsed")">
         <MudContainer MaxWidth="MaxWidth.ExtraLarge">
             @if (TimetableSearchModel != null)
             {
@@ -29,11 +28,16 @@
 @code {
     private TimetableSearchModel? TimetableSearchModel { get; set; } = null;
 
-    private bool _colapsedSearchBar = false;
+    private bool _colapsedSearchBar { get; set; }
 
     private void HandleSearch(TimetableSearchModel timetableSearchModel)
     {
         _colapsedSearchBar = timetableSearchModel == null ? false : true;
         TimetableSearchModel = timetableSearchModel;
+    }
+
+    private void ToggleSearchBar()
+    {
+        _colapsedSearchBar = !_colapsedSearchBar;
     }
 }

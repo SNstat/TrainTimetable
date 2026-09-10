@@ -53,7 +53,7 @@
                             <MudCard>
                                 <MudCardHeader>
                                     <CardHeaderContent>
-                                        <MudText Typo="Typo.body1">Train schedule details: <strong>@context.Train?.TrainNumber</strong></MudText>
+                                        <ItemDetails item="@context"/>
                                     </CardHeaderContent>
                                 </MudCardHeader>
                             </MudCard>
@@ -80,7 +80,10 @@
 
             DateOnly date = DateOnly.FromDateTime(SearchModel.SearchDate ?? DateTime.Today);
 
-            TimetableItems = await timetableService.FetchLineItemsAsync(depId, arrId, date);
+            if (depId > 0 && arrId > 0)
+            {
+                TimetableItems = await timetableService.FetchLineItemsAsync(depId, arrId, date);
+            }
         }
     }
 

@@ -14,7 +14,8 @@
                            @bind-Date="timetableSearchModel.SearchDate"
                            DateFormat="dd.MM.yyyy"
                            MinDate="@DateTime.Today"
-                           Variant="Variant.Outlined"/>
+                           Variant="Variant.Outlined"
+                           Disabled="@IsCollapsed"/>
         </MudItem>
         <MudItem md="4" sm="12" xs="12">
             <MudNumericField @bind-Value="timetableSearchModel.SeatCount"
@@ -22,13 +23,15 @@
                              Variant="Variant.Outlined"
                              Min="1"
                              Max="100"
-                             AdornmentIcon="@Icons.Material.Filled.People"/>
+                             AdornmentIcon="@Icons.Material.Filled.People"
+                             Disabled="@IsCollapsed"/>
         </MudItem>
         <MudItem md="4" sm="12" xs="12">
             <MudSelect @bind-Value="timetableSearchModel.TripType"
                        Label="Trip type"
                        AdornmentIcon="@Icons.Material.Filled.DepartureBoard"
-                       Variant="Variant.Outlined">
+                       Variant="Variant.Outlined"
+                       Disabled="@IsCollapsed">
                 <MudSelectItem Value="@(TripType.OneWay)">One-way Trip</MudSelectItem>
                 <MudSelectItem Value="@(TripType.Return)">Return</MudSelectItem>
             </MudSelect>
@@ -46,6 +49,7 @@
                          ProgressIndicatorColor="Color.Default"
                          OpenOnFocus="true"
                          Clearable="true"
+                         Disabled="@IsCollapsed"
                          For="() => timetableSearchModel.DepartureStation" />
 
         <MudIconButton Icon="@Icons.Material.Filled.SwapHoriz"
@@ -54,7 +58,8 @@
                        OnClick="SwapStations"
                        Variant="Variant.Filled"
                        Class="mt-2"
-                       Style="height: 56px"/>
+                       Style="height: 56px"
+                       Disabled="@IsCollapsed"/>
 
         <MudAutocomplete T="KeyValuePair<int, string>"
                          Label="Arrival Station"
@@ -66,7 +71,8 @@
                          ProgressIndicatorColor="Color.Default"
                          OpenOnFocus="true"
                          Clearable="true"
-                         For="() => timetableSearchModel.ArrivalStation" />
+                         For="() => timetableSearchModel.ArrivalStation"
+                         Disabled="@IsCollapsed" />
     </MudStack>
 
     <MudStack>
@@ -75,7 +81,7 @@
                    Color="Color.Primary"
                    Class="mt-4"
                    ButtonType="ButtonType.Submit"
-                   Disabled="@(!IsValidSearch)">
+                   Disabled="@(!IsValidSearch || IsCollapsed)">
             Search
         </MudButton>
     </MudStack>
@@ -84,6 +90,9 @@
 @code {
     [Parameter]
     public EventCallback<TimetableSearchModel> OnSearch { get; set; }
+
+    [Parameter]
+    public bool IsCollapsed { get; set; } = false;
 
     private TimetableSearchModel timetableSearchModel { get; set; } = new();
 
@@ -99,11 +108,8 @@
 
     private void CheckValidation(object sender, FieldChangedEventArgs e)
     {
-        if (editContext != null)
-        {
-            IsValidSearch = editContext.Validate();
-            StateHasChanged();
-        }
+        IsValidSearch = editContext!.Validate();
+        StateHasChanged();
     }
 
     private async Task<IEnumerable<KeyValuePair<int, string>>> SearchStations(string search, CancellationToken ct)

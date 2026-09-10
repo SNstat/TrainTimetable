@@ -1,5 +1,13 @@
-﻿<h3>ItemDetails</h3>
+﻿@using TrainTimetable.Business.Models
+
+<MudText Typo="Typo.body1">Train schedule details: <strong>@item?.Train?.TrainNumber</strong></MudText>
 
 @code {
+    [Parameter]
+    public TimetableItem? item { get; set; }
 
+    protected override async Task OnParametersSetAsync()
+    {
+        await Task.CompletedTask;
+    }
 }
