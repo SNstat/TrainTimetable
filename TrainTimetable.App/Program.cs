@@ -2,10 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
 using TrainTimetable.App.Identity;
 using TrainTimetable.App.Identity.Services;
-using TrainTimetable.Business.Services;
+using TrainTimetable.Business;
 using TrainTimetable.Data;
-using TrainTimetable.Data.Entities;
-using TrainTimetable.Data.Repositories;
 
 namespace TrainTimetable.App;
 
@@ -19,18 +17,8 @@ public class Program
             .AddInteractiveServerComponents();
 
         builder.Services.AddIdentityModule();
-
-        builder.Services.AddDbContextFactory<AppDbContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
-        builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
-        builder.Services.AddScoped<IBaseRepository<Train>, BaseRepository<Train>>();
-        builder.Services.AddScoped<ITrainService, TrainService>();
-        builder.Services.AddScoped<IBaseRepository<LineSchedule>, BaseRepository<LineSchedule>>();
-        builder.Services.AddScoped<ITimetableService, TimetableService>();
-        builder.Services.AddScoped<IBaseRepository<Station>, BaseRepository<Station>>();
-        builder.Services.AddScoped<IStationService, StationService>();
-
+        builder.Services.AddBusinessModule();
+        builder.Services.AddDataModule(builder.Configuration.GetConnectionString("DefaultConnection")!);
         builder.Services.AddMudServices();
 
         var app = builder.Build();

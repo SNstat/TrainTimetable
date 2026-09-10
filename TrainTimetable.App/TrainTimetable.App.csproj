@@ -7,11 +7,9 @@
     <BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
   </PropertyGroup>
 
-  <ItemGroup>
-	<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore"/>
-    <PackageReference Include="Microsoft.EntityFrameworkCore"/>
-    <PackageReference Include="MudBlazor"/>
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="MudBlazor"/>
+	</ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TrainTimetable.App.Identity\TrainTimetable.App.Identity.csproj" />
