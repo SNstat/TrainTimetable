@@ -3,7 +3,7 @@
 
 @inject IStationService stationService
 
-<EditForm Model="@timetableSearchModel" OnValidSubmit="ValidSubmit">
+<EditForm EditContext="editContext" OnValidSubmit="ValidSubmit">
     <DataAnnotationsValidator/>
     <MudGrid>
         <MudItem sm="12">
@@ -74,7 +74,8 @@
                    EndIcon="@Icons.Material.Filled.Search"
                    Color="Color.Primary"
                    Class="mt-4"
-                   ButtonType="ButtonType.Submit">
+                   ButtonType="ButtonType.Submit"
+                   Disabled="@(!IsValidSearch)">
             Search
         </MudButton>
     </MudStack>
@@ -86,9 +87,23 @@
 
     private TimetableSearchModel timetableSearchModel { get; set; } = new();
 
+    private bool IsValidSearch;
+    private EditContext? editContext;
+
     protected override void OnInitialized()
     {
         timetableSearchModel.TripType = TripType.OneWay;
+        editContext = new EditContext(timetableSearchModel);
+        editContext.OnFieldChanged += CheckValidation!;
+    }
+
+    private void CheckValidation(object sender, FieldChangedEventArgs e)
+    {
+        if (editContext != null)
+        {
+            IsValidSearch = editContext.Validate();
+            StateHasChanged();
+        }
     }
 
     private async Task<IEnumerable<KeyValuePair<int, string>>> SearchStations(string search, CancellationToken ct)
