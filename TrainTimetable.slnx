@@ -4,6 +4,10 @@
     <Project Path="TrainTimetable.App.Shared/TrainTimetable.App.Shared.csproj" Id="f99289af-8a45-4686-b1b7-8eb64249d1a1" />
     <Project Path="TrainTimetable.App/TrainTimetable.App.csproj" />
   </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="Directory.Packages.props" />
+    <File Path="README.md" />
+  </Folder>
   <Project Path="TrainTimetable.Business/TrainTimetable.Business.csproj" />
   <Project Path="TrainTimetable.Data/TrainTimetable.Data.csproj" />
   <Project Path="TrainTimetable.UnitTests/TrainTimetable.UnitTests.csproj" Id="2b16f58d-cb06-4fb5-962b-a543f9dbdb54" />
