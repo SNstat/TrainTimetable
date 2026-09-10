@@ -1,10 +1,23 @@
 ﻿@using TrainTimetable.Business.Models
+@using TrainTimetable.Data.Entities
 
-<MudText Typo="Typo.body1">Train schedule details: <strong>@item?.Train?.TrainNumber</strong></MudText>
+@if (context != null)
+{
+    <MudTimeline TimelinePosition="TimelinePosition.Left" TimelineOrientation="TimelineOrientation.Vertical">
+        @foreach (Stop stop in context.Stops!)
+        {
+            <MudTimelineItem TimelineAlign="TimelineAlign.End" Color="@(stop == context.FirstStop || stop == context.LastStop ? Color.Primary : Color.Default)">
+                <MudText Typo="Typo.body2" Class="mud-text-secondary">@(stop == context.FirstStop ? "--:--" : (context.DepartureTime + stop.ArrivalOffset)?.ToString("HH:mm"))</MudText>
+                <MudText Typo="Typo.button">@stop.Station.Name</MudText>
+                <MudText Typo="Typo.body2" Class="mud-text-secondary">@(stop == context.LastStop ? "--:--" : (context.DepartureTime + stop.DepartureOffset)?.ToString("HH:mm"))</MudText>
+            </MudTimelineItem>
+        }
+    </MudTimeline>
+}
 
 @code {
     [Parameter]
-    public TimetableItem? item { get; set; }
+    public TimetableItem? context { get; set; }
 
     protected override async Task OnParametersSetAsync()
     {

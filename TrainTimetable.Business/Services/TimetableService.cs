@@ -67,7 +67,17 @@ public class TimetableService(IBaseRepository<LineSchedule> lineScheduleReposito
             if (departureStop != null && arrivalStop != null)
             {
                 var stopSubset = lineSchedule.Line.Stops
-                    .Where(_ => _.Order >= departureStop.Order && _.Order <= arrivalStop.Order)
+                    .Where(_ => _.Order >= departureStop.Order && _.Order <= arrivalStop.Order);
+
+                var normalizedStops = stopSubset
+                    .Select(_ => new Stop
+                    {
+                        StationID = _.StationID,
+                        Order = _.Order,
+                        Station = _.Station,
+                        DepartureOffset = (_.DepartureOffset ?? TimeSpan.Zero) - (departureStop.DepartureOffset ?? TimeSpan.Zero),
+                        ArrivalOffset = (_.ArrivalOffset ?? TimeSpan.Zero) - (departureStop.DepartureOffset ?? TimeSpan.Zero)
+                    })
                     .OrderBy(_ => _.Order)
                     .ToList();
 
@@ -80,7 +90,7 @@ public class TimetableService(IBaseRepository<LineSchedule> lineScheduleReposito
                 timetableItems.Add(new()
                 {
                     ID = lineSchedule.ID,
-                    Stops = stopSubset,
+                    Stops = normalizedStops,
                     Train = lineSchedule.Train,
                     DepartureTime = departureTime,
                     ArrivalTime = arrivalTime,
