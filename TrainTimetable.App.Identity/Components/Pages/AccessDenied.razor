@@ -2,7 +2,11 @@
 
 <PageTitle>Access denied</PageTitle>
 
-<header>
-    <h1 class="text-danger">Access denied</h1>
-    <p class="text-danger">You do not have access to this resource.</p>
-</header>
+<MudStack Class="px-8" Row="true">
+    <MudIcon Color="Color.Error" Icon="@Icons.Material.Filled.Lock" Size="Size.Large" Class="mt-1"></MudIcon>
+    <MudStack>
+        <MudText Typo="Typo.h4" Color="Color.Error">Access denied</MudText>
+        <MudText>You do not have access to this resource.</MudText>
+        <MudText Typo="Typo.button">Error: 403</MudText>
+    </MudStack>
+</MudStack>

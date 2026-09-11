@@ -1,8 +1,8 @@
 ﻿@using TrainTimetable.App.Identity.Components.Shared
 
-<Router AppAssembly="typeof(Program).Assembly" AdditionalAssemblies="new[] { typeof(Identity.IdentityModule).Assembly }" NotFoundPage="typeof(Pages.NotFound)">
+<Router AppAssembly="typeof(Program).Assembly" AdditionalAssemblies="new[] { typeof(Identity._Imports).Assembly }" NotFoundPage="typeof(Pages.NotFound)">
     <Found Context="routeData">
-        <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(Shared.Layouts.MainLayout)">
+        <AuthorizeRouteView RouteData="routeData" DefaultLayout="typeof(TrainTimetable.App.Shared.Layouts.MainLayout)">
             <NotAuthorized>
                 <RedirectToLogin />
             </NotAuthorized>
