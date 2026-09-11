@@ -9,7 +9,7 @@ public interface IStationService
     Task<IEnumerable<KeyValuePair<int, string>>> FetchStationItemsAsync(string search);
 }
 
-public class StationService(IBaseRepository<Station> _baseRepository) : IStationService
+public class StationService(IBaseRepository<Station> baseRepository) : IStationService
 {
     public async Task<IEnumerable<KeyValuePair<int, string>>> FetchStationItemsAsync(string search)
     {
@@ -19,16 +19,16 @@ public class StationService(IBaseRepository<Station> _baseRepository) : IStation
 
         if (search == String.Empty)
         {
-            stations = await _baseRepository.GetAllAsync();
+            stations = await baseRepository.GetAllAsync();
         } else
         {
-            stations = await _baseRepository
+            stations = await baseRepository
                 .BuildQueryAsync(_ => _.Name.ToLower().StartsWith(search.ToLower()));
         }
 
         if (stations.IsNullOrEmpty())
         {
-            return Enumerable.Empty<KeyValuePair<int, string>>();
+            return [];
         }
 
         return stations

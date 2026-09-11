@@ -2,7 +2,7 @@
 using TrainTimetable.Business.Models;
 using TrainTimetable.Business.Services;
 using TrainTimetable.Data.Entities;
-using TrainTimetable.UnitTests.Repositories;
+using TrainTimetable.UnitTests.FakeRepositories;
 
 namespace TrainTimetable.UnitTests;
 

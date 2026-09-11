@@ -4,7 +4,7 @@ using TrainTimetable.Data.Entities;
 
 namespace TrainTimetable.Data.Seeds;
 
-internal class JsonDataSeeder
+internal sealed class JsonDataSeeder
 {
     internal static void SeedDevelopmentData(DbContext _dbContext)
     {
@@ -13,10 +13,8 @@ internal class JsonDataSeeder
 
     internal static async Task SeedDevelopmentDataAsync(DbContext _dbContext)
     {
-        var context = _dbContext as AppDbContext;
-
-        if (context == null)
-            throw new ArgumentNullException("Argument dbContext is invalid. The context must be not null.");
+        ArgumentNullException.ThrowIfNull(_dbContext);
+        var context = (AppDbContext)_dbContext;
 
         var jsonOptions = new JsonSerializerOptions
         {

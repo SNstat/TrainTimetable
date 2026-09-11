@@ -30,7 +30,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        if(!optionsBuilder.IsConfigured)
+        if (!optionsBuilder.IsConfigured)
         {
             optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=TrainTimetableDB;Integrated Security=True");
         }
@@ -44,32 +44,32 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
         base.OnConfiguring(optionsBuilder);
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        modelBuilder.Entity<Country>()
+        builder.Entity<Country>()
             .Property(_ => _.ID)
             .ValueGeneratedNever();
 
-        modelBuilder.Entity<TrainManufacturer>().HasIndex(_ => _.Name).IsUnique();
+        builder.Entity<TrainManufacturer>().HasIndex(_ => _.Name).IsUnique();
 
-        modelBuilder.Entity<Train>(_ =>
+        builder.Entity<Train>(_ =>
         {
             _.HasIndex(_ => _.TrainNumber).IsUnique();
             _.HasIndex(_ => _.Name).IsUnique();
         });
 
-        modelBuilder.Entity<Country>().HasIndex(_ => _.Name).IsUnique();
+        builder.Entity<Country>().HasIndex(_ => _.Name).IsUnique();
 
-        modelBuilder.Entity<Station>().HasIndex(_ => _.Name).IsUnique();
+        builder.Entity<Station>().HasIndex(_ => _.Name).IsUnique();
 
-        modelBuilder.Entity<Stop>(_ =>
+        builder.Entity<Stop>(_ =>
         {
             _.HasIndex(x => new { x.LineID, x.Order }).IsUnique();
             _.HasIndex(x => new { x.LineID, x.StationID }).IsUnique();
         });
 
-        modelBuilder.Entity<TicketSchedule>().HasIndex(_ => new { _.LineScheduleID, _.Date } ).IsUnique();
+        builder.Entity<TicketSchedule>().HasIndex(_ => new { _.LineScheduleID, _.Date }).IsUnique();
 
-        base.OnModelCreating(modelBuilder);
+        base.OnModelCreating(builder);
     }
 }

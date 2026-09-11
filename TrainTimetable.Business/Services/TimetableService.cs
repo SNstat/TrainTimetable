@@ -49,7 +49,7 @@ public class TimetableService(IBaseRepository<LineSchedule> lineScheduleReposito
 
         if (lineSchedules.IsNullOrEmpty())
         {
-            return Enumerable.Empty<TimetableItem>();
+            return [];
         }
 
         var timetableItems = new List<TimetableItem>();

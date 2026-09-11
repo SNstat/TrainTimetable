@@ -2,9 +2,9 @@
 using TrainTimetable.Data.Entities;
 using TrainTimetable.Data.Repositories;
 
-namespace TrainTimetable.UnitTests.Repositories;
+namespace TrainTimetable.UnitTests.FakeRepositories;
 
-internal class FakeBaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class, IBaseEntity
+internal sealed class FakeBaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class, IBaseEntity
 {
     private readonly ICollection<TEntity> entities = [];
 

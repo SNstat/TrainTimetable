@@ -19,7 +19,7 @@ public class CustomMudTheme : MudTheme
         {
             Default = new DefaultTypography
             {
-                FontFamily = new[] { "Poppins", "sans-serif" }
+                FontFamily = ["Poppins", "sans-serif"]
             }
         };
     }

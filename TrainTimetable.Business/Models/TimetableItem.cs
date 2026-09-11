@@ -16,7 +16,7 @@ public record TimetableItem
 
     public decimal Price { get; set; } = 0;
 
-    public bool ShowDetails { get; set; } = false;
+    public bool ShowDetails { get; set; }
 
     // calculated
 

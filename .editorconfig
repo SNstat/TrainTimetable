@@ -1,0 +1,15 @@
+root = true
+
+[**/Migrations/*.cs]
+generated_code = true
+
+[*.cs]
+dotnet_diagnostic.CA1716.severity = none
+dotnet_diagnostic.CA1862.severity = none
+dotnet_diagnostic.CA2201.severity = none
+dotnet_diagnostic.IDE0008.severity = none
+dotnet_diagnostic.IDE0039.severity = none
+dotnet_diagnostic.IDE0058.severity = none
+
+[**/Entities/*.cs]
+dotnet_diagnostic.CS8618.severity = none

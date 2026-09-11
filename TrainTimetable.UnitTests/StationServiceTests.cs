@@ -1,6 +1,6 @@
 ﻿using TrainTimetable.Business.Services;
 using TrainTimetable.Data.Entities;
-using TrainTimetable.UnitTests.Repositories;
+using TrainTimetable.UnitTests.FakeRepositories;
 
 namespace TrainTimetable.UnitTests;
 
@@ -20,13 +20,13 @@ public class StationServiceTests
             new() { ID = 4,  Name = "22 Station", CountryID = 1}
         };
 
-        IEnumerable<KeyValuePair<int, string>> expectedStations = new List<KeyValuePair<int, string>>()
-        {
+        IEnumerable<KeyValuePair<int, string>> expectedStations =
+        [
             new(1, "1 Station"),
             new(2, "11 Station"),
             new(3, "2 Station"),
             new(4, "22 Station")
-        };
+        ];
 
         // Act
         foreach (var station in stations) {
@@ -106,7 +106,7 @@ public class StationServiceTests
         string? stationName = null;
 
         // Act
-        var method = async () => await stationService.FetchStationItemsAsync(stationName);
+        var method = async () => await stationService.FetchStationItemsAsync(stationName!);
 
         // Assert
         await Assert.ThrowsAsync<ArgumentNullException>(method);

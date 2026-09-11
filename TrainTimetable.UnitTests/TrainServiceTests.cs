@@ -1,6 +1,6 @@
 ﻿using TrainTimetable.Business.Services;
 using TrainTimetable.Data.Entities;
-using TrainTimetable.UnitTests.Repositories;
+using TrainTimetable.UnitTests.FakeRepositories;
 
 namespace TrainTimetable.UnitTests;
 
@@ -37,10 +37,10 @@ public class TrainServiceTests
         // Arange
         var repository = new FakeBaseRepository<Train>();
         var trainService = new TrainService(repository);
-        Train train = null;
+        Train train = null!;
 
         // Act
-        var method = async () => await trainService.RegisterAsync(train);
+        var method = async () => await trainService.RegisterAsync(train!);
 
         // Assert
         await Assert.ThrowsAsync<ArgumentNullException>(method);
@@ -48,7 +48,6 @@ public class TrainServiceTests
 
     [Theory]
     [InlineData("", 20, 1, 0, 0)]
-    [InlineData(null, 20, 1, 0, 0)]
     [InlineData("Thomas", 0, 1, 0, 0)]
     [InlineData("Thomas", 1001, 1, 0, 0)]
     [InlineData("Thomas", 20, 0, 0, 0)]
@@ -125,7 +124,7 @@ public class TrainServiceTests
 
         train = null;
 
-        var method = async () => await trainService.UpdateInfoAsync(train);
+        var method = async () => await trainService.UpdateInfoAsync(train!);
 
         // Assert
         await Assert.ThrowsAsync<ArgumentNullException>(method);
@@ -133,7 +132,6 @@ public class TrainServiceTests
 
     [Theory]
     [InlineData("", 20, 1)]
-    [InlineData(null, 20, 1)]
     [InlineData("Thomas", 0, 1)]
     [InlineData("Thomas", 1001, 1)]
     [InlineData("Thomas", 20, 0)]
@@ -183,10 +181,10 @@ public class TrainServiceTests
         Train? demandedTrain = await trainService.FetchByIdAsync(1);
 
         // Assert
-        Assert.Equal(train.ID, demandedTrain.ID);
-        Assert.Equal(train.Name, demandedTrain.Name);
-        Assert.Equal(train.SeatCount, demandedTrain.SeatCount);
-        Assert.Equal(train.TrainManufacturerID, demandedTrain.TrainManufacturerID);
+        Assert.Equal(train.ID, demandedTrain?.ID);
+        Assert.Equal(train.Name, demandedTrain?.Name);
+        Assert.Equal(train.SeatCount, demandedTrain?.SeatCount);
+        Assert.Equal(train.TrainManufacturerID, demandedTrain?.TrainManufacturerID);
     }
 
     [Fact]

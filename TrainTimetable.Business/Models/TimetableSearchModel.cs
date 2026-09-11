@@ -56,7 +56,7 @@ public class DateBetweenTodayAndAYearAttribute : ValidationAttribute
         ErrorMessage = "The date must be between today and a year later.";
     }
 
-    protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+    protected override ValidationResult IsValid(object? value, ValidationContext validationContext)
     {
         if (value is DateTime dateTime)
         {

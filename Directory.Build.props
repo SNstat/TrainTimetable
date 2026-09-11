@@ -1,0 +1,16 @@
+<Project>
+  <PropertyGroup>
+	<AnalysisModeDesign>Recommended</AnalysisModeDesign>
+	<AnalysisModeDocumentation>Minimal</AnalysisModeDocumentation>
+	<AnalysisModeGlobalization>None</AnalysisModeGlobalization>
+	<AnalysisModeInteroperability>None</AnalysisModeInteroperability>
+	<AnalysisModeMaintainability>Recommended</AnalysisModeMaintainability>
+	<AnalysisModeNaming>Recommended</AnalysisModeNaming>
+	<AnalysisModePerformance>Recommended</AnalysisModePerformance>
+	<AnalysisModeSingleFile>Minimal</AnalysisModeSingleFile>
+	<AnalysisModeReliability>Minimal</AnalysisModeReliability>
+	<AnalysisModeSecurity>Recommended</AnalysisModeSecurity>
+	<AnalysisModeStyle>Minimal</AnalysisModeStyle>
+	<AnalysisModeUsage>Recommended</AnalysisModeUsage>
+  </PropertyGroup>
+</Project>

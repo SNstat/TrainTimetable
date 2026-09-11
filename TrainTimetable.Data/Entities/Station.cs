@@ -4,7 +4,7 @@ namespace TrainTimetable.Data.Entities;
 
 public class Station : BaseEntity
 {
-    [Required, StringLength(Constants.NAME_LENGTH)]
+    [Required, StringLength(Constants.NAMELENGTH)]
     public string Name { get; set; } = string.Empty;
 
     [Required]
