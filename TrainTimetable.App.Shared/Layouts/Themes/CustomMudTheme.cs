@@ -16,11 +16,22 @@ public class CustomMudTheme : MudTheme
             Tertiary = "#071e22"
         };
 
+        PaletteDark = new PaletteDark()
+        {
+            Primary = "#1d7874",
+            Secondary = "#AF2364",
+            AppbarBackground = "#1E384E",
+            Background = "#122333",
+            Surface = "#182B3C",
+            Tertiary = "#1E384E",
+            DrawerBackground = "#182B3C"
+        };
+
         Typography = new Typography()
         {
             Default = new DefaultTypography
             {
-                FontFamily = new[] { "Poppins", "sans-serif" }
+                FontFamily = ["Poppins", "sans-serif"]
             }
         };
     }

@@ -4,25 +4,36 @@
 
 @inject NavigationManager NavigationManager
 
-<MudThemeProvider Theme="_CustomMudTheme"/>
+<MudThemeProvider Theme="_CustomMudTheme" @bind-IsDarkMode="_isDarkMode"/>
 <MudPopoverProvider/>
 
 <MudLayout>
     <div class="appbar">
         <MudAppBar Elevation="1">
 
-            <MudAvatar Color="Color.Primary" Class="mr-5">
-                <!--<MudImage Src="Assets/Images/TTTlogo.png" Alt="TTT Logo" Height="64" Width="64"></MudImage>-->
+            <MudAvatar Color="Color.Primary"
+                       Class="mr-5"
+                       @onclick="@(() => NavigationManager.NavigateTo("/"))"
+                       style="cursor: pointer">
                 <MudIcon Icon="@Icons.Material.Filled.Train"></MudIcon>
             </MudAvatar>
 
-            <MudText><b>T</b>rains<b>T</b>ime<b>T</b>able</MudText>
+            <MudText Typo="Typo.h6"
+                     @onclick="@(() => NavigationManager.NavigateTo("/"))"
+                     style="cursor: pointer"><b>T</b>rains<b>T</b>ime<b>T</b>able</MudText>
 
             <MudSpacer />
 
             <Navbar/>
 
             <MudSpacer />
+
+            <MudToggleIconButton ToggledChanged="ToggleTheme"
+                                 Icon="@Icons.Material.Filled.DarkMode"
+                                 Color="@Color.Info"
+                                 ToggledIcon="@Icons.Material.Filled.LightMode"
+                                 ToggledColor="@Color.Warning"
+                                 Class="mr-5" />
 
             <AuthorizeView>
                 <Authorized>
@@ -73,12 +84,19 @@
 @code {
     private CustomMudTheme _CustomMudTheme = new CustomMudTheme();
 
-    bool _drawerOpen = false;
+    private bool _drawerOpen = false;
+
+    private bool _isDarkMode = false;
 
     private bool IsAccountRoute => NavigationManager.Uri.Contains("/Account");
 
-    void DrawerToggle()
+    private void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
+    }
+
+    private void ToggleTheme()
+    {
+        _isDarkMode = !_isDarkMode;
     }
 }
