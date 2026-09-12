@@ -35,6 +35,7 @@ public class Program
         app.UseAntiforgery();
 
         app.MapStaticAssets();
+
         app.MapRazorComponents<Components.Core.App>()
             .AddAdditionalAssemblies(typeof(IdentityModule).Assembly)
             .AddInteractiveServerRenderMode();

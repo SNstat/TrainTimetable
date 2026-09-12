@@ -1,7 +1,45 @@
-﻿@using Microsoft.AspNetCore.Components.Routing
+﻿@inject NavigationManager NavigationManager
 
-<MudNavMenu>
-    <MudNavLink Href="/" Match="NavLinkMatch.All">Home</MudNavLink>
-    <MudNavLink Href="/timetable" Match="NavLinkMatch.Prefix">Timetable</MudNavLink>
-    <MudNavLink Href="/stations" Match="NavLinkMatch.Prefix">Stations</MudNavLink>
-</MudNavMenu>
+<div class="navbar">
+    <MudTabs Rounded="true"
+             ApplyEffectsToContainer="true"
+             Color="Color.Tertiary"
+             ActivePanelIndex="_activeIndex">
+
+        <MudTabPanel Text="Home" Icon="@Icons.Material.Filled.Home" OnClick="@(() => NavigationManager.NavigateTo("/"))"/>
+        <MudTabPanel Text="Timetable" Icon="@Icons.Material.Filled.Timelapse" OnClick="@(() => NavigationManager.NavigateTo("/timetable"))" />
+    </MudTabs>
+</div>
+
+@code {
+    private int _activeIndex = 0;
+
+    protected override void OnInitialized()
+    {
+        UpdateActiveTab(NavigationManager.Uri);
+
+        NavigationManager.LocationChanged += (_, __) =>
+        {
+            UpdateActiveTab(__.Location);
+            StateHasChanged();
+        };
+    }
+
+    private void UpdateActiveTab(string uri)
+    {
+        var relative = NavigationManager.ToBaseRelativePath(uri);
+
+        if (string.IsNullOrWhiteSpace(relative))
+        {
+            _activeIndex = 0;
+        }
+        else if (relative.Equals("timetable", StringComparison.OrdinalIgnoreCase))
+        {
+            _activeIndex = 1;
+        }
+        else
+        {
+            _activeIndex = -1;
+        }
+    }
+}

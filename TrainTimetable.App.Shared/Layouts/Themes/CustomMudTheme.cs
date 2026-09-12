@@ -13,13 +13,14 @@ public class CustomMudTheme : MudTheme
             AppbarBackground = "#071e22",
             Background = "#eeeeee",
             Surface = "#ffffff",
+            Tertiary = "#071e22"
         };
 
         Typography = new Typography()
         {
             Default = new DefaultTypography
             {
-                FontFamily = ["Poppins", "sans-serif"]
+                FontFamily = new[] { "Poppins", "sans-serif" }
             }
         };
     }
