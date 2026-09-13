@@ -1,0 +1,13 @@
+﻿@page "/Account/Logout"
+
+<h3>Logout</h3>
+
+@inject NavigationManager NavigationManager
+@inject IAuthenticationSignOutHandler SignOutHandler;
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        //await SignOutHandler.SignOutAsync();
+    }
+}

@@ -12,63 +12,69 @@
 
 <PageTitle>Log in</PageTitle>
 
-<h1>Log in</h1>
-<div class="row">
-    <div class="col-lg-6">
-        <section>
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mx-3 my-6">
+    <MudGrid>
+        <MudItem md="6" sm="12" xs="12">
+            <MudText Typo="Typo.h4" Class="mb-6">Log in</MudText>
             <StatusMessage Message="@errorMessage" />
             <EditForm EditContext="editContext" method="post" OnSubmit="LoginUser" FormName="login">
                 <DataAnnotationsValidator />
-                <h2>Use a local account to log in.</h2>
-                <hr />
-                <ValidationSummary class="text-danger" role="alert" />
-                <div class="form-floating mb-3">
-                    <InputText @bind-Value="Input.Email" id="Input.Email" class="form-control" autocomplete="username webauthn" aria-required="true" placeholder="name@example.com" />
-                    <label for="Input.Email" class="form-label">Email</label>
-                    <ValidationMessage For="() => Input.Email" class="text-danger" />
-                </div>
-                <div class="form-floating mb-3">
-                    <InputText type="password" @bind-Value="Input.Password" id="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
-                    <label for="Input.Password" class="form-label">Password</label>
-                    <ValidationMessage For="() => Input.Password" class="text-danger" />
-                </div>
-                <div class="checkbox mb-3">
-                    <label class="form-label">
-                        <InputCheckbox @bind-Value="Input.RememberMe" class="darker-border-checkbox form-check-input" />
-                        Remember me
-                    </label>
-                </div>
-                <div>
-                    <button type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
-                </div>
-                <hr />
-                <div class="d-flex flex-column">
-                    <span class="text-secondary mx-auto mt-2">OR</span>
-                    <PasskeySubmit Operation="PasskeyOperation.Request" Name="Input.Passkey" EmailName="Input.Email" class="btn btn-link mx-auto">Log in with a passkey</PasskeySubmit>
-                </div>
-                <hr />
-                <div>
-                    <p>
-                        <a href="Account/ForgotPassword">Forgot your password?</a>
-                    </p>
-                    <p>
-                        <a href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">Register as a new user</a>
-                    </p>
-                    <p>
-                        <a href="Account/ResendEmailConfirmation">Resend email confirmation</a>
-                    </p>
-                </div>
+                <MudPaper Class="pa-8 mr-5" Elevation="2">
+                    <MudText Typo="Typo.h6" Class="mb-5">Use a local account to log in.</MudText>
+
+                    <ValidationSummary Class="mud-secondary-text mb-7" />
+
+                    <MudTextField T="string"
+                                  Label="Email"
+                                  @bind-Value="Input.Email"
+                                  For="() => Input.Email"
+                                  InputType="InputType.Email"
+                                  Variant="Variant.Outlined"
+                                  Class="mb-4" />
+
+                    <MudTextField T="string"
+                                  Label="Password"
+                                  @bind-Value="Input.Password"
+                                  For="() => Input.Password"
+                                  InputType="InputType.Password"
+                                  Variant="Variant.Outlined"
+                                  Class="mb-4" />
+
+                    <MudCheckBox @bind-Value="Input.RememberMe"
+                                 Label="Remember me"
+                                 Color="Color.Primary"
+                                 Class="mb-4" />
+
+                    <MudButton ButtonType="ButtonType.Submit"
+                               Variant="Variant.Filled"
+                               Color="Color.Primary"
+                               FullWidth="true"
+                               Size="Size.Large">
+                        Log in
+                    </MudButton>
+
+                    <MudText Align="Align.Center" Typo="Typo.body1" Class="my-5">OR</MudText>
+
+                    <MudText Align="Align.Center">
+                        <PasskeySubmit Operation="PasskeyOperation.Request" Name="Input.Passkey" EmailName="Input.Email" class="btn btn-link mx-auto">Log in with a passkey</PasskeySubmit>
+                    </MudText>
+
+                    <MudStack Class="mt-5">
+                        <MudLink Href="Account/ForgotPassword">Forgot your password?</MudLink>
+                        <MudLink Href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">Register as a new user</MudLink>
+                        <MudLink Href="Account/ResendEmailConfirmation">Resend email confirmation</MudLink>
+                    </MudStack>
+                </MudPaper>
             </EditForm>
-        </section>
-    </div>
-    <div class="col-lg-4 col-lg-offset-2">
-        <section>
-            <h3>Use another service to log in.</h3>
-            <hr />
-            <ExternalLoginPicker />
-        </section>
-    </div>
-</div>
+        </MudItem>
+        <MudItem md="6" sm="12" xs="12">
+            <MudPaper Class="pa-6 mr-8 mt-17">
+                <MudText Typo="Typo.h5">Use another service to log in.</MudText>
+                <ExternalLoginPicker />
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
 
 @code {
     private string? errorMessage;
@@ -91,7 +97,6 @@
 
         if (HttpMethods.IsGet(HttpContext.Request.Method))
         {
-            // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
         }
     }
@@ -107,19 +112,15 @@
         SignInResult result;
         if (!string.IsNullOrEmpty(Input.Passkey?.CredentialJson))
         {
-            // When performing passkey sign-in, don't perform form validation.
             result = await SignInManager.PasskeySignInAsync(Input.Passkey.CredentialJson);
         }
         else
         {
-            // If doing a password sign-in, validate the form.
             if (!editContext.Validate())
             {
                 return;
             }
 
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, set lockoutOnFailure: true
             result = await SignInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
         }
 

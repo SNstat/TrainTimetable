@@ -18,13 +18,13 @@ public class CustomMudTheme : MudTheme
 
         PaletteDark = new PaletteDark()
         {
-            Primary = "#1d7874",
-            Secondary = "#AF2364",
-            AppbarBackground = "#1E384E",
-            Background = "#122333",
-            Surface = "#182B3C",
-            Tertiary = "#1E384E",
-            DrawerBackground = "#182B3C"
+            Primary = "#236a66",
+            Secondary = "#78618E",
+            AppbarBackground = "#1f2937",
+            Background = "#111827",
+            Surface = "#1f2937",
+            Tertiary = "#1f2937",
+            DrawerBackground = "#1f2937"
         };
 
         Typography = new Typography()
