@@ -16,24 +16,25 @@
     <MudGrid>
         <MudItem md="6" sm="12" xs="12">
             <MudText Typo="Typo.h4" Class="mb-6">Log in</MudText>
-            <StatusMessage Message="@errorMessage" />
             <EditForm EditContext="editContext" method="post" OnSubmit="LoginUser" FormName="login">
                 <DataAnnotationsValidator />
                 <MudPaper Class="pa-8 mr-5" Elevation="2">
-                    <MudText Typo="Typo.h6" Class="mb-5">Use a local account to log in.</MudText>
+                    <MudText Typo="Typo.h6" Class="mb-3">Use a local account to log in.</MudText>
 
-                    <ValidationSummary Class="mud-secondary-text mb-7" />
+                    <StatusMessage Message="@errorMessage"/>
 
                     <MudTextField T="string"
                                   Label="Email"
+                                  name="Input.Email"
                                   @bind-Value="Input.Email"
                                   For="() => Input.Email"
                                   InputType="InputType.Email"
                                   Variant="Variant.Outlined"
-                                  Class="mb-4" />
+                                  Class="mb-4 mt-3" />
 
                     <MudTextField T="string"
                                   Label="Password"
+                                  name="Input.Password"
                                   @bind-Value="Input.Password"
                                   For="() => Input.Password"
                                   InputType="InputType.Password"
@@ -41,6 +42,7 @@
                                   Class="mb-4" />
 
                     <MudCheckBox @bind-Value="Input.RememberMe"
+                                 name="Input.RememberMe"
                                  Label="Remember me"
                                  Color="Color.Primary"
                                  Class="mb-4" />

@@ -6,23 +6,33 @@
 <PageTitle>Personal Data</PageTitle>
 
 <StatusMessage />
-<h3>Personal Data</h3>
 
-<div class="row">
-    <div class="col-md-6">
-        <p>Your account contains personal data that you have given us. This page allows you to download or delete that data.</p>
-        <p>
-            <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
-        </p>
-        <form action="Account/Manage/DownloadPersonalData" method="post">
-            <AntiforgeryToken />
-            <button class="btn btn-primary" type="submit">Download</button>
-        </form>
-        <p>
-            <a href="Account/Manage/DeletePersonalData" class="btn btn-danger">Delete</a>
-        </p>
-    </div>
-</div>
+
+<MudStack>
+    <MudText Typo="Typo.h6">Personal Data</MudText>
+        <MudText>Your account contains personal data that you have given us. This page allows you to download or delete that data.</MudText>
+        <MudText Style="font-weight: bold;" Color="Color.Error">
+            Deleting this data will permanently remove your account, and this cannot be recovered.
+        </MudText>
+        <MudStack Row="true">
+            <form action="Account/Manage/DownloadPersonalData" method="post">
+                <AntiforgeryToken />
+                <MudButton Color="Color.Primary"
+                           Variant="Variant.Outlined"
+                           EndIcon="@Icons.Material.Filled.Download"
+                           type="submit">
+                    Download
+                </MudButton>
+            </form>
+
+            <MudButton Color="Color.Error"
+                       Variant="Variant.Filled"
+                       EndIcon="@Icons.Material.Filled.DeleteForever"
+                       Href="Account/Manage/DeletePersonalData">
+                Delete
+            </MudButton>
+        </MudStack>
+</MudStack>
 
 @code {
     [CascadingParameter]

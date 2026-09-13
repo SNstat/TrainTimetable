@@ -2,32 +2,22 @@
 
 @inject SignInManager<ApplicationUser> SignInManager
 
-<ul class="nav nav-pills flex-column">
-    <li class="nav-item">
-        <NavLink class="nav-link" href="Account/Manage" Match="NavLinkMatch.All">Profile</NavLink>
-    </li>
-    <li class="nav-item">
-        <NavLink class="nav-link" href="Account/Manage/Email">Email</NavLink>
-    </li>
-    <li class="nav-item">
-        <NavLink class="nav-link" href="Account/Manage/ChangePassword">Password</NavLink>
-    </li>
-    @if (hasExternalLogins)
-    {
-        <li class="nav-item">
-            <NavLink class="nav-link" href="Account/Manage/ExternalLogins">External logins</NavLink>
-        </li>
-    }
-    <li class="nav-item">
-        <NavLink class="nav-link" href="Account/Manage/TwoFactorAuthentication">Two-factor authentication</NavLink>
-    </li>
-    <li class="nav-item">
-        <NavLink class="nav-link" href="Account/Manage/Passkeys">Passkeys</NavLink>
-    </li>
-    <li class="nav-item">
-        <NavLink class="nav-link" href="Account/Manage/PersonalData">Personal data</NavLink>
-    </li>
-</ul>
+<MudNavMenu Class="mud-width-full">
+    <MudStack Spacing="1">
+        <MudNavLink Href="Account/Manage" Match="NavLinkMatch.All">Profile</MudNavLink>
+        <MudNavLink Href="Account/Manage/Email" Match="NavLinkMatch.Prefix">Email</MudNavLink>
+        <MudNavLink Href="Account/Manage/ChangePassword" Match="NavLinkMatch.Prefix">Password</MudNavLink>
+            
+        @if (hasExternalLogins)
+        {
+            <MudNavLink Href="Account/Manage/ExternalLogins" Match="NavLinkMatch.Prefix">External logins</MudNavLink>
+        }
+            
+        <MudNavLink Href="Account/Manage/TwoFactorAuthentication" Match="NavLinkMatch.Prefix">Two-factor authentication</MudNavLink>
+@*         <MudNavLink Href="Account/Manage/Passkeys" Match="NavLinkMatch.Prefix">Passkeys</MudNavLink>
+ *@        <MudNavLink Href="Account/Manage/PersonalData" Match="NavLinkMatch.Prefix">Personal data</MudNavLink>
+    </MudStack>
+</MudNavMenu>
 
 @code {
     private bool hasExternalLogins;

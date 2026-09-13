@@ -1,17 +1,19 @@
 @inherits LayoutComponentBase
 @layout TrainTimetable.App.Shared.Layouts.MainLayout
 
-<h1>Manage your account</h1>
-
-<div>
-    <h2>Change your account settings</h2>
-    <hr />
-    <div class="row">
-        <div class="col-lg-3">
-            <ManageNavMenu />
-        </div>
-        <div class="col-lg-9">
-            @Body
-        </div>
-    </div>
-</div>
+<MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Class="mx-3 my-6">
+    <MudText Typo="Typo.h5" Class="mb-6">Manage your account</MudText>
+    <MudGrid>
+        <MudItem md="6" sm="12" xs="12">
+            <MudPaper Elevation="1" Class="pa-5 py-8">
+                <MudText Typo="Typo.h6" Class="mb-5">Change your account settings</MudText>
+                <ManageNavMenu />
+            </MudPaper>
+        </MudItem>
+        <MudItem md="6" sm="12" xs="12">
+            <MudPaper Elevation="1" Class="pa-5 mr-7">
+                @Body
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+</MudContainer>

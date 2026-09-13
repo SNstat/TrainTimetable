@@ -5,11 +5,13 @@
 @inject UserManager<ApplicationUser> UserManager
 @inject SignInManager<ApplicationUser> SignInManager
 @inject IdentityRedirectManager RedirectManager
+@inject NavigationManager NavigationManager
 
 <PageTitle>Two-factor authentication (2FA)</PageTitle>
 
 <StatusMessage />
-<h3>Two-factor authentication (2FA)</h3>
+<MudText Typo="Typo.h6"
+         Class="mb-5">Two-factor authentication (2FA)</MudText>
 @if (canTrack)
 {
     if (is2faEnabled)
@@ -48,15 +50,29 @@
         <a href="Account/Manage/GenerateRecoveryCodes" class="btn btn-primary">Reset recovery codes</a>
     }
 
-    <h4>Authenticator app</h4>
     @if (!hasAuthenticator)
     {
-        <a href="Account/Manage/EnableAuthenticator" class="btn btn-primary">Add authenticator app</a>
+        <MudButton Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   @onclick="@(() => NavigationManager.NavigateTo("Account/Manage/EnableAuthenticator", true))">
+            Add authenticator app
+        </MudButton>
     }
     else
     {
-        <a href="Account/Manage/EnableAuthenticator" class="btn btn-primary">Set up authenticator app</a>
-        <a href="Account/Manage/ResetAuthenticator" class="btn btn-primary">Reset authenticator app</a>
+        <MudStack Row="true">
+            <MudButton Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       @onclick="@(() => NavigationManager.NavigateTo("Account/Manage/EnableAuthenticator", true))">
+                Set up authenticator app
+            </MudButton>
+
+            <MudButton Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       @onclick="@(() => NavigationManager.NavigateTo("Account/Manage/ResetAuthenticator", true))">
+                Reset authenticator app
+            </MudButton>
+        </MudStack>
     }
 }
 else
