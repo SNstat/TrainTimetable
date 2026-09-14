@@ -3,11 +3,14 @@
 <h3>Logout</h3>
 
 @inject NavigationManager NavigationManager
-@inject IAuthenticationSignOutHandler SignOutHandler;
+@inject SignInManager<ApplicationUser> SignInManager
+
+<MudText Typo="Typo.h6">Signing out...</MudText>
 
 @code {
     protected override async Task OnInitializedAsync()
     {
-        //await SignOutHandler.SignOutAsync();
+        await SignInManager.SignOutAsync();
+        NavigationManager.NavigateTo("/Account/Login", true);
     }
 }

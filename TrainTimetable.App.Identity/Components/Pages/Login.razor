@@ -16,6 +16,7 @@
     <MudGrid>
         <MudItem md="6" sm="12" xs="12">
             <MudText Typo="Typo.h4" Class="mb-6">Log in</MudText>
+
             <EditForm EditContext="editContext" method="post" OnSubmit="LoginUser" FormName="login">
                 <DataAnnotationsValidator />
                 <MudPaper Class="pa-8 mr-5" Elevation="2">
@@ -68,7 +69,11 @@
                     </MudStack>
                 </MudPaper>
             </EditForm>
+
+            <MudLink Href="/">Back to home page</MudLink>
+
         </MudItem>
+
         <MudItem md="6" sm="12" xs="12">
             <MudPaper Class="pa-6 mr-8 mt-17">
                 <MudText Typo="Typo.h5">Use another service to log in.</MudText>
