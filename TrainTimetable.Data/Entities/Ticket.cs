@@ -39,9 +39,8 @@ public class Ticket : BaseEntity
     [Required]
     public virtual TicketSchedule TicketSchedule { get; set; }
 
-    /*
     [Required]
-    public int TrainTimetableUserID { get; set; }
-    public required virtual TrainTimetableUser TrainTimetableUser { get; set; }
-    */
+    public string ApplicationUserID { get; set; }
+    [Required]
+    public virtual ApplicationUser ApplicationUser { get; set; }
 }

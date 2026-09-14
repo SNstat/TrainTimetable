@@ -32,7 +32,7 @@
                             <MudIcon Icon="@Icons.Material.Filled.CardTravel" Color="Color.Primary"></MudIcon>
                             <MudText Typo="Typo.button" Color="Color.Primary">Ticket</MudText>
                         </MudStack>
-                        <MudText>There are 60 seats left.</MudText>
+                        <MudText>There are @GetAvailableSeatCount() seats left.</MudText>
                     </MudItem>
                     <MudItem md="6" sm="12" xs="12">
                         <MudButton Color="Color.Primary" Variant="Variant.Filled" Class="ml-7 mt-5 mb-6">Buy Ticket</MudButton>
@@ -68,5 +68,22 @@
     protected override async Task OnParametersSetAsync()
     {
         await Task.CompletedTask;
+    }
+
+    private int GetAvailableSeatCount()
+    {
+        if (context != null)
+        {
+            if (context?.TicketSchedule == null)
+            {
+                return context!.Train!.SeatCount;
+            }
+            else
+            {
+                return context.TicketSchedule.AvailableSeatCount;
+            }
+        }
+
+        return 0;
     }
 }

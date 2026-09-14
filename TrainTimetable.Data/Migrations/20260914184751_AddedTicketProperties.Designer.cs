@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrainTimetable.Data;
 
@@ -11,9 +12,11 @@ using TrainTimetable.Data;
 namespace TrainTimetable.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260914184751_AddedTicketProperties")]
+    partial class AddedTicketProperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -356,10 +359,6 @@ namespace TrainTimetable.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<string>("ApplicationUserID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("ArrivalStationName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -387,8 +386,6 @@ namespace TrainTimetable.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("ApplicationUserID");
 
                     b.HasIndex("TicketScheduleID");
 
@@ -584,19 +581,11 @@ namespace TrainTimetable.Data.Migrations
 
             modelBuilder.Entity("TrainTimetable.Data.Entities.Ticket", b =>
                 {
-                    b.HasOne("TrainTimetable.Data.Entities.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("TrainTimetable.Data.Entities.TicketSchedule", "TicketSchedule")
                         .WithMany("Tickets")
                         .HasForeignKey("TicketScheduleID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("ApplicationUser");
 
                     b.Navigation("TicketSchedule");
                 });

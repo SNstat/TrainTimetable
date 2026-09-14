@@ -20,4 +20,6 @@ public class LineSchedule : BaseEntity
 
     [Required]
     public DrivingDays DriveDays { get; set; } = DrivingDays.NotActive;
+
+    public virtual TicketSchedule? TicketSchedule { get; set; }
 }

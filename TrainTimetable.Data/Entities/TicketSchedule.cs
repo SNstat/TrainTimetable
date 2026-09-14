@@ -13,12 +13,15 @@ public class TicketSchedule : BaseEntity
     [Required]
     public DateOnly Date { get; set; }
 
-    public virtual IEnumerable<Ticket> Tickets { get; set; } = [];
+    public virtual ICollection<Ticket> Tickets { get; set; } = [];
 
     [NotMapped]
-    public int AvailableSeatCount => LineSchedule.Train.SeatCount - Tickets
+    public int ReservedSeatCount => Tickets
         .Where(_ => _.TicketStatus == TicketStatus.Valid || _.TicketStatus == TicketStatus.Used)
         .Sum(_ => _.SeatCount);
+
+    [NotMapped]
+    public int AvailableSeatCount => LineSchedule.Train.SeatCount - ReservedSeatCount;
 
     [NotMapped]
     public bool IsFull => AvailableSeatCount == 0;

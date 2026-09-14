@@ -18,6 +18,8 @@ public record TimetableItem
 
     public bool ShowDetails { get; set; }
 
+    public TicketSchedule? TicketSchedule { get; set; }
+
     // calculated
 
     public TimeSpan? TripDuration => ArrivalTime - DepartureTime;

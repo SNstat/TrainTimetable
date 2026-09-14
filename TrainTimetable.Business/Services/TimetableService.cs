@@ -94,7 +94,8 @@ public class TimetableService(IBaseRepository<LineSchedule> lineScheduleReposito
                     Train = lineSchedule.Train,
                     DepartureTime = departureTime,
                     ArrivalTime = arrivalTime,
-                    Price = (arrivalTime - departureTime).ToPrice()
+                    Price = (arrivalTime - departureTime).ToPrice(),
+                    TicketSchedule = lineSchedule.TicketSchedule
                 });
             }
         }

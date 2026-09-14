@@ -40,7 +40,7 @@
                 <MudTd DataLabel="Departure Station">@context.DepartureStation?.Name</MudTd>
                 <MudTd DataLabel="Arrival Station">@context.ArrivalStation?.Name</MudTd>
                 <MudTd Style="font-weight: bold;" DataLabel="Price">@context.Price.ToDoubleDigit() €</MudTd>
-                <MudTd DataLabel="Seats"><MudText Color="Color.Success">0 / @context.Train?.SeatCount</MudText></MudTd>
+                <MudTd DataLabel="Seats"><MudText Color="Color.Success">@GetReservedSeatCount(context) / @context.Train?.SeatCount</MudText></MudTd>
                 <MudTd>
                     <MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="@(() => ShowBtnPress(context.ID))">@((context.ShowDetails == true) ? "Hide" : "Show")</MudButton>
                 </MudTd>
@@ -100,9 +100,26 @@
     private string GetRoute()
     {
         TimetableItem? item = TimetableItems?.First();
-        
+
         ArgumentNullException.ThrowIfNull(item);
 
         return item.DepartureStation?.Name + " -> " + item.ArrivalStation?.Name;
+    }
+
+    private int GetReservedSeatCount(TimetableItem? timetableItem)
+    {
+        if (timetableItem != null)
+        {
+            if (timetableItem?.TicketSchedule == null)
+            {
+                return 0;
+            }
+            else
+            {
+                return timetableItem.TicketSchedule.ReservedSeatCount;
+            }
+        }
+
+        return 0;
     }
 }
