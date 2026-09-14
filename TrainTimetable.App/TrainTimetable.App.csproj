@@ -9,6 +9,10 @@
   </PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Microsoft.TypeScript.MSBuild">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="MudBlazor" />
 	</ItemGroup>
 
@@ -16,6 +20,10 @@
     <ProjectReference Include="..\TrainTimetable.App.Identity\TrainTimetable.App.Identity.csproj" />
     <ProjectReference Include="..\TrainTimetable.App.Shared\TrainTimetable.App.Shared.csproj" />
     <ProjectReference Include="..\TrainTimetable.Business\TrainTimetable.Business.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Scripts\JsOut\" />
   </ItemGroup>
 
 </Project>

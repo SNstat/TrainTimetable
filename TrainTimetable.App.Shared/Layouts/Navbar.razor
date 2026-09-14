@@ -6,8 +6,13 @@
              Color="Color.Tertiary"
              ActivePanelIndex="_activeIndex">
 
-        <MudTabPanel Text="Home" Icon="@Icons.Material.Filled.Home" OnClick="@(() => NavigationManager.NavigateTo("/"))"/>
-        <MudTabPanel Text="Timetable" Icon="@Icons.Material.Filled.Timelapse" OnClick="@(() => NavigationManager.NavigateTo("/timetable"))" />
+        <MudTabPanel Text="Home"
+                     Icon="@Icons.Material.Filled.Home"
+                     OnClick="@(() => NavigationManager.NavigateTo("/"))"/>
+
+        <MudTabPanel Text="Timetable"
+                     Icon="@Icons.Material.Filled.Timelapse"
+                     OnClick="@(() => NavigationManager.NavigateTo("/timetable"))" />
     </MudTabs>
 </div>
 

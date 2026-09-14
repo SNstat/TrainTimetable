@@ -1,106 +1,156 @@
-﻿@using TrainTimetable.App.Shared.Layouts.Themes
+﻿@using Microsoft.JSInterop
+@using TrainTimetable.App.Shared.Layouts.Themes
 
 @inherits LayoutComponentBase
 
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JS
 
-<MudThemeProvider Theme="_CustomMudTheme" @bind-IsDarkMode="_isDarkMode"/>
-<MudPopoverProvider/>
+<MudThemeProvider Theme="_CustomMudTheme" IsDarkMode="_isDarkMode"/>
+<MudPopoverProvider />
 
 <MudLayout>
-    <div class="appbar">
-
-        @if (!IsAccountRoute)
+    @if (!_isAccountRoute)
+    {
+        if (!_isThemeLoading)
         {
-            <MudAppBar Elevation="1">
+            <div class="appbar">
+                <MudAppBar Elevation="1">
 
-                <MudAvatar Color="Color.Primary"
-                Class="mr-5"
-                @onclick="@(() => NavigationManager.NavigateTo("/", true))"
-                style="cursor: pointer">
-                    <MudIcon Icon="@Icons.Material.Filled.Train"></MudIcon>
-                </MudAvatar>
+                    <MudAvatar Color="Color.Primary"
+                               Class="mr-5"
+                               @onclick="@(() => NavigationManager.NavigateTo("/", true))"
+                               style="cursor: pointer">
+                        <MudIcon Icon="@Icons.Material.Filled.Train" style="max-width: 50px;"></MudIcon>
+                    </MudAvatar>
 
-                <MudText Typo="Typo.h6"
-                @onclick="@(() => NavigationManager.NavigateTo("/"))"
-                style="cursor: pointer"><b>T</b>rains<b>T</b>ime<b>T</b>able</MudText>
+                    <MudText Typo="Typo.h6"
+                             @onclick="@(() => NavigationManager.NavigateTo("/"))"
+                             style="cursor: pointer"><b>T</b>rains<b>T</b>ime<b>T</b>able</MudText>
 
-                <MudSpacer />
+                    <MudSpacer />
 
-                <Navbar/>
+                    <Navbar />
 
-                <MudSpacer />
+                    <MudSpacer />
 
-                <MudToggleIconButton ToggledChanged="ToggleTheme"
-                Icon="@Icons.Material.Filled.DarkMode"
-                Color="@Color.Info"
-                ToggledIcon="@Icons.Material.Filled.LightMode"
-                ToggledColor="@Color.Warning"
-                Class="mr-5" />
+                    <MudToggleIconButton ToggledChanged="ToggleTheme"
+                                         Icon="@Icons.Material.Filled.DarkMode"
+                                         Color="@Color.Info"
+                                         ToggledIcon="@Icons.Material.Filled.LightMode"
+                                         ToggledColor="@Color.Warning"
+                                         Class="mr-5"
+                                         style="max-width: 50px;" />
 
-                <AuthorizeView>
-                    <Authorized>
-                        <MudMenu FullWidth="true" AnchorOrigin="Origin.BottomLeft">
-                            <ActivatorContent Context="menuContext">
-                                <div @onclick="@menuContext.ToggleAsync" style="cursor: pointer">
-                                    <MudAvatar Color="Color.Secondary">
-                                        @context.User?.Identity?.Name?[0].ToString().ToUpper()
-                                    </MudAvatar>
-                                </div>
-                            </ActivatorContent>
-                            <ChildContent>
-                                <MudMenuItem OnClick="@(() => NavigationManager.NavigateTo("/Account/Manage", true))">
-                                    <MudStack Row="true">
-                                        <MudIcon Icon="@Icons.Material.Outlined.Edit"></MudIcon>
-                                        Manage Profile
-                                    </MudStack>
-                                </MudMenuItem>
-                                <MudMenuItem OnClick="@(() => NavigationManager.NavigateTo("/Account/Logout", true))">
-                                    <MudStack Row="true">
-                                        <MudIcon Icon="@Icons.Material.Outlined.Logout"></MudIcon>
-                                        Sign Out
-                                    </MudStack>
-                                </MudMenuItem>
-                            </ChildContent>
-                        </MudMenu>
-                    </Authorized>
-                    <NotAuthorized>
-                        <MudButton OnClick="@(() => NavigationManager.NavigateTo("/Account/Login", true))"
-                        Color="Color.Primary"
-                        Variant="Variant.Filled">
-                            Login
-                        </MudButton>
-                    </NotAuthorized>
-                </AuthorizeView>
+                    <AuthorizeView>
+                        <Authorized>
+                            <MudMenu FullWidth="true" AnchorOrigin="Origin.BottomLeft">
+                                <ActivatorContent Context="menuContext">
+                                    <div @onclick="@menuContext.ToggleAsync" style="cursor: pointer">
+                                        <MudAvatar Color="Color.Secondary">
+                                            @context.User?.Identity?.Name?[0].ToString().ToUpper()
+                                        </MudAvatar>
+                                    </div>
+                                </ActivatorContent>
+                                <ChildContent>
+                                    <MudMenuItem OnClick="@(() => NavigationManager.NavigateTo("/Account/Manage", true))">
+                                        <MudStack Row="true">
+                                            <MudIcon Icon="@Icons.Material.Outlined.Edit"></MudIcon>
+                                            Manage Profile
+                                        </MudStack>
+                                    </MudMenuItem>
+                                    <MudMenuItem OnClick="@(() => NavigationManager.NavigateTo("/Account/Logout", true))">
+                                        <MudStack Row="true">
+                                            <MudIcon Icon="@Icons.Material.Outlined.Logout"></MudIcon>
+                                            Sign Out
+                                        </MudStack>
+                                    </MudMenuItem>
+                                </ChildContent>
+                            </MudMenu>
+                        </Authorized>
+                        <NotAuthorized>
+                            <MudButton OnClick="@(() => NavigationManager.NavigateTo("/Account/Login", true))"
+                                       Color="Color.Primary"
+                                       Variant="Variant.Filled">
+                                Login
+                            </MudButton>
+                        </NotAuthorized>
+                    </AuthorizeView>
 
-                <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" OnClick="@((e) => DrawerToggle())" />
-            </MudAppBar>
+                    <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" OnClick="@((e) => DrawerToggle())" />
+                </MudAppBar>
+            </div>
+            <MudDrawer Anchor="Anchor.End" @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
+
+            </MudDrawer>
+
+            <MudMainContent>
+                @Body
+            </MudMainContent>
         }
-    </div>
-    <MudDrawer Anchor="Anchor.End" @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
-        
-    </MudDrawer>
-    <MudMainContent>
-        @Body
-    </MudMainContent>
+    }
+    else
+    {
+        <MudGrid Class="pa-2">
+            <MudItem md="12" Class="mt-1">
+                <a Href="/" Underline="Underline.None" Color="Color.Inherit">
+                    <MudStack Row="true">
+                        <MudAvatar Class="ml-2">
+                            <MudIcon Icon="@Icons.Material.Filled.ArrowBack"></MudIcon>
+                        </MudAvatar>
+
+                        <MudText Typo="Typo.h6" Class="mt-1">
+                            <b>T</b>rains<b>T</b>ime<b>T</b>able
+                        </MudText>
+                    </MudStack>
+                </a>
+            </MudItem>
+        </MudGrid>
+
+        <MudMainContent Class="pt-0">
+            @Body
+        </MudMainContent>
+    }
 </MudLayout>
 
-@code {
+    @code {
+    [CascadingParameter(Name = "IsDarkMode")]
+    public bool HttpContextIsDarkTheme { get; set; }
+
     private CustomMudTheme _CustomMudTheme = new CustomMudTheme();
 
     private bool _drawerOpen = false;
 
     private bool _isDarkMode = false;
 
-    private bool IsAccountRoute => NavigationManager.Uri.Contains("/Account");
+    private bool _isThemeLoading = true;
+
+    private bool _isAccountRoute => NavigationManager.Uri.Contains("/Account");
 
     private void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
     }
 
-    private void ToggleTheme()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            var value = await JS.InvokeAsync<bool>("TrainTimetableScripts.ThemeCookies.GetThemeCookie");
+            _isDarkMode = value;
+            _isThemeLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task ToggleTheme()
     {
         _isDarkMode = !_isDarkMode;
+        await JS.InvokeVoidAsync("TrainTimetableScripts.ThemeCookies.SetThemeCookie", _isDarkMode);
+    }
+
+    protected override void OnInitialized()
+    {
+        _isDarkMode = HttpContextIsDarkTheme;
     }
 }

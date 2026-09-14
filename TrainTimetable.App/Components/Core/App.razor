@@ -19,10 +19,14 @@
 </head>
 
 <body>
-    <Routes @rendermode="PageRenderMode" />
+    <CascadingValue Value="IsDarkMode" Name="IsDarkMode">
+        <Routes @rendermode="PageRenderMode"/>
+    </CascadingValue>
+
     <ReconnectModal />
     <script src="@Assets["_framework/blazor.web.js"]"></script>
     <script src="@Assets["_content/MudBlazor/MudBlazor.min.js"]"></script>
+    <script src="@Assets["Scripts/JsOut/Cookies.js"]"></script>
 </body>
 
 </html>
@@ -31,6 +35,16 @@
     [CascadingParameter]
     private HttpContext HttpContext { get; set; } = default!;
 
+    private bool IsDarkMode { get; set; }
+
     private IComponentRenderMode? PageRenderMode =>
         HttpContext.AcceptsInteractiveRouting() ? InteractiveServer : null;
+
+    protected override void OnInitialized()
+    {
+        if (HttpContext.Request.Cookies.TryGetValue("IsDarkMode", out string? value))
+        {
+            IsDarkMode = value == "true";
+        }
+    }
 }
