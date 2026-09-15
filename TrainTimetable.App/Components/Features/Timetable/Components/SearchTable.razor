@@ -35,8 +35,8 @@
             </HeaderContent>
             <RowTemplate>
                 <MudTd DataLabel="Train Number">@context.Train?.TrainNumber</MudTd>
-                <MudTd Style="font-weight: bold;" DataLabel="Departure Time">@context.DepartureTime?.ToString("HH:mm")</MudTd>
-                <MudTd Style="font-weight: bold;" DataLabel="Arrival Time">@context.ArrivalTime?.ToString("HH:mm")</MudTd>
+                <MudTd Style="font-weight: bold;" DataLabel="Departure Time">@context.DepartureTime.ToString("HH:mm")</MudTd>
+                <MudTd Style="font-weight: bold;" DataLabel="Arrival Time">@context.ArrivalTime.ToString("HH:mm")</MudTd>
                 <MudTd DataLabel="Duration">@context.TripDuration</MudTd>
                 <MudTd DataLabel="Departure Station">@context.DepartureStation?.Name</MudTd>
                 <MudTd DataLabel="Arrival Station">@context.ArrivalStation?.Name</MudTd>

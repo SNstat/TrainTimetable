@@ -14,10 +14,10 @@ public enum TicketStatus
 public class Ticket : BaseEntity
 {
     [Required]
-    public Station DepartureStation { get; set; }
+    public string DepartureStationName { get; set; }
 
     [Required]
-    public Station ArrivalStation { get; set; }
+    public string ArrivalStationName { get; set; }
 
     [Required]
     public DateTime DepartureTime { get; set; }

@@ -42,8 +42,8 @@ public class TicketService(IBaseRepository<TicketSchedule> ticketScheduleReposit
 
         var ticket = new Ticket()
         {
-            DepartureStation = timetableItem.FirstStop!.Station,
-            ArrivalStation = timetableItem.LastStop!.Station,
+            DepartureStationName = timetableItem.FirstStop!.Station.Name,
+            ArrivalStationName = timetableItem.LastStop!.Station.Name,
             DepartureTime = timetableItem.DepartureTime,
             ArrivalTime = timetableItem.DepartureTime,
             SeatCount = seatCount,

@@ -33,7 +33,8 @@ public class TimetableServiceTests
     {
         // Arrange
         var repository = new FakeBaseRepository<LineSchedule>();
-        var TimetableServiceTests = new TimetableService(repository);
+        var pricing = new PricingService();
+        var TimetableServiceTests = new TimetableService(repository, pricing);
 
         int departureStationId = 1;
         int arrivalStationId = 2;
@@ -53,7 +54,8 @@ public class TimetableServiceTests
     {
         // Arrange
         var repository = new FakeBaseRepository<LineSchedule>();
-        var TimetableServiceTests = new TimetableService(repository);
+        var pricing = new PricingService();
+        var TimetableServiceTests = new TimetableService(repository, pricing);
 
         int departureStationId = _departureStationID;
         int arrivalStationId = _arrivalStationId;

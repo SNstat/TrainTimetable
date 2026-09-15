@@ -87,7 +87,7 @@ public class TimetableService(IBaseRepository<LineSchedule> lineScheduleReposito
                 if (currentDateTime > departureTime) // Skips the schedules that have passed today at the specific departure station
                     continue;
 
-                var price = await pricingService.CalculatePrice(arrivalTime - departureTime);
+                var price = pricingService.CalculatePrice(arrivalTime - departureTime);
 
                 timetableItems.Add(new()
                 {
