@@ -9,11 +9,16 @@ public static class BusinessModule
 {
     public static IServiceCollection AddBusinessModule(this IServiceCollection services) {
         services.AddScoped<IBaseRepository<Train>, BaseRepository<Train>>();
-        services.AddScoped<ITrainService, TrainService>();
         services.AddScoped<IBaseRepository<LineSchedule>, BaseRepository<LineSchedule>>();
-        services.AddScoped<ITimetableService, TimetableService>();
         services.AddScoped<IBaseRepository<Station>, BaseRepository<Station>>();
+        services.AddScoped<IBaseRepository<Ticket>, BaseRepository<Ticket>>();
+        services.AddScoped<IBaseRepository<TicketSchedule>, BaseRepository<TicketSchedule>>();
+
+        services.AddScoped<ITrainService, TrainService>();
+        services.AddScoped<ITimetableService, TimetableService>();
         services.AddScoped<IStationService, StationService>();
+        services.AddScoped<ITicketService, TicketService>();
+        services.AddScoped<IPricingService, PricingService>();
 
         return services;
     }

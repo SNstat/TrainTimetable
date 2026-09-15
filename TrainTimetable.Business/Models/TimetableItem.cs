@@ -10,15 +10,17 @@ public record TimetableItem
 
     public Train? Train { get; set; }
 
-    public DateTime? DepartureTime { get; set; }
+    public DateTime DepartureTime { get; set; }
 
-    public DateTime? ArrivalTime { get; set; }
+    public DateTime ArrivalTime { get; set; }
 
     public decimal Price { get; set; } = 0;
 
     public bool ShowDetails { get; set; }
 
-    public TicketSchedule? TicketSchedule { get; set; }
+    public LineSchedule? LineSchedule { get; set; }
+
+    public TicketSchedule? TicketSchedule => LineSchedule?.TicketSchedule;
 
     // calculated
 

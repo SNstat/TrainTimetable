@@ -1,7 +1,8 @@
 ﻿@using TrainTimetable.Business.Models
 @using TrainTimetable.Business.Services
 
-@inject ITimetableService timetableService
+@inject ITimetableService TimetableService
+@inject IPricingService PricingService
 
 @if (SearchModel != null && TimetableItems != null)
 {
@@ -39,7 +40,7 @@
                 <MudTd DataLabel="Duration">@context.TripDuration</MudTd>
                 <MudTd DataLabel="Departure Station">@context.DepartureStation?.Name</MudTd>
                 <MudTd DataLabel="Arrival Station">@context.ArrivalStation?.Name</MudTd>
-                <MudTd Style="font-weight: bold;" DataLabel="Price">@context.Price.ToDoubleDigit() €</MudTd>
+                <MudTd Style="font-weight: bold;" DataLabel="Price">@PricingService.DoubleDigit(context.Price) €</MudTd>
                 <MudTd DataLabel="Seats"><MudText Color="Color.Success">@GetReservedSeatCount(context) / @context.Train?.SeatCount</MudText></MudTd>
                 <MudTd>
                     <MudButton Variant="Variant.Outlined" Size="Size.Small" OnClick="@(() => ShowBtnPress(context.ID))">@((context.ShowDetails == true) ? "Hide" : "Show")</MudButton>
@@ -82,7 +83,7 @@
 
             if (depId > 0 && arrId > 0)
             {
-                TimetableItems = await timetableService.FetchLineItemsAsync(depId, arrId, date);
+                TimetableItems = await TimetableService.FetchLineItemsAsync(depId, arrId, date);
             }
         }
     }

@@ -12,7 +12,7 @@ public interface ITimetableService
     Task<IEnumerable<TimetableItem>> FetchLineItemsAsync(int departureStationID, int arrivalStationID, DateOnly date);
 }
 
-public class TimetableService(IBaseRepository<LineSchedule> lineScheduleRepository) : ITimetableService
+public class TimetableService(IBaseRepository<LineSchedule> lineScheduleRepository, IPricingService pricingService) : ITimetableService
 {
     private readonly IBaseRepository<LineSchedule> _lineScheduleRepository = lineScheduleRepository;
 
@@ -87,6 +87,8 @@ public class TimetableService(IBaseRepository<LineSchedule> lineScheduleReposito
                 if (currentDateTime > departureTime) // Skips the schedules that have passed today at the specific departure station
                     continue;
 
+                var price = await pricingService.CalculatePrice(arrivalTime - departureTime);
+
                 timetableItems.Add(new()
                 {
                     ID = lineSchedule.ID,
@@ -94,8 +96,8 @@ public class TimetableService(IBaseRepository<LineSchedule> lineScheduleReposito
                     Train = lineSchedule.Train,
                     DepartureTime = departureTime,
                     ArrivalTime = arrivalTime,
-                    Price = (arrivalTime - departureTime).ToPrice(),
-                    TicketSchedule = lineSchedule.TicketSchedule
+                    Price = price,
+                    LineSchedule = lineSchedule
                 });
             }
         }
