@@ -136,9 +136,12 @@
     {
         if (firstRender)
         {
-            var value = await JS.InvokeAsync<bool>("TrainTimetableScripts.ThemeCookies.GetThemeCookie");
-            _isDarkMode = value;
+            await Task.Delay(1);
+
+            _isDarkMode = await JS.InvokeAsync<bool>("TrainTimetableScripts.ThemeCookies.GetThemeCookie");
+            
             _isThemeLoading = false;
+
             StateHasChanged();
         }
     }

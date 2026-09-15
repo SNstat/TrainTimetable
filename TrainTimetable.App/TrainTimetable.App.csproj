@@ -22,8 +22,4 @@
     <ProjectReference Include="..\TrainTimetable.Business\TrainTimetable.Business.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\Scripts\JsOut\" />
-  </ItemGroup>
-
 </Project>
