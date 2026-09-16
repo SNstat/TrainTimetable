@@ -9,16 +9,19 @@
 
 <PageTitle>Confirm email</PageTitle>
 
-<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-5">
-    <MudText Typo="Typo.h5" Class="mb-3">Confirm email</MudText>
-    <StatusMessage Message="@statusMessage" />
-    <MudButton Variant="Variant.Filled"
-               Color="Color.Primary"
-               Class="mt-3"
-               @onclick="@(() => NavigationManager.NavigateTo("/Account/Login", true))">
-        Go to login
-    </MudButton>
-</MudContainer>
+<MudStack Class="px-8 py-5" Row="true">
+    <MudIcon Color="Color.Primary" Icon="@Icons.Material.Filled.Check" Size="Size.Large"></MudIcon>
+    <MudStack>
+        <MudText Typo="Typo.h5" Class="mt-1" Color="Color.Primary">Confirm email</MudText>
+        <MudText><StatusMessage Message="@statusMessage"/></MudText>
+        <a href="/">
+            <MudButton Variant="Variant.Filled"
+                       Color="Color.Primary">
+                Go to login
+            </MudButton>
+        </a>
+    </MudStack>
+</MudStack>
 
 @code {
     private string? statusMessage;

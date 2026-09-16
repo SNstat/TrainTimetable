@@ -22,4 +22,11 @@
     <ProjectReference Include="..\TrainTimetable.Business\TrainTimetable.Business.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+	<Content Remove="wwwroot\scripts\out\**" />
+	<None Include="wwwroot\scripts\out\**">
+		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</None>
+  </ItemGroup>
+
 </Project>
