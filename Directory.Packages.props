@@ -4,7 +4,7 @@
   </PropertyGroup>
   <ItemGroup Label="MudBlazor">
     <PackageVersion Include="Microsoft.TypeScript.MSBuild" Version="7.0.1" />
-    <PackageVersion Include="MudBlazor" Version="9.9.0" />
+    <PackageVersion Include="MudBlazor" Version="9.10.0" />
   </ItemGroup>
   <ItemGroup Label="BlazorIdentity">
     <PackageVersion Include="Microsoft.AspNetCore.Authorization" Version="10.0.12" />
