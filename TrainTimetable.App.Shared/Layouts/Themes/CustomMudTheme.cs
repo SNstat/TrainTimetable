@@ -13,7 +13,8 @@ public class CustomMudTheme : MudTheme
             AppbarBackground = "#071e22",
             Background = "#eeeeee",
             Surface = "#ffffff",
-            Tertiary = "#071e22"
+            Tertiary = "#071e22",
+            DrawerBackground = "#F2F7F7"
         };
 
         PaletteDark = new PaletteDark()
@@ -24,7 +25,7 @@ public class CustomMudTheme : MudTheme
             Background = "#111827",
             Surface = "#1f2937",
             Tertiary = "#1f2937",
-            DrawerBackground = "#1f2937"
+            DrawerBackground = "#1E2530"
         };
 
         Typography = new Typography()
