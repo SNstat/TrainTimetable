@@ -1,11 +1,15 @@
 ﻿@using TrainTimetable.Business.Models
+@using TrainTimetable.Business.Services
 @using TrainTimetable.Data.Entities
+
+@inject NavigationManager NavigationManager
+@inject IEntityNavigationService<TimetableItem> EntityNavigationService
 
 @if (context != null)
 {
     <MudGrid>
         <MudItem md="4" sm="12" xs="12">
-            <MudPaper Elevation="1" Class="px-5 py-4">
+            <MudPaper Elevation="1" Class="px-5 py-4" Style="background-color: var(--mud-palette-drawer-background);">
                 <MudStack Row="true" Class="mb-2">
                     <MudIcon Icon="@Icons.Material.Filled.Train" Color="Color.Primary"></MudIcon>
                     <MudText Typo="Typo.button" Color="Color.Primary">Train</MudText>
@@ -15,7 +19,7 @@
             </MudPaper>
         </MudItem>
         <MudItem md="4" sm="12" xs="12">
-            <MudPaper Elevation="1" Class="px-5 py-4">
+            <MudPaper Elevation="1" Class="px-5 py-4" Style="background-color: var(--mud-palette-drawer-background);">
                 <MudStack Row="true" Class="mb-2">
                     <MudIcon Icon="@Icons.Material.Filled.WheelchairPickup" Color="Color.Primary"></MudIcon>
                     <MudText Typo="Typo.button" Color="Color.Primary">Facilities</MudText>
@@ -25,17 +29,23 @@
             </MudPaper>
         </MudItem>
         <MudItem md="4" sm="12" xs="12">
-            <MudPaper Elevation="1" Class="px-5 py-4">
+            <MudPaper Elevation="1" Class="px-5 py-4" Style="background-color: var(--mud-palette-drawer-background);">
                 <MudGrid>
                     <MudItem md="6" sm="12" xs="12">
                         <MudStack Row="true" Class="mb-2">
                             <MudIcon Icon="@Icons.Material.Filled.CardTravel" Color="Color.Primary"></MudIcon>
                             <MudText Typo="Typo.button" Color="Color.Primary">Ticket</MudText>
                         </MudStack>
-                        <MudText>There are @GetAvailableSeatCount() seats left.</MudText>
+
+                        @if (availableSeatCount > 0) {
+                            <MudText>There are @availableSeatCount seats left.</MudText>
+                        } else
+                        {
+                            <MudText Color="Color.Error">There are no seats left.</MudText>
+                        }
                     </MudItem>
                     <MudItem md="6" sm="12" xs="12">
-                        <MudButton Color="Color.Primary" Variant="Variant.Filled" Class="ml-7 mt-5 mb-6">Buy Ticket</MudButton>
+                        <MudButton Color="Color.Primary" Variant="Variant.Filled" Class="ml-7 mt-5 mb-6" OnClick="BuyTicket">Buy Ticket</MudButton>
                     </MudItem>
                 </MudGrid>
             </MudPaper>
@@ -65,6 +75,8 @@
     [Parameter]
     public TimetableItem? context { get; set; }
 
+    private int availableSeatCount => GetAvailableSeatCount(); 
+
     protected override async Task OnParametersSetAsync()
     {
         await Task.CompletedTask;
@@ -85,5 +97,11 @@
         }
 
         return 0;
+    }
+
+    private void BuyTicket()
+    {
+        EntityNavigationService.Entity = context;
+        NavigationManager.NavigateTo("/booking");
     }
 }

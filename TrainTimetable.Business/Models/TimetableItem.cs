@@ -10,21 +10,25 @@ public record TimetableItem
 
     public Train? Train { get; set; }
 
+    public DateOnly LineStartDate { get; set; }
+
     public DateTime DepartureTime { get; set; }
 
     public DateTime ArrivalTime { get; set; }
 
-    public decimal Price { get; set; } = 0;
+    public int SeatCount { get; set; }
+
+    public decimal Price { get; set; }
 
     public bool ShowDetails { get; set; }
 
     public LineSchedule? LineSchedule { get; set; }
 
-    public TicketSchedule? TicketSchedule => LineSchedule?.TicketSchedule;
+    public TicketSchedule? TicketSchedule { get; set; }
 
     // calculated
 
-    public TimeSpan? TripDuration => ArrivalTime - DepartureTime;
+    public TimeSpan TripDuration => ArrivalTime - DepartureTime;
 
     public Stop? FirstStop => Stops?.MinBy(_ => _.Order);
 

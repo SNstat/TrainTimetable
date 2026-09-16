@@ -1,0 +1,56 @@
+﻿@using TrainTimetable.Data.Entities
+@using TrainTimetable.Business.Services
+
+@inject IPaymentService PaymentService
+
+<MudPaper Class="ma-6" 
+              Style="background-color: var(--mud-palette-drawer-background);
+                     border-radius: 20px;
+                     overflow: hidden;"
+              Outlined="true">
+
+    <div class="OfferHeader"/>
+
+    <div class="OfferContent">
+        <MudStack>
+            <MudText Typo="Typo.h5">Ticket offer</MudText>
+            <MudText Style="white-space: pre-line;">@TicketInfo</MudText>
+            <MudDivider Class="my-2"></MudDivider>
+            <MudText>Reserved seat count: <b>@SeatCount</b></MudText>
+            <MudText>Price per seat: <b>@pricePerSeat €</b></MudText>
+            <MudDivider Class="my-2"></MudDivider>
+            <MudText>Active discounts on <b>@UserType.ToString()</b> users: <b>@GetDiscountPercentage()</b> </MudText>
+            <MudText>Full price with discounts: <b>@fullPriceWithDiscounts €</b></MudText>
+        </MudStack>
+    </div>
+</MudPaper>
+
+@code {
+    [Parameter]
+    public string? TicketInfo { get; set; }
+
+    [Parameter]
+    public int SeatCount { get; set; }
+
+    [Parameter]
+    public UserType UserType { get; set; }
+
+    [Parameter]
+    public TimeSpan TripDuration { get; set; }
+
+    private string pricePerSeat =>
+        PaymentService.DoubleDigit(
+            PaymentService.CalculatePrice(TripDuration, 1));
+
+    private string fullPriceWithDiscounts => 
+        PaymentService.DoubleDigit(
+            PaymentService.ApplyDiscount(
+                PaymentService.CalculatePrice(TripDuration, SeatCount), UserType));
+
+    private string GetDiscountPercentage()
+    {
+        var discount = 100 * PaymentService.Discounts.GetValueOrDefault(UserType);
+
+        return "- " + discount.ToString("F2") + " %";
+    }
+}

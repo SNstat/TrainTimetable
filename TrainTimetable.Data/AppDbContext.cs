@@ -50,7 +50,9 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             .Property(_ => _.ID)
             .ValueGeneratedNever();
 
-        builder.Entity<TrainManufacturer>().HasIndex(_ => _.Name).IsUnique();
+        builder.Entity<TrainManufacturer>()
+            .HasIndex(_ => _.Name)
+            .IsUnique();
 
         builder.Entity<Train>(_ =>
         {
@@ -58,9 +60,13 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             _.HasIndex(_ => _.Name).IsUnique();
         });
 
-        builder.Entity<Country>().HasIndex(_ => _.Name).IsUnique();
+        builder.Entity<Country>()
+            .HasIndex(_ => _.Name)
+            .IsUnique();
 
-        builder.Entity<Station>().HasIndex(_ => _.Name).IsUnique();
+        builder.Entity<Station>()
+            .HasIndex(_ => _.Name)
+            .IsUnique();
 
         builder.Entity<Stop>(_ =>
         {
@@ -68,7 +74,9 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             _.HasIndex(x => new { x.LineID, x.StationID }).IsUnique();
         });
 
-        builder.Entity<TicketSchedule>().HasIndex(_ => new { _.LineScheduleID, _.Date }).IsUnique();
+        builder.Entity<TicketSchedule>()
+            .HasIndex(_ => new { _.LineScheduleID, _.Date })
+            .IsUnique();
 
         base.OnModelCreating(builder);
     }

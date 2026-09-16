@@ -33,7 +33,7 @@ public class TimetableServiceTests
     {
         // Arrange
         var repository = new FakeBaseRepository<LineSchedule>();
-        var pricing = new PricingService();
+        var pricing = new PaymentService();
         var TimetableServiceTests = new TimetableService(repository, pricing);
 
         int departureStationId = 1;
@@ -41,7 +41,7 @@ public class TimetableServiceTests
         var date = CorrectDate;
 
         // Act
-        var method = async () => await TimetableServiceTests.FetchLineItemsAsync(departureStationId, arrivalStationId, date);
+        var method = async () => await TimetableServiceTests.FetchTimetableItemsAsync(departureStationId, arrivalStationId, date, 1);
         IEnumerable<TimetableItem> list = await method();
         
         // Assert
@@ -54,7 +54,7 @@ public class TimetableServiceTests
     {
         // Arrange
         var repository = new FakeBaseRepository<LineSchedule>();
-        var pricing = new PricingService();
+        var pricing = new PaymentService();
         var TimetableServiceTests = new TimetableService(repository, pricing);
 
         int departureStationId = _departureStationID;
@@ -62,7 +62,7 @@ public class TimetableServiceTests
         var date = _date;
 
         // Act
-        var method = async () => await TimetableServiceTests.FetchLineItemsAsync(departureStationId, arrivalStationId, date);
+        var method = async () => await TimetableServiceTests.FetchTimetableItemsAsync(departureStationId, arrivalStationId, date, 1);
 
         // Assert
         await Assert.ThrowsAsync<ApplicationException>(method);

@@ -359,10 +359,6 @@ namespace TrainTimetable.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<string>("ApplicationUserID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("ArrivalStationName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -377,6 +373,9 @@ namespace TrainTimetable.Data.Migrations
                     b.Property<DateTime>("DepartureTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("PaymentMethod")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -389,11 +388,15 @@ namespace TrainTimetable.Data.Migrations
                     b.Property<int>("TicketStatus")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("ID");
 
-                    b.HasIndex("ApplicationUserID");
-
                     b.HasIndex("TicketScheduleID");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Tickets");
                 });
@@ -406,16 +409,13 @@ namespace TrainTimetable.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
 
                     b.Property<int>("LineScheduleID")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("LineScheduleID")
-                        .IsUnique();
 
                     b.HasIndex("LineScheduleID", "Date")
                         .IsUnique();
@@ -587,19 +587,17 @@ namespace TrainTimetable.Data.Migrations
 
             modelBuilder.Entity("TrainTimetable.Data.Entities.Ticket", b =>
                 {
-                    b.HasOne("TrainTimetable.Data.Entities.ApplicationUser", "ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("ApplicationUserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("TrainTimetable.Data.Entities.TicketSchedule", "TicketSchedule")
                         .WithMany("Tickets")
                         .HasForeignKey("TicketScheduleID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ApplicationUser");
+                    b.HasOne("TrainTimetable.Data.Entities.ApplicationUser", null)
+                        .WithMany("Tickets")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("TicketSchedule");
                 });
@@ -607,8 +605,8 @@ namespace TrainTimetable.Data.Migrations
             modelBuilder.Entity("TrainTimetable.Data.Entities.TicketSchedule", b =>
                 {
                     b.HasOne("TrainTimetable.Data.Entities.LineSchedule", "LineSchedule")
-                        .WithOne("TicketSchedule")
-                        .HasForeignKey("TrainTimetable.Data.Entities.TicketSchedule", "LineScheduleID")
+                        .WithMany("TicketSchedules")
+                        .HasForeignKey("LineScheduleID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -626,6 +624,11 @@ namespace TrainTimetable.Data.Migrations
                     b.Navigation("TrainManufacturer");
                 });
 
+            modelBuilder.Entity("TrainTimetable.Data.Entities.ApplicationUser", b =>
+                {
+                    b.Navigation("Tickets");
+                });
+
             modelBuilder.Entity("TrainTimetable.Data.Entities.Line", b =>
                 {
                     b.Navigation("LineSchedules");
@@ -635,7 +638,7 @@ namespace TrainTimetable.Data.Migrations
 
             modelBuilder.Entity("TrainTimetable.Data.Entities.LineSchedule", b =>
                 {
-                    b.Navigation("TicketSchedule");
+                    b.Navigation("TicketSchedules");
                 });
 
             modelBuilder.Entity("TrainTimetable.Data.Entities.TicketSchedule", b =>

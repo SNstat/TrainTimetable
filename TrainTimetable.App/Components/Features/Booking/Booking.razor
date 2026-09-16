@@ -1,0 +1,238 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using TrainTimetable.App.Components.Features.Booking.Components
+@using TrainTimetable.Business.Models
+@using TrainTimetable.Business.Services
+@using TrainTimetable.Data.Entities
+
+@page "/booking"
+
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+@inject UserManager<ApplicationUser> UserManager
+
+@inject ITicketService TicketService
+@inject IEntityNavigationService<TimetableItem> EntityNavigationService
+@inject IPaymentService PaymentService
+
+<PageTitle>Ticket Booking</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge">
+    <MudPaper Class="ma-20 pa-5">
+        <MudText Typo="Typo.h5">Ticket Booking</MudText>
+        @if (!_loadingPayment)
+        {
+            <MudStepper @bind-ActiveIndex="_activeIndex">
+                <MudStep Title="Account" Disabled="hasPayed" Completed="hasPayed">
+                    <MudContainer MaxWidth="MaxWidth.ExtraLarge">
+                        <AuthorizeView>
+                            <Authorized>
+                                <MudText Class="mb-3 mt-4">You're signed in as: </MudText>
+
+                                <MudMenu>
+                                    <ActivatorContent Context="menuContext">
+                                        <MudPaper Outlined="true"
+                                                  @onclick="@menuContext.ToggleAsync"
+                                                  style="width: fit-content; background-color: var(--mud-palette-drawer-background);"
+                                                  Class="py-3 px-5">
+                                            <MudStack Row="true">
+                                                <MudAvatar Color="Color.Secondary">
+                                                    @context.User?.Identity?.Name?[0].ToString().ToUpper()
+                                                </MudAvatar>
+                                                <MudText Typo="Typo.h6" style="font-weight: 400;" Class="mt-1">
+                                                    @context.User?.Identity?.Name
+                                                </MudText>
+                                            </MudStack>
+                                        </MudPaper>
+                                    </ActivatorContent>
+                                    <ChildContent>
+                                        <MudMenuItem OnClick="@(() => NavigationManager.NavigateTo("/Account/Logout", true))">
+                                            <MudStack Row="true">
+                                                <MudIcon Icon="@Icons.Material.Outlined.Logout"></MudIcon>
+                                                Use different account
+                                            </MudStack>
+                                        </MudMenuItem>
+                                    </ChildContent>
+                                </MudMenu>
+
+                                <MudStack Row="true" Class="mt-8 mb-5">
+                                    @if (!hasTicket)
+                                    {
+                                        <MudIcon Color="Color.Success" Icon="@Icons.Material.Outlined.Check"></MudIcon>
+                                        <MudText Color="Color.Success">You have no ticket for this route.</MudText>
+                                    }
+                                    else
+                                    {
+                                        <MudIcon Color="Color.Warning" Icon="@Icons.Material.Outlined.Warning"></MudIcon>
+                                        <MudText Color="Color.Warning">You already have a ticket for this route.</MudText>
+                                    }
+                                </MudStack>
+
+                            </Authorized>
+                            <NotAuthorized>
+                                <MudText Class="mb-3">You're not signed in: </MudText>
+
+                                <MudButton @onclick="@(() => NavigationManager.NavigateTo("/Account/Login", true))"
+                                           Variant="Variant.Filled"
+                                           Color="Color.Primary"
+                                           EndIcon="@Icons.Material.Filled.Logout"
+                                           Class="mt-5">
+                                    Log in
+                                </MudButton>
+                            </NotAuthorized>
+                        </AuthorizeView>
+                    </MudContainer>
+                </MudStep>
+                <MudStep Title="Ticket" SecondaryText="Details" Disabled="!isAuthorized || hasPayed" Completed="hasPayed">
+                    <MudContainer MaxWidth="MaxWidth.ExtraLarge">
+                        <MudGrid>
+                            <MudItem md="6" sm="12" xs="12">
+                                <MudText Class="mb-3 mt-4">There are <MudText Inline="true" style="font-weight: bold;" Color="Color.Primary">@availableSeatCount</MudText> available seats.</MudText>
+
+                                <MudNumericField @bind-Value="SeatCount"
+                                                 Class="mt-6"
+                                                 Label="Seat Count"
+                                                 Variant="Variant.Outlined"
+                                                 Min="1"
+                                                 Max="@availableSeatCount"
+                                                 style="width: 350px;"
+                                                 AdornmentIcon="@Icons.Material.Filled.People" />
+
+                                <SeatDots Total="timetableItem!.Train!.SeatCount"
+                                          Reserved="(timetableItem!.Train!.SeatCount - availableSeatCount)"
+                                          Chosen="SeatCount" />
+
+                            </MudItem>
+                            <MudItem md="6" sm="12" xs="12">
+                                <TicketOffer SeatCount="SeatCount"
+                                             UserType="applicationUser!.UserType"
+                                             TripDuration="timetableItem!.TripDuration"
+                                             TicketInfo="@TicketInfo()" />
+                            </MudItem>
+                        </MudGrid>
+                    </MudContainer>
+                </MudStep>
+                <MudStep Title="Payment" Disabled="hasPayed" Completed="hasPayed">
+                    <MudContainer MaxWidth="MaxWidth.ExtraLarge">
+                        <MudGrid>
+                            <MudItem md="6" sm="12" xs="12">
+                                <MudText Class="mb-3 mt-4">Select one of the following payment options:</MudText>
+                                <PaymentPanel OnPayment="HandlePayment" />
+                            </MudItem>
+
+                            <MudItem md="6" sm="12" xs="12">
+                                <TicketOffer SeatCount="SeatCount"
+                                             UserType="applicationUser!.UserType"
+                                             TripDuration="timetableItem!.TripDuration"
+                                             TicketInfo="@TicketInfo()" />
+                            </MudItem>
+                        </MudGrid>
+                    </MudContainer>
+                </MudStep>
+                <MudStep Title="Checkout" Disabled="!hasPayed" Completed="hasPayed">
+                    <MudText Typo="Typo.h6" Class="ma-5">You have succesfully bought the ticket!</MudText>
+                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large" @onclick="@(() => NavigationManager.NavigateTo("/", true))">
+                        Go to home
+                    </MudButton>
+                </MudStep>
+            </MudStepper>
+        } else
+        {
+            <div class="d-flex flex-column align-center justify-center pa-8" style="min-height: 300px;">
+                <MudText Color="Color.Primary" Typo="Typo.h5" Class="mb-2">
+                    Payment is in progress.
+                </MudText>
+                <MudText Class="mb-4 my-5">
+                    Please wait.
+                </MudText>
+                <MudProgressCircular Color="Color.Primary" Indeterminate="true" Size="Size.Large" />
+            </div>
+        }
+    </MudPaper>
+</MudContainer>
+
+@code {
+    private TimetableItem? timetableItem { get; set; } = null;
+    private ApplicationUser? applicationUser = null;
+
+    private int SeatCount { get; set; }
+    private int availableSeatCount => GetAvailableSeatCount();
+
+    private bool _loadingPayment = false;
+    private bool isAuthorized = false;
+    private bool hasPayed = false;
+    private bool hasTicket;
+
+    private int _activeIndex = 0;
+
+    private string TicketInfo() {
+        TimetableItem item = timetableItem!;
+
+        return @$"TID {item.Train!.TrainNumber}
+      {item.DepartureStation!.Name} ➜ {item.ArrivalStation!.Name}
+      {item.DepartureTime.ToString("HH:mm")} ➜ {item.ArrivalTime.ToString("HH:mm")}";
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        timetableItem = EntityNavigationService.Entity;
+
+        if (timetableItem == null)
+        {
+            NavigationManager.NavigateTo("/", true);
+            return;
+        }
+
+        SeatCount = timetableItem.SeatCount;
+
+        var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        isAuthorized = state.User.Identity?.IsAuthenticated ?? false;
+
+        if (isAuthorized)
+        {
+            applicationUser = await UserManager.GetUserAsync(state.User);
+
+            if (timetableItem != null && applicationUser != null)
+            {
+                hasTicket = await TicketService.HasReservationAsync(timetableItem, applicationUser);
+            }
+        }
+    }
+
+    private int GetAvailableSeatCount()
+    {
+        if (timetableItem != null)
+        {
+            if (timetableItem?.TicketSchedule == null)
+            {
+                return timetableItem!.Train!.SeatCount;
+            }
+            else
+            {
+                return timetableItem.TicketSchedule.AvailableSeatCount;
+            }
+        }
+
+        return 0;
+    }
+
+    private async Task HandlePayment(PaymentMethod paymentMethod)
+    {
+        _loadingPayment = true;
+        StateHasChanged();
+        var validPayment = await PaymentService.PayAsync(true);
+
+        if (timetableItem != null && applicationUser != null)
+        {
+            var price = PaymentService.ApplyDiscount(PaymentService.CalculatePrice(timetableItem.TripDuration, SeatCount), applicationUser.UserType);
+            await TicketService.BuyAsync(timetableItem, applicationUser, SeatCount, price, paymentMethod);
+        }
+
+        _loadingPayment = false;
+
+        if (validPayment)
+        {
+            hasPayed = true;
+            _activeIndex = 3;
+        }
+    }
+}

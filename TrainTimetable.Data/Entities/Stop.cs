@@ -16,7 +16,7 @@ public class Stop : BaseEntity
     [Required]
     public int Order { get; set; }
 
-    public TimeSpan? ArrivalOffset{ get; set; }
+    public TimeSpan? ArrivalOffset { get; set; }
 
     public TimeSpan? DepartureOffset { get; set; }
 }

@@ -1,0 +1,8 @@
+.OfferHeader {
+    background-color: var(--mud-palette-primary);
+    height: 50px;
+}
+
+.OfferContent {
+    padding: 25px;
+}

@@ -1,4 +1,5 @@
-﻿using TrainTimetable.Business.Models;
+﻿using Microsoft.IdentityModel.Tokens;
+using TrainTimetable.Business.Models;
 using TrainTimetable.Data.Entities;
 using TrainTimetable.Data.Repositories;
 
@@ -8,10 +9,11 @@ public interface ITicketService
 {
     Task<IEnumerable<Ticket>> FetchAllAsync();
     Task<Ticket?> FetchByIDAsync(int id);
-    Task BuyAsync(TimetableItem timetableItem, ApplicationUser applicationUser, int seatCount, DateTime date, decimal price);
+    Task BuyAsync(TimetableItem timetableItem, ApplicationUser applicationUser, int seatCount, decimal price, PaymentMethod paymentMethod);
     Task RefundAsync(Ticket ticket);
     Task UseAsync(Ticket ticket);
     Task ExpireAsync(Ticket ticket);
+    Task<bool> HasReservationAsync(TimetableItem timetableItem, ApplicationUser applicationUser);
 }
 
 public class TicketService(IBaseRepository<TicketSchedule> ticketScheduleRepository,
@@ -29,15 +31,22 @@ public class TicketService(IBaseRepository<TicketSchedule> ticketScheduleReposit
         return await ticketRepository.GetByIDAsync(id);
     }
 
-    public async Task BuyAsync(TimetableItem timetableItem, ApplicationUser applicationUser, int seatCount, DateTime date, decimal price)
+    public async Task BuyAsync(TimetableItem timetableItem, ApplicationUser applicationUser, int seatCount, decimal price, PaymentMethod paymentMethod)
     {
         ArgumentNullException.ThrowIfNull(timetableItem);
+        ArgumentNullException.ThrowIfNull(applicationUser);
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(seatCount);
-        ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(date, DateTime.Now);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(price);
+        ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(timetableItem.DepartureTime, DateTime.Now);
 
-        if (timetableItem.TicketSchedule == null && timetableItem.LineSchedule != null)
+        TicketSchedule tempTicketSchedule;
+
+        if (timetableItem.TicketSchedule == null)
         {
-            await CreateTicketSchedule(timetableItem.LineSchedule, date);
+            tempTicketSchedule = await CreateTicketSchedule(timetableItem);
+        } else
+        {
+            tempTicketSchedule = timetableItem.TicketSchedule!;
         }
 
         var ticket = new Ticket()
@@ -48,22 +57,24 @@ public class TicketService(IBaseRepository<TicketSchedule> ticketScheduleReposit
             ArrivalTime = timetableItem.DepartureTime,
             SeatCount = seatCount,
             Price = price,
-            TicketSchedule = timetableItem.TicketSchedule!,
-            ApplicationUser = applicationUser
+            PaymentMethod = paymentMethod,
+            UserId = applicationUser.Id,
+            TicketScheduleID = tempTicketSchedule.ID,
         };
 
         await ticketRepository.InsertAsync(ticket);
     }
 
-    private async Task CreateTicketSchedule(LineSchedule lineSchedule, DateTime date)
+    private async Task<TicketSchedule> CreateTicketSchedule(TimetableItem timetableItem)
     {
         var ticketSchedule = new TicketSchedule()
         {
-            LineSchedule = lineSchedule,
-            Date = date
+            LineScheduleID = timetableItem.LineSchedule!.ID,
+            Date = timetableItem.LineStartDate
         };
 
         await ticketScheduleRepository.InsertAsync(ticketSchedule);
+        return ticketSchedule;
     }
 
     public async Task RefundAsync(Ticket ticket)
@@ -95,5 +106,25 @@ public class TicketService(IBaseRepository<TicketSchedule> ticketScheduleReposit
         ticket.TicketStatus = TicketStatus.Expired;
 
         await ticketRepository.UpdateAsync(ticket);
+    }
+
+    public async Task<bool> HasReservationAsync(TimetableItem timetableItem, ApplicationUser applicationUser)
+    {
+        ArgumentNullException.ThrowIfNull(timetableItem);
+        ArgumentNullException.ThrowIfNull(applicationUser);
+
+        if (timetableItem.TicketSchedule != null)
+        {
+            var search = await ticketRepository.BuildQueryAsync(_ =>
+                _.TicketScheduleID == timetableItem.TicketSchedule.ID &&
+                _.UserId == applicationUser.Id);
+
+            if (!search.IsNullOrEmpty())
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

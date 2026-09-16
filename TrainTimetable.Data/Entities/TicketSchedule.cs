@@ -11,7 +11,7 @@ public class TicketSchedule : BaseEntity
     public virtual LineSchedule LineSchedule { get; set; }
 
     [Required]
-    public DateTime Date { get; set; }
+    public DateOnly Date { get; set; }
 
     public virtual ICollection<Ticket> Tickets { get; set; } = [];
 

@@ -11,6 +11,13 @@ public enum TicketStatus
     Expired // Expired unused ticket. Not usable
 }
 
+public enum PaymentMethod
+{
+    Card,
+    DigitalWallet,
+    Crypto
+}
+
 public class Ticket : BaseEntity
 {
     [Required]
@@ -35,12 +42,13 @@ public class Ticket : BaseEntity
     public TicketStatus TicketStatus { get; set; } = TicketStatus.Valid;
 
     [Required]
+    public PaymentMethod PaymentMethod { get; set; }
+
+    [Required]
     public int TicketScheduleID { get; set; }
     [Required]
     public virtual TicketSchedule TicketSchedule { get; set; }
 
     [Required]
-    public string ApplicationUserID { get; set; }
-    [Required]
-    public virtual ApplicationUser ApplicationUser { get; set; }
+    public string UserId { get; set; }
 }

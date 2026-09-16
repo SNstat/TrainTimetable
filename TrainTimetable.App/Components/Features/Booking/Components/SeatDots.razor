@@ -1,0 +1,28 @@
+﻿<MudPaper Class="pt-5 pb-3 pl-5 pr-2 my-6" style="width: 350px" Outlined="true">
+    <MudGrid Class="pt-5 pl-5 pr-2" style="">
+    @for (int i = 0; i < Total; i++)
+        {
+            bool filled = i < Reserved + Chosen;
+            bool notAvailable = i < Reserved;
+
+            <MudItem md="1" xs="1" Class="px-1 py-0">
+                <MudIcon Icon="@(filled ? Icons.Material.Filled.Circle : Icons.Material.Outlined.Circle)"
+                         Size="Size.Small"
+                         Color="@(notAvailable ? Color.Default : Color.Success)" />
+            </MudItem>
+        }
+    </MudGrid>
+</MudPaper>
+
+
+
+@code {
+    [Parameter]
+    public int Total { get; set; }
+
+    [Parameter]
+    public int Reserved { get; set; }
+
+    [Parameter]
+    public int Chosen { get; set; }
+}

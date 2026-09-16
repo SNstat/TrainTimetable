@@ -1,0 +1,78 @@
+﻿@using TrainTimetable.Data.Entities
+
+<MudButton @onclick="Pay"
+           Variant="Variant.Filled"
+           Color="Color.Primary"
+           Disabled="@(paymentOption == null)"
+           Size="Size.Large">
+    @GetButtonLabel()
+</MudButton>
+<MudRadioGroup T="PaymentOption" @bind-Value="paymentOption">
+    <MudExpansionPanels style="min-width: 360px" Class="mt-5 mb-9">
+        <MudExpansionPanel>
+            <TitleContent>
+                <div class="d-flex">
+                    <MudIcon Icon="@Icons.Material.Filled.CreditCard" class="mr-3"></MudIcon>
+                    <MudText>Debit Card</MudText>
+                </div>
+            </TitleContent>
+            <ChildContent>
+                <MudRadio T="PaymentOption" Value="@(new PaymentOption(PaymentMethod.Card, "Visa"))" Color="Color.Primary">Visa</MudRadio>
+                <MudRadio T="PaymentOption" Value="@(new PaymentOption(PaymentMethod.Card, "Mastercard"))" Color="Color.Primary">Mastercard</MudRadio>
+                <MudRadio T="PaymentOption" Value="@(new PaymentOption(PaymentMethod.Card, "American Express"))" Color="Color.Primary">American Express</MudRadio>
+            </ChildContent>
+        </MudExpansionPanel>
+        <MudExpansionPanel>
+            <TitleContent>
+                <div class="d-flex">
+                    <MudIcon Icon="@Icons.Material.Filled.AccountBalanceWallet" class="mr-3"></MudIcon>
+                    <MudText>Digital Wallet</MudText>
+                </div>
+            </TitleContent>
+            <ChildContent>
+                <MudRadio T="PaymentOption" Value="@(new PaymentOption(PaymentMethod.DigitalWallet, "Apple Pay"))" Color="Color.Primary">Apple Pay</MudRadio>
+                <MudRadio T="PaymentOption" Value="@(new PaymentOption(PaymentMethod.DigitalWallet, "Google Wallet"))" Color="Color.Primary">Google Wallet</MudRadio>
+                <MudRadio T="PaymentOption" Value="@(new PaymentOption(PaymentMethod.DigitalWallet, "PayPal"))" Color="Color.Primary">PayPal</MudRadio>
+            </ChildContent>
+        </MudExpansionPanel>
+        <MudExpansionPanel>
+            <TitleContent>
+                <div class="d-flex">
+                    <MudIcon Icon="@Icons.Material.Filled.CurrencyBitcoin" class="mr-3"></MudIcon>
+                    <MudText>CryptoCurrency</MudText>
+                </div>
+            </TitleContent>
+            <ChildContent>
+                <MudRadio T="PaymentOption" Value="@(new PaymentOption(PaymentMethod.Crypto, "Bitcoin BTC"))" Color="Color.Primary">Bitcoin BTC</MudRadio>
+                <MudRadio T="PaymentOption" Value="@(new PaymentOption(PaymentMethod.Crypto, "Ethereum ETH"))" Color="Color.Primary">Ethereum ETH</MudRadio>
+                <MudRadio T="PaymentOption" Value="@(new PaymentOption(PaymentMethod.Crypto, "Tether USDT"))" Color="Color.Primary">Tether USDT</MudRadio>
+            </ChildContent>
+        </MudExpansionPanel>
+    </MudExpansionPanels>
+</MudRadioGroup>
+
+@code {
+    [Parameter]
+    public EventCallback<PaymentMethod> OnPayment { get; set; }
+
+    private record PaymentOption(PaymentMethod paymentMethod, string provider);
+    private PaymentOption? paymentOption = null;
+
+    private string GetButtonLabel()
+    {
+        if (paymentOption == null || string.IsNullOrEmpty(paymentOption.provider))
+        {
+            return "Select one of the options";
+        }
+
+        return "Pay with " + paymentOption.provider;
+    }
+
+    private async Task Pay()
+    {
+        if (paymentOption != null)
+        {
+            await OnPayment.InvokeAsync(paymentOption.paymentMethod);
+        }
+    }
+}
