@@ -47,6 +47,7 @@ public class TimetableService(IBaseRepository<LineSchedule> lineScheduleReposito
                     .ThenInclude(_ => _.Stops)
                     .ThenInclude(_ => _.Station)
                 .Include(_ => _.TicketSchedules)
+                    .ThenInclude(_ => _!.Tickets)
         );
 
         var lineSchedules = baseLineSchedules.Where(_ =>

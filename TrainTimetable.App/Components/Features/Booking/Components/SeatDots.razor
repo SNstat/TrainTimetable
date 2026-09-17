@@ -1,12 +1,16 @@
 ﻿<MudPaper Class="pt-5 pb-3 pl-5 pr-2 my-6" style="width: 350px" Outlined="true">
-    <MudGrid Class="pt-5 pl-5 pr-2" style="">
+    <MudGrid Class="pt-5 pl-3 pr-2" style="">
     @for (int i = 0; i < Total; i++)
         {
             bool filled = i < Reserved + Chosen;
             bool notAvailable = i < Reserved;
 
+            int value = notAvailable ? 0 : i - Reserved + 1;
+
             <MudItem md="1" xs="1" Class="px-1 py-0">
-                <MudIcon Icon="@(filled ? Icons.Material.Filled.Circle : Icons.Material.Outlined.Circle)"
+                <MudIconButton
+                         OnClick="@(() => HandleChosenChange(value))"
+                         Icon="@(filled ? Icons.Material.Filled.Circle : Icons.Material.Outlined.Circle)"
                          Size="Size.Small"
                          Color="@(notAvailable ? Color.Default : Color.Success)" />
             </MudItem>
@@ -18,6 +22,9 @@
 
 @code {
     [Parameter]
+    public EventCallback<int> OnDotClick { get; set; }
+
+    [Parameter]
     public int Total { get; set; }
 
     [Parameter]
@@ -25,4 +32,12 @@
 
     [Parameter]
     public int Chosen { get; set; }
+
+    private async Task HandleChosenChange(int value)
+    {
+        if (value > 0 && value != Chosen)
+        {
+            await OnDotClick.InvokeAsync(value);
+        }
+    }
 }

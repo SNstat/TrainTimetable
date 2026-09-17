@@ -99,7 +99,8 @@
 
                                 <SeatDots Total="timetableItem!.Train!.SeatCount"
                                           Reserved="(timetableItem!.Train!.SeatCount - availableSeatCount)"
-                                          Chosen="SeatCount" />
+                                          Chosen="SeatCount"
+                                          OnDotClick="HandleDotSeatChange"/>
 
                             </MudItem>
                             <MudItem md="6" sm="12" xs="12">
@@ -130,7 +131,11 @@
                 </MudStep>
                 <MudStep Title="Checkout" Disabled="!hasPayed" Completed="hasPayed">
                     <MudText Typo="Typo.h6" Class="ma-5">You have succesfully bought the ticket!</MudText>
-                    <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large" @onclick="@(() => NavigationManager.NavigateTo("/", true))">
+                    <MudButton Variant="Variant.Filled"
+                               Color="Color.Primary"
+                               Size="Size.Large"
+                               Class="ml-3"
+                               @onclick="@(() => NavigationManager.NavigateTo("/", true))">
                         Go to home
                     </MudButton>
                 </MudStep>
@@ -213,6 +218,11 @@
         }
 
         return 0;
+    }
+
+    private void HandleDotSeatChange(int value)
+    {
+        SeatCount = value;
     }
 
     private async Task HandlePayment(PaymentMethod paymentMethod)
