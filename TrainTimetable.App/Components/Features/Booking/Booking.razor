@@ -223,7 +223,7 @@
 
         if (timetableItem != null && applicationUser != null)
         {
-            var price = PaymentService.ApplyDiscount(PaymentService.CalculatePrice(timetableItem.TripDuration, SeatCount), applicationUser.UserType);
+            var price = PaymentService.CalculatePriceWithDiscount(timetableItem.TripDuration, SeatCount, applicationUser.UserType);
             await TicketService.BuyAsync(timetableItem, applicationUser, SeatCount, price, paymentMethod);
         }
 

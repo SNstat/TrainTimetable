@@ -6,7 +6,7 @@ public interface IPaymentService
 {
     IReadOnlyDictionary<UserType, decimal> Discounts { get; }
     decimal CalculatePrice(TimeSpan timeSpan, int seatCount);
-    decimal ApplyDiscount(decimal price, UserType userType);
+    decimal CalculatePriceWithDiscount(TimeSpan timeSpan, int seatCount, UserType userType);
     string DoubleDigit(decimal price);
     Task<bool> PayAsync(bool valid);
 }
@@ -27,10 +27,10 @@ public class PaymentService : IPaymentService
     public decimal CalculatePrice(TimeSpan timeSpan, int seatCount) =>
         (BASEFEE + ((decimal)timeSpan.TotalHours * PERHOUR)) * seatCount;
 
-    public decimal ApplyDiscount(decimal price, UserType userType)
+    public decimal CalculatePriceWithDiscount(TimeSpan timeSpan, int seatCount, UserType userType)
     {
         var discount = 1m - Discounts.GetValueOrDefault(userType, 0m);
-        return price * discount;
+        return CalculatePrice(timeSpan, seatCount) * discount;
     }
 
     public string DoubleDigit(decimal price) =>
@@ -38,7 +38,7 @@ public class PaymentService : IPaymentService
 
     public async Task<bool> PayAsync(bool valid)
     {
-        //await Task.Delay(3000);
+        await Task.Delay(3000);
         return valid;
     }
 }

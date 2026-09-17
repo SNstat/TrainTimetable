@@ -44,8 +44,7 @@
 
     private string fullPriceWithDiscounts => 
         PaymentService.DoubleDigit(
-            PaymentService.ApplyDiscount(
-                PaymentService.CalculatePrice(TripDuration, SeatCount), UserType));
+                PaymentService.CalculatePriceWithDiscount(TripDuration, SeatCount, UserType));
 
     private string GetDiscountPercentage()
     {
