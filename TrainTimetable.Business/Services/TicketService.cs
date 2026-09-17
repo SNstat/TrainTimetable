@@ -10,9 +10,9 @@ public interface ITicketService
     Task<IEnumerable<Ticket>> FetchAllAsync(string userID);
     Task<Ticket?> FetchByIDAsync(string userID, int ticketID);
     Task BuyAsync(TimetableItem timetableItem, string userID, int seatCount, decimal price, PaymentMethod paymentMethod);
-    Task RefundAsync(Ticket ticket);
-    Task UseAsync(Ticket ticket);
-    Task ExpireAsync(Ticket ticket);
+    Task RefundAsync(string userID, int ticketID);
+    Task UseAsync(string userID, int ticketID);
+    Task ExpireAsync(string userID, int ticketID);
     Task<bool> HasReservationAsync(TimetableItem timetableItem, ApplicationUser applicationUser);
 }
 
@@ -69,7 +69,7 @@ public class TicketService(IBaseRepository<TicketSchedule> ticketScheduleReposit
             DepartureStationName = timetableItem.FirstStop!.Station.Name,
             ArrivalStationName = timetableItem.LastStop!.Station.Name,
             DepartureTime = timetableItem.DepartureTime,
-            ArrivalTime = timetableItem.DepartureTime,
+            ArrivalTime = timetableItem.ArrivalTime,
             SeatCount = seatCount,
             Price = price,
             PaymentMethod = paymentMethod,
@@ -92,35 +92,55 @@ public class TicketService(IBaseRepository<TicketSchedule> ticketScheduleReposit
         return ticketSchedule;
     }
 
-    public async Task RefundAsync(Ticket ticket)
+    public async Task RefundAsync(string userID, int ticketID)
     {
-        ArgumentNullException.ThrowIfNull(ticket);
-        ArgumentOutOfRangeException.ThrowIfNotEqual(ticket.TicketStatus, TicketStatus.Valid);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(userID);
+        ArgumentOutOfRangeException.ThrowIfLessThan(ticketID, 1);
 
-        ticket.TicketStatus = TicketStatus.Refunded;
+        var ticket = await FetchByIDAsync(userID, ticketID);
 
-        await ticketRepository.UpdateAsync(ticket);
+        if (ticket != null)
+        {
+            ArgumentOutOfRangeException.ThrowIfNotEqual(ticket.TicketStatus, TicketStatus.Valid);
+
+            ticket.TicketStatus = TicketStatus.Refunded;
+
+            await ticketRepository.UpdateAsync(ticket);
+        }
     }
 
-    public async Task UseAsync(Ticket ticket)
+    public async Task UseAsync(string userID, int ticketID)
     {
-        ArgumentNullException.ThrowIfNull(ticket);
-        ArgumentOutOfRangeException.ThrowIfNotEqual(ticket.TicketStatus, TicketStatus.Valid);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(userID);
+        ArgumentOutOfRangeException.ThrowIfLessThan(ticketID, 1);
 
-        ticket.TicketStatus = TicketStatus.Used;
+        var ticket = await FetchByIDAsync(userID, ticketID);
 
-        await ticketRepository.UpdateAsync(ticket);
+        if (ticket != null)
+        {
+            ArgumentOutOfRangeException.ThrowIfNotEqual(ticket.TicketStatus, TicketStatus.Valid);
+
+            ticket.TicketStatus = TicketStatus.Used;
+
+            await ticketRepository.UpdateAsync(ticket);
+        }
     }
 
-    public async Task ExpireAsync(Ticket ticket)
+    public async Task ExpireAsync(string userID, int ticketID)
     {
-        ArgumentNullException.ThrowIfNull(ticket);
-        ArgumentOutOfRangeException.ThrowIfNotEqual(ticket.TicketStatus, TicketStatus.Valid);
-        ArgumentOutOfRangeException.ThrowIfGreaterThan(ticket.ArrivalTime, DateTime.Now);
+        ArgumentNullException.ThrowIfNullOrWhiteSpace(userID);
+        ArgumentOutOfRangeException.ThrowIfLessThan(ticketID, 1);
 
-        ticket.TicketStatus = TicketStatus.Expired;
+        var ticket = await FetchByIDAsync(userID, ticketID);
 
-        await ticketRepository.UpdateAsync(ticket);
+        if (ticket != null)
+        {
+            ArgumentOutOfRangeException.ThrowIfNotEqual(ticket.TicketStatus, TicketStatus.Valid);
+
+            ticket.TicketStatus = TicketStatus.Expired;
+
+            await ticketRepository.UpdateAsync(ticket);
+        }
     }
 
     public async Task<bool> HasReservationAsync(TimetableItem timetableItem, ApplicationUser applicationUser)

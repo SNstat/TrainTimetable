@@ -1,7 +1,250 @@
-﻿@page "/tickets"
+﻿@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Identity
+@using TrainTimetable.Business.Services
+@using TrainTimetable.Data.Entities
 
-<h3>Tickets</h3>
+@page "/tickets"
+@attribute [Authorize]
+
+@inject ITicketService TicketService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject UserManager<ApplicationUser> UserManager
+
+<PageTitle>My Tickets</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="my-10">
+    <MudText Typo="Typo.h4">My Tickets</MudText>
+
+    <MudStack Row="true" Class="my-10">
+        <MudSelect T="TicketStatus?"
+                   Variant="Variant.Outlined"
+                   Value="ChosenTicketStatus"
+                   ValueChanged="ChangeTicketStatus"
+                   Label="Ticket status"
+                   AdornmentIcon="@Icons.Material.Filled.Sort">
+
+            <MudSelectItem T="TicketStatus?" Value="null">
+                All
+            </MudSelectItem>
+
+            @foreach (var ticketStatus in Enum.GetValues(typeof(TicketStatus)).Cast<TicketStatus>())
+            {
+                <MudSelectItem T="TicketStatus?" Value="ticketStatus">
+                    @ticketStatus.ToString()
+                </MudSelectItem>
+            }
+
+        </MudSelect>
+
+        <MudSelect T="bool"
+                   Variant="Variant.Outlined"
+                   Value="IsSortingByNewest"
+                   ValueChanged="ChangeSortDirection"
+                   Label="Sort by"
+                   AdornmentIcon="@Icons.Material.Filled.AccessTime">
+
+            <MudSelectItem T="bool" Value="true">
+                Newest ➜ Oldest
+            </MudSelectItem>
+
+            <MudSelectItem T="bool" Value="false">
+                Oldest ➜ Newest
+            </MudSelectItem>
+
+        </MudSelect>
+    </MudStack>
+
+    <MudStack>
+        @if (FilteredTickets != null && FilteredTickets.Any())
+        {
+            foreach (var ticket in FilteredTickets)
+            {
+                <MudPaper Class="ma-3 offer-card"
+                          Style="background-color: var(--mud-palette-surface);
+                                 border-radius: 20px;
+                                 overflow: hidden;"
+                          Outlined="true">
+
+                    <MudStack Row="true">
+                        <div class="OfferHeader" style="background-color: @GetBannerColor(ticket.TicketStatus);"></div>
+                        <MudContainer MaxWidth="MaxWidth.False">
+                            <MudText Typo="Typo.h6" Class="my-4 ml-3">Ticket Num. @ticket.ID</MudText>
+                            <MudGrid style="width: 1000px">
+                                <MudItem md="4" sm="12">
+                                    <MudStack Row="true" Class="mb-2">
+                                        <MudIcon Icon="@Icons.Material.Filled.Place"></MudIcon>
+                                        <MudText><b>@ticket.DepartureStationName</b> ➜ <b>@ticket.ArrivalStationName</b></MudText>
+                                    </MudStack>
+                                    <MudStack Row="true">
+                                        <MudIcon Icon="@Icons.Material.Filled.Timer"></MudIcon>
+                                        <MudText>@ticket.DepartureTime.ToString() ➜</MudText>
+                                    </MudStack>
+                                    <MudStack Row="true">
+                                        <MudText Class="ml-9">@ticket.ArrivalTime.ToString()</MudText>
+                                    </MudStack>
+                                    <MudStack Row="true">
+                                        <MudIcon Icon="@Icons.Material.Filled.QrCode" Class="mt-3"></MudIcon>
+                                        <MudText Typo="Typo.caption" Class="mt-4">@ticket.UserId</MudText>
+                                    </MudStack>
+                                </MudItem>
+                                <MudItem md="4" sm="12">
+                                    <MudStack Row="true">
+                                        <MudIcon Icon="@Icons.Material.Filled.Payments"></MudIcon>
+                                        <MudText style="font-weight: bold">@ticket.Price.ToString("F2") €</MudText>
+                                    </MudStack>
+                                    <MudStack Row="true" Class="my-2">
+                                        <MudIcon Icon="@Icons.Material.Filled.CreditCard"></MudIcon>
+                                        <MudText>Payment Method: <b>@ticket.PaymentMethod.ToString()</b></MudText>
+                                    </MudStack>
+                                    <MudStack Row="true">
+                                        <MudIcon Icon="@Icons.Material.Filled.EventSeat"></MudIcon>
+                                        <MudText><b>@ticket.SeatCount</b> Reserved Seats</MudText>
+                                    </MudStack>
+                                </MudItem>
+                                <MudItem md="4" sm="12">
+                                    <MudStack Row="true">
+                                        <MudText Class="mt-2" style="font-weight: bold">Status:</MudText>
+                                        <MudPaper style="width: fit-content; background-color: var(--mud-palette-drawer-background);" Class="py-2 px-4 ml-2" Outlined="true">
+                                            <MudStack Row="true">
+                                                @if (ticket.TicketStatus == TicketStatus.Valid)
+                                                {
+                                                    <MudIcon Icon="@Icons.Material.Filled.Check" Color="Color.Success"></MudIcon>
+                                                    <MudText style="font-weight: bold" Color="Color.Success">VALID</MudText>
+                                                }
+                                                else
+                                                @if (ticket.TicketStatus == TicketStatus.Used)
+                                                {
+                                                    <MudIcon Icon="@Icons.Material.Filled.Deblur" Color="Color.Info"></MudIcon>
+                                                    <MudText style="font-weight: bold" Color="Color.Info">USED</MudText>
+                                                }
+                                                else
+                                                @if (ticket.TicketStatus == TicketStatus.Refunded)
+                                                {
+                                                    <MudIcon Icon="@Icons.Material.Filled.MonetizationOn" Color="Color.Warning"></MudIcon>
+                                                    <MudText style="font-weight: bold" Color="Color.Warning">REFUNDED</MudText>
+                                                }
+                                                else
+                                                @if (ticket.TicketStatus == TicketStatus.Expired)
+                                                {
+                                                    <MudIcon Icon="@Icons.Material.Filled.TimerOff" Color="Color.Error"></MudIcon>
+                                                    <MudText style="font-weight: bold" Color="Color.Error">EXPIRED</MudText>
+                                                }
+                                            </MudStack>
+                                        </MudPaper>
+                                        @if (ticket.TicketStatus == TicketStatus.Valid)
+                                        {
+                                            <MudButton     Variant="Variant.Filled"
+                                                           Color="Color.Default"
+                                                           EndIcon="@Icons.Material.Filled.MonetizationOn"
+                                                           @onclick="@(async () => await RefundTicket(ticket.ID))">
+                                                           Refund
+                                            </MudButton>
+                                        }
+                                    </MudStack>
+                                    <MudStack Row="true" Class="mt-6">
+                                        <MudButton Class="py-2 px-3"
+                                                   Variant="Variant.Filled"
+                                                   EndIcon="@Icons.Material.Filled.PictureAsPdf"
+                                                   Color="Color.Default">
+                                            Download
+                                        </MudButton>
+                                        <MudButton Class="py-2 px-3 ml-1"
+                                                   Variant="Variant.Filled"
+                                                   EndIcon="@Icons.Material.Filled.QrCodeScanner"
+                                                   Color="Color.Default">
+                                            Show QR
+                                        </MudButton>
+                                    </MudStack>
+                                </MudItem>
+                            </MudGrid>
+                        </MudContainer>
+                    </MudStack>
+                </MudPaper>
+            }
+        }
+        else
+        {
+            <MudText Align="Align.Center" Typo="Typo.h6" Class="mt-10">You have no active or prior tickets!</MudText>
+        }
+    </MudStack>
+
+</MudContainer>
 
 @code {
+    private IEnumerable<Ticket>? BaseTickets { get; set; }
+    private IEnumerable<Ticket>? FilteredTickets { get; set; }
 
+    private ApplicationUser? User { get; set; }
+
+    private TicketStatus? ChosenTicketStatus { get; set; }
+
+    private bool IsSortingByNewest { get; set; } = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        ChosenTicketStatus = null;
+
+        var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+
+        var isAuthenticated = state.User.Identity?.IsAuthenticated ?? false;
+
+        if (isAuthenticated)
+        {
+            User = await UserManager.GetUserAsync(state.User);
+
+            if (User != null)
+            {
+                BaseTickets = await TicketService.FetchAllAsync(User.Id);
+                FilterTickets();
+            }
+        }
+    }
+
+    private void FilterTickets()
+    {
+        if (BaseTickets != null && BaseTickets.Any())
+        {
+            var query = ChosenTicketStatus.HasValue
+                ? BaseTickets.Where(_ => _.TicketStatus == ChosenTicketStatus.Value)
+                : BaseTickets;
+
+            FilteredTickets = IsSortingByNewest
+                ? query.OrderByDescending(_ => _.DepartureTime)
+                : query.OrderBy(_ => _.DepartureTime);
+        }
+    }
+
+    private void ChangeTicketStatus(TicketStatus? status)
+    {
+        ChosenTicketStatus = status;
+        FilterTickets();
+    }
+
+    private void ChangeSortDirection(bool sortByNewest)
+    {
+        IsSortingByNewest = sortByNewest;
+        FilterTickets();
+    }
+
+    private async Task RefundTicket(int ticketID)
+    {
+        if (User != null)
+        {
+            await TicketService.RefundAsync(User.Id, ticketID);
+
+            BaseTickets = await TicketService.FetchAllAsync(User.Id);
+
+            FilterTickets();
+        }
+    }
+
+    private string GetBannerColor(TicketStatus ticketStatus) =>
+        ticketStatus switch
+        {
+            TicketStatus.Valid => "var(--mud-palette-success)",
+            TicketStatus.Used => "var(--mud-palette-info)",
+            TicketStatus.Refunded => "var(--mud-palette-warning)",
+            TicketStatus.Expired => "var(--mud-palette-error)",
+            _ => "var(--mud-palette-primary)"
+        };
 }
