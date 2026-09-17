@@ -3,7 +3,7 @@ root = true
 [**/Migrations/*.cs]
 generated_code = true
 
-[**/Scripts/JsOut/**/*.js]
+[**/scripts/out/**/*.js]
 generated_code = true
 
 [*.cs]
