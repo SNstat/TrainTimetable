@@ -8,8 +8,7 @@ public enum UserType
 {
     Regular,
     Student,
-    Senior,
-    Employee
+    Senior
 }
 
 public class ApplicationUser : IdentityUser

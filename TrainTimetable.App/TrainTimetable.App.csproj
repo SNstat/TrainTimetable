@@ -27,4 +27,12 @@
 	</None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="wwwroot\scripts\src\cookies.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="wwwroot\scripts\src\cookies.ts" />
+  </ItemGroup>
+
 </Project>

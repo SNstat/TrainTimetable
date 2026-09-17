@@ -20,8 +20,7 @@ public class PaymentService : IPaymentService
     {
         { UserType.Regular, 0m },
         { UserType.Student, 0.25m },
-        { UserType.Senior, 0.40m },
-        { UserType.Employee, 0m }
+        { UserType.Senior, 0.40m }
     };
 
     public decimal CalculatePrice(TimeSpan timeSpan, int seatCount) =>
