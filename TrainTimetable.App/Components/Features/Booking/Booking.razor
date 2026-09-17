@@ -134,7 +134,8 @@
                     <MudButton Variant="Variant.Filled"
                                Color="Color.Primary"
                                Size="Size.Large"
-                               Class="ml-3"
+                               Class="ml-5"
+                               EndIcon="@Icons.Material.Filled.Home"
                                @onclick="@(() => NavigationManager.NavigateTo("/", true))">
                         Go to home
                     </MudButton>
@@ -234,7 +235,7 @@
         if (timetableItem != null && applicationUser != null)
         {
             var price = PaymentService.CalculatePriceWithDiscount(timetableItem.TripDuration, SeatCount, applicationUser.UserType);
-            await TicketService.BuyAsync(timetableItem, applicationUser, SeatCount, price, paymentMethod);
+            await TicketService.BuyAsync(timetableItem, applicationUser.Id, SeatCount, price, paymentMethod);
         }
 
         _loadingPayment = false;

@@ -7,9 +7,9 @@ namespace TrainTimetable.Business.Services;
 
 public interface ITicketService
 {
-    Task<IEnumerable<Ticket>> FetchAllAsync();
-    Task<Ticket?> FetchByIDAsync(int id);
-    Task BuyAsync(TimetableItem timetableItem, ApplicationUser applicationUser, int seatCount, decimal price, PaymentMethod paymentMethod);
+    Task<IEnumerable<Ticket>> FetchAllAsync(string userID);
+    Task<Ticket?> FetchByIDAsync(string userID, int ticketID);
+    Task BuyAsync(TimetableItem timetableItem, string userID, int seatCount, decimal price, PaymentMethod paymentMethod);
     Task RefundAsync(Ticket ticket);
     Task UseAsync(Ticket ticket);
     Task ExpireAsync(Ticket ticket);
@@ -19,22 +19,37 @@ public interface ITicketService
 public class TicketService(IBaseRepository<TicketSchedule> ticketScheduleRepository,
                            IBaseRepository<Ticket> ticketRepository) : ITicketService
 {
-    public async Task<IEnumerable<Ticket>> FetchAllAsync()
+    public async Task<IEnumerable<Ticket>> FetchAllAsync(string userID)
     {
-        return await ticketRepository.GetAllAsync();
+        ArgumentNullException.ThrowIfNullOrEmpty(userID);
+
+        var ticket = await ticketRepository.BuildQueryAsync(_ =>
+            _.UserId == userID);
+
+        if (ticket.IsNullOrEmpty())
+        {
+            ticket = [];
+        }
+
+        return ticket;
     }
 
-    public async Task<Ticket?> FetchByIDAsync(int id)
+    public async Task<Ticket?> FetchByIDAsync(string userID, int ticketID)
     {
-        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(id);
+        ArgumentNullException.ThrowIfNullOrEmpty(userID);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(ticketID);
 
-        return await ticketRepository.GetByIDAsync(id);
+        var ticket = await ticketRepository.BuildQueryAsync(_ =>
+            _.UserId == userID &&
+            _.ID == ticketID);
+
+        return ticket.First();
     }
 
-    public async Task BuyAsync(TimetableItem timetableItem, ApplicationUser applicationUser, int seatCount, decimal price, PaymentMethod paymentMethod)
+    public async Task BuyAsync(TimetableItem timetableItem, string userID, int seatCount, decimal price, PaymentMethod paymentMethod)
     {
         ArgumentNullException.ThrowIfNull(timetableItem);
-        ArgumentNullException.ThrowIfNull(applicationUser);
+        ArgumentNullException.ThrowIfNullOrEmpty(userID);
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(seatCount);
         ArgumentOutOfRangeException.ThrowIfNegativeOrZero(price);
         ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(timetableItem.DepartureTime, DateTime.Now);
@@ -58,7 +73,7 @@ public class TicketService(IBaseRepository<TicketSchedule> ticketScheduleReposit
             SeatCount = seatCount,
             Price = price,
             PaymentMethod = paymentMethod,
-            UserId = applicationUser.Id,
+            UserId = userID,
             TicketScheduleID = tempTicketSchedule.ID,
         };
 
