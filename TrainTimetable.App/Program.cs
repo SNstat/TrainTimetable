@@ -39,13 +39,11 @@ public class Program
             .AddAdditionalAssemblies(typeof(IdentityModule).Assembly)
             .AddInteractiveServerRenderMode();
 
-        using var serviceScope = app.Services.CreateScope();
-        var dbContextFactory = serviceScope.ServiceProvider.GetRequiredService<IDbContextFactory<AppDbContext>>();       
-        var dbContext = await dbContextFactory.CreateDbContextAsync();
-
         app.MapAdditionalIdentityEndpoints();
 
-        await dbContext.Database.MigrateAsync();
+        await app.MigrateDataAsync();
+
+        await app.MigrateIdentityDataAsync();
 
         app.Run();
     }

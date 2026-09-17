@@ -7,13 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-	<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore"/>
-	<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore"/>
+	<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
+	<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
 	<PackageReference Include="Microsoft.EntityFrameworkCore.Design">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-	<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer"/>
+	<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -22,6 +22,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Data\ApplicationUsers.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Data\Countries.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

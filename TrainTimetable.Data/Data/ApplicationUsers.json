@@ -1,0 +1,14 @@
+[
+  {
+    "Email": "admin@ttt.com",
+    "Password": "Admin123!",
+    "LockoutEnabled": false,
+    "Roles": [ "Admin" ]
+  },
+  {
+    "Email": "user@ttt.com",
+    "Password": "User123!",
+    "LockoutEnabled": false,
+    "Roles": [ "User" ]
+  }
+]
