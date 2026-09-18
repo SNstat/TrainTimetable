@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using TrainTimetable.Data.Entities;
 using TrainTimetable.Data.Repositories;
 
@@ -7,6 +8,7 @@ namespace TrainTimetable.Business.Services;
 public interface IStationService
 {
     Task<IEnumerable<KeyValuePair<int, string>>> FetchStationItemsAsync(string search);
+    Task<IEnumerable<Station>> FetchAllAsync();
 }
 
 public class StationService(IBaseRepository<Station> stationRepository) : IStationService
@@ -35,5 +37,13 @@ public class StationService(IBaseRepository<Station> stationRepository) : IStati
             .OrderBy(_ => _.Name)
             .Take(10)
             .Select(_ => new KeyValuePair<int, string>(_.ID, _.Name));
+    }
+
+    public async Task<IEnumerable<Station>> FetchAllAsync()
+    {
+        var query = await stationRepository.BuildQueryAsync(_ => true,
+            _ => _.Include(_ => _.Country));
+
+        return query ?? [];
     }
 }

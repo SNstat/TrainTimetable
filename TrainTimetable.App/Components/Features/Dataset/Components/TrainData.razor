@@ -1,0 +1,41 @@
+﻿@page "/dataset"
+
+@attribute [Authorize(Roles = "Admin")]
+@layout DatasetLayout
+
+@inject ITrainService TrainService
+
+<PageTitle>Train Data</PageTitle>
+
+<MudText Typo="Typo.h6">Trains</MudText>
+
+@if (Trains.Any())
+{
+    <MudDataGrid Items="@Trains"
+                 Class="mt-6"
+                 Hover
+                 FixedHeader
+                 Height="calc(100vh - 285px)"
+                 style="background-color: var(--mud-palette-drawer-background);">
+        <Columns>
+            <PropertyColumn Property="x => x.TrainNumber" Title="Train Number" InitialDirection="SortDirection.Ascending" />
+            <PropertyColumn Property="x => x.Name" Title="Train Name"/>
+            <PropertyColumn Property="x => x.SeatCount" Title="Max. Seat Count"/>
+            <PropertyColumn Property="x => x.BikeSpaceCount" Title="Bike Spaces" />
+            <PropertyColumn Property="x => x.TrainManufacturer.Name" Title="Train Manufacturer" />
+        </Columns>
+    </MudDataGrid>
+} else
+{
+    <DataLoading/>
+}
+
+@code {
+    private IEnumerable<Train> Trains = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        //await Task.Delay(1000);
+        Trains = await TrainService.FetchAllAsync();
+    }
+}

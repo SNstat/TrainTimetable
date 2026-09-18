@@ -20,9 +20,9 @@
                      Icon="@Icons.Material.Filled.Bookmark"
                      OnClick="@(() => NavigationManager.NavigateTo("/tickets"))" />
 
-                <MudTabPanel Visible="@(context.User.IsInRole("Admin"))" Text="Database"
+                <MudTabPanel Visible="@(context.User.IsInRole("Admin"))" Text="Dataset"
                      Icon="@Icons.Material.Filled.Storage"
-                     OnClick="@(() => NavigationManager.NavigateTo("/database"))" />
+                     OnClick="@(() => NavigationManager.NavigateTo("/dataset"))" />
             </Authorized>
         </AuthorizeView>
     </MudTabs>
@@ -57,6 +57,10 @@
         else if (relative.Equals("tickets", StringComparison.OrdinalIgnoreCase))
         {
             _activeIndex = 2;
+        }
+        else if (relative.Contains("dataset", StringComparison.OrdinalIgnoreCase))
+        {
+            _activeIndex = 3;
         }
         else
         {
