@@ -1,0 +1,35 @@
+﻿@page "/admin/stations"
+
+@inject IStationService StationService
+
+<PageTitle>Station Data</PageTitle>
+
+<MudText Typo="Typo.h6">Stations</MudText>
+
+<MudDataGrid Items="@Stations"
+                Class="mt-6"
+                Hover
+                FixedHeader
+                Loading="_loading"
+                Height="calc(100vh - 285px)"
+                style="background-color: var(--mud-palette-drawer-background);">
+    <Columns>
+        <PropertyColumn Property="x => x.Name" Title="Location Name" InitialDirection="SortDirection.Ascending" />
+        <PropertyColumn Property="x => x.Country.Name" Title="Country"/>
+        <PropertyColumn Property="x => x.IsNode" Title="Crossing/Node"/>
+    </Columns>
+</MudDataGrid>
+
+@code {
+    private IEnumerable<Station> Stations = [];
+
+    private bool _loading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(1000);
+        Stations = await StationService.FetchAllAsync();
+        _loading = false;
+    }
+}
+

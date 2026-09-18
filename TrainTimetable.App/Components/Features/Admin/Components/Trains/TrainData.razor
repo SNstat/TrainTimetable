@@ -1,0 +1,61 @@
+﻿@page "/admin/trains"
+
+@inject ITrainService TrainService
+
+<PageTitle>Train Data</PageTitle>
+<MudDataGrid Items="@Trains"
+             Hover
+             FixedHeader
+             Loading="_loading"
+             Height="calc(100vh - 285px)"
+             LoadingProgressColor="Color.Primary"
+             style="background-color: var(--mud-palette-drawer-background);">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Trains</MudText>
+        <MudSpacer />
+        <MudButton Variant="Variant.Outlined" OnClick="NewItemAsync">
+            + Add New Item
+        </MudButton>
+    </ToolBarContent>
+    <Columns>
+        <PropertyColumn Property="x => x.TrainNumber" Title="Train Number" InitialDirection="SortDirection.Ascending" />
+        <PropertyColumn Property="x => x.Name" Title="Train Name" />
+        <PropertyColumn Property="x => x.SeatCount" Title="Max. Seat Count" />
+        <PropertyColumn Property="x => x.BikeSpaceCount" Title="Bike Spaces" />
+        <PropertyColumn Property="x => x.TrainManufacturer.Name" Title="Train Manufacturer" />
+        <TemplateColumn>
+            <CellTemplate>
+                <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" />
+                <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Delete" />
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+</MudDataGrid>
+
+@code {
+    private IEnumerable<Train> Trains = [];
+
+    private bool _loading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Delay(1000);
+        Trains = await TrainService.FetchAllAsync();
+        _loading = false;
+    }
+
+    private async Task NewItemAsync()
+    {
+        await Task.FromResult(Task.CompletedTask);
+    }
+
+    private async Task UpdateItemAsync()
+    {
+        await Task.FromResult(Task.CompletedTask);
+    }
+
+    private async Task DeleteItemAsync()
+    {
+        await Task.FromResult(Task.CompletedTask);
+    }
+}

@@ -1,17 +1,16 @@
 ﻿@inherits LayoutComponentBase
 @layout TrainTimetable.App.Shared.Layouts.MainLayout
-@using TrainTimetable.App.Components.Features.Dataset.Components
 
 <MudContainer MaxWidth="MaxWidth.ExtraExtraLarge" Class="mx-3 my-6">
     <MudText Typo="Typo.h5" Class="mb-6">Data Editing</MudText>
     <MudGrid>
-        <MudItem md="3" sm="12" xs="12">
+        <MudItem md="2" sm="12" xs="12">
             <MudPaper Elevation="1" Class="pa-5 py-8">
                 <MudText Typo="Typo.h6" Class="mb-5 ml-2">Available Data Sets:</MudText>
-                <DataNavMenu/>
+                <AdminNavMenu/>
             </MudPaper>
         </MudItem>
-        <MudItem md="9" sm="12" xs="12">
+        <MudItem md="10" sm="12" xs="12">
             <MudPaper Elevation="1" Class="pa-5 mr-7">
                 @Body
             </MudPaper>

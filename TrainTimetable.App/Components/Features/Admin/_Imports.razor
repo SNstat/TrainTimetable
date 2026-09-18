@@ -1,0 +1,6 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@using TrainTimetable.Business.Services
+@using TrainTimetable.Data.Entities
+
+@attribute [Authorize(Roles = "Admin")]
+@layout AdminLayout
