@@ -1,8 +1,10 @@
 ﻿@page "/admin/trains"
 
+@inject NavigationManager NavigationManager
 @inject ITrainService TrainService
 
 <PageTitle>Train Data</PageTitle>
+
 <MudDataGrid Items="@Trains"
              Hover
              FixedHeader
@@ -13,7 +15,8 @@
     <ToolBarContent>
         <MudText Typo="Typo.h6">Trains</MudText>
         <MudSpacer />
-        <MudButton Variant="Variant.Outlined" OnClick="NewItemAsync">
+        <MudButton Variant="Variant.Outlined"
+                   OnClick="@(() => NavigationManager.NavigateTo("admin/trains/0"))">
             + Add New Item
         </MudButton>
     </ToolBarContent>
@@ -25,8 +28,13 @@
         <PropertyColumn Property="x => x.TrainManufacturer.Name" Title="Train Manufacturer" />
         <TemplateColumn>
             <CellTemplate>
-                <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" />
-                <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Delete" />
+                <MudIconButton Size="@Size.Small"
+                               Icon="@Icons.Material.Outlined.Edit"
+                               OnClick="@(() => NavigationManager.NavigateTo($"admin/trains/{context.Item.ID}"))"/>
+
+                <MudIconButton Size="@Size.Small"
+                               Icon="@Icons.Material.Outlined.Delete"
+                               OnClick="@(async () => await DeleteItemAsync(context.Item.ID))" />
             </CellTemplate>
         </TemplateColumn>
     </Columns>
@@ -39,23 +47,15 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await Task.Delay(1000);
         Trains = await TrainService.FetchAllAsync();
         _loading = false;
     }
 
-    private async Task NewItemAsync()
+    private async Task DeleteItemAsync(int id)
     {
-        await Task.FromResult(Task.CompletedTask);
-    }
-
-    private async Task UpdateItemAsync()
-    {
-        await Task.FromResult(Task.CompletedTask);
-    }
-
-    private async Task DeleteItemAsync()
-    {
-        await Task.FromResult(Task.CompletedTask);
+        if (id > 0)
+        {
+            // TODO: alert -> OK -> await RemoveTrainByIDAsync(id);
+        }
     }
 }

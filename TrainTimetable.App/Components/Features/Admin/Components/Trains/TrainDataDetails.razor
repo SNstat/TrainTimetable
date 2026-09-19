@@ -1,7 +1,195 @@
-﻿@page "/admin/trains/{id:int}"
+﻿@using System.ComponentModel.DataAnnotations
+
+@page "/admin/trains/{id:int:range(0, 2147483647)}"
 
 @inject ITrainService TrainService
+@inject ITrainManufacturerService TrainManufacturerService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Train Details</PageTitle>
+
+<MudStack Row="true">
+    <MudAvatar Class="ml-2" @onclick="GoBack" Color="Color.Primary" Variant="Variant.Outlined" style="cursor: pointer">
+        <MudIcon Icon="@Icons.Material.Filled.ArrowBack">
+        </MudIcon>
+    </MudAvatar>
+
+    <MudText Typo="Typo.h6" Class="mt-1 mb-5">
+        @TitleText
+    </MudText>
+</MudStack>
+
+@if (Model == null)
+{
+    <MudStack Class="px-8 my-8" Row="true">
+        <MudIcon Color="Color.Error" Icon="@Icons.Material.Filled.Error" Class="mt-1"></MudIcon>
+        <MudText Typo="Typo.h6" Color="Color.Error">There is no train with ID: <b>@Id </b></MudText>
+    </MudStack>
+} else
+{
+    <EditForm T="Train" Model="@Model" OnValidSubmit="ValidSubmit">
+        <DataAnnotationsValidator />
+        <MudCard style="background-color: var(--mud-palette-drawer-background);">
+            <MudCardContent>
+                <MudGrid>
+                    <MudItem md="6" sm="12">
+                        <MudNumericField Class="mt-3"
+                                         Style="background-color: var(--mud-palette-surface);"
+                                         Label="Train Number"
+                                         Variant="Variant.Outlined"
+                                         @bind-Value="Model!.TrainNumber"
+                                         For="@(() => Model!.TrainNumber)"
+                                         Min="1" Max="100000" />
+                    </MudItem>
+                    <MudItem md="6" sm="12">
+                        <MudTextField Label="Train Name"
+                                      Style="background-color: var(--mud-palette-surface);"
+                                      Class="mt-3"
+                                      Variant="Variant.Outlined"
+                                      @bind-Value="Model?.Name"
+                                      For="@(() => Model!.Name)" />
+                    </MudItem>
+                    <MudItem md="4" sm="12">
+                        <MudNumericField T="int"
+                                         Class="mt-3"
+                                         Label="Seats"
+                                         Value="Model!.SeatCount"
+                                         ValueChanged="SeatCountChange"
+                                         For="@(() => Model!.SeatCount)"
+                                         Min="1" Max="1000"
+                                         Style="background-color: var(--mud-palette-surface);"
+                                         Adornment="Adornment.Start"
+                                         Variant="Variant.Outlined"
+                                         AdornmentIcon="@Icons.Material.Filled.EventSeat" />
+                    </MudItem>
+                    <MudItem md="4" sm="12">
+                        <MudNumericField Class="mt-3"
+                                         Label="Disabled Seats"
+                                         Style="background-color: var(--mud-palette-surface);"
+                                         @bind-Value="Model!.DisabledSeatCount"
+                                         For="@(() => Model!.DisabledSeatCount)"
+                                         Min="0" Max="Model!.SeatCount"
+                                         Variant="Variant.Outlined"
+                                         Adornment="Adornment.Start"
+                                         AdornmentIcon="@Icons.Material.Filled.WheelchairPickup" />
+                    </MudItem>
+                    <MudItem md="4" sm="12">
+                        <MudNumericField Class="mt-3"
+                                         Label="Bike Spaces"
+                                         Style="background-color: var(--mud-palette-surface);"
+                                         @bind-Value="Model!.BikeSpaceCount"
+                                         For="@(() => Model!.BikeSpaceCount)"
+                                         Min="0"
+                                         Variant="Variant.Outlined"
+                                         Adornment="Adornment.Start"
+                                         AdornmentIcon="@Icons.Material.Filled.PedalBike" />
+                    </MudItem>
+                    <MudItem md="12">
+                        <MudAutocomplete T="string"
+                                         Label="Train Manufacturer"
+                                         Style="background-color: var(--mud-palette-surface);"
+                                         @bind-Value="SelectedManufacturerName"
+                                         SearchFunc="@SearchTrainManufacturers"
+                                         ResetValueOnEmptyText="true"
+                                         OpenOnFocus="true"
+                                         Clearable="true"
+                                         CoerceValue="true"
+                                         CoerceText="false"
+                                         Variant="Variant.Outlined"/>
+                    </MudItem>
+                </MudGrid>
+
+            
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit"
+                           Size="Size.Large"
+                           Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           Class="ml-3 mb-6">Save Changes</MudButton>
+
+                <MudButton ButtonType="ButtonType.Button"
+                           Size="Size.Large"
+                           Variant="Variant.Outlined"
+                           Color="Color.Primary"
+                           @onclick="GoBack"
+                           Class="ml-3 mb-6">Cancel</MudButton>
+
+            </MudCardActions>
+        </MudCard>
+    </EditForm>
+}
 
 @code {
+    [Parameter]
+    public int Id { get; set; }
 
+    private Train? Model { get; set; }
+
+    private string TitleText { get; set; } = String.Empty;
+
+    private bool IsNewItem { get; set; }
+
+    [Required]
+    private string SelectedManufacturerName { get; set; } = String.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        IsNewItem = Id == 0;
+
+        if (IsNewItem)
+        {
+            TitleText = "Adding New Train";
+            Model = new();
+            Model.SeatCount = 1;
+            Model.TrainNumber = 1;
+        } else
+        {
+            TitleText = "Editing Train Number " + Id;
+            Model = await TrainService.FetchByIdAsync(Id);
+            SelectedManufacturerName = Model!.TrainManufacturer!.Name;
+        }
+    }
+
+    private void SeatCountChange(int seatCount)
+    {
+        if (Model != null)
+        {
+            Model.SeatCount = seatCount;
+            Model.DisabledSeatCount = Model.DisabledSeatCount > Model.SeatCount ? Model.SeatCount : Model.DisabledSeatCount;
+        }
+    }
+
+    private async Task<IEnumerable<String>> SearchTrainManufacturers(string search, CancellationToken token)
+    {
+        var manufacturers = await TrainManufacturerService.FetchTrainManufacturerItemsAsync(search);
+
+        return manufacturers.Select(_ => _.Name);
+    }
+
+    private async Task ValidSubmit()
+    {
+        if (Model != null && string.IsNullOrWhiteSpace(SelectedManufacturerName))
+        {
+            int trainManufacturerID = await TrainManufacturerService.IdentifyTrainManufacturerAsync(SelectedManufacturerName);
+
+            Model?.TrainManufacturer = null!;
+            Model?.TrainManufacturerID = trainManufacturerID;
+
+            if (IsNewItem)
+            {
+                await TrainService.RegisterAsync(Model!);
+            } else
+            {
+                await TrainService.UpdateInfoAsync(Model!);
+            }
+
+            GoBack();
+        }
+    }
+
+    private void GoBack()
+    {
+        NavigationManager.NavigateTo("admin/trains");
+    }
 }
