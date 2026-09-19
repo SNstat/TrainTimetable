@@ -10,6 +10,7 @@ public static class BusinessModule
 {
     public static IServiceCollection AddBusinessModule(this IServiceCollection services) {
         services.AddScoped<IBaseRepository<Train>, BaseRepository<Train>>();
+        services.AddScoped<IBaseRepository<TrainManufacturer>, BaseRepository<TrainManufacturer>>();
         services.AddScoped<IBaseRepository<LineSchedule>, BaseRepository<LineSchedule>>();
         services.AddScoped<IBaseRepository<Station>, BaseRepository<Station>>();
         services.AddScoped<IBaseRepository<Ticket>, BaseRepository<Ticket>>();

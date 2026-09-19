@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using TrainTimetable.Data.Entities;
 using TrainTimetable.Data.Repositories;
 
@@ -10,6 +11,8 @@ public interface ITrainService
 
     Task UpdateInfoAsync(Train train);
 
+    Task RemoveAsync(Train train);
+
     Task<Train?> FetchByIdAsync(int id);
 
     Task<IEnumerable<Train>> FetchAllAsync();
@@ -17,10 +20,15 @@ public interface ITrainService
     Task<IEnumerable<Train>> FetchAllActiveAsync();
 
     Task<IEnumerable<Train>> FetchAllInactiveAsync();
+
+    Task<IEnumerable<TrainManufacturer>> FetchAllTrainManufacturersAsync();
+
+    Task AddTrainManufacturerAsync(string name);
 }
 
 public class TrainService(
-    IBaseRepository<Train> trainRepository) : ITrainService
+    IBaseRepository<Train> trainRepository,
+    IBaseRepository<TrainManufacturer> trainManufacturerRepository) : ITrainService
 {
     private static async Task ValidateTrain(Train train)
     {
@@ -66,6 +74,11 @@ public class TrainService(
         await trainRepository.UpdateAsync(train);
     }
 
+    public async Task RemoveAsync(Train train)
+    {
+        await trainRepository.DeleteAsync(train);
+    }
+
     public async Task<Train?> FetchByIdAsync(int id)
     {
         if (id <= 0)
@@ -84,13 +97,40 @@ public class TrainService(
 
     public async Task<IEnumerable<Train>> FetchAllActiveAsync()
     {
-        var query = await trainRepository.BuildQueryAsync(_ => _.IsActive);
+        var query = await trainRepository.BuildQueryAsync(_ => _.IsActive == true,
+            _ => _.Include(_ => _.TrainManufacturer));
+
         return query;
     }
 
     public async Task<IEnumerable<Train>> FetchAllInactiveAsync()
     {
-        var query = await trainRepository.BuildQueryAsync(_ => !_.IsActive);
+        var query = await trainRepository.BuildQueryAsync(_ => _.IsActive == false,
+            _ => _.Include(_ => _.TrainManufacturer));
+
         return query;
+    }
+
+    public async Task<IEnumerable<TrainManufacturer>> FetchAllTrainManufacturersAsync()
+    {
+        return await trainManufacturerRepository.GetAllAsync() ?? [];
+    }
+
+    public async Task AddTrainManufacturerAsync(string name)
+    {
+        if (!string.IsNullOrEmpty(name))
+        {
+            var query = await trainManufacturerRepository.BuildQueryAsync(_ => _.Name == name);
+
+            if (query.IsNullOrEmpty())
+            {
+                var trainManufacturer = new TrainManufacturer()
+                {
+                    Name = name
+                };
+
+                await trainManufacturerRepository.InsertAsync(trainManufacturer);
+            }
+        }
     }
 }

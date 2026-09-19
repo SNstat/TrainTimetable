@@ -13,6 +13,7 @@ dotnet_diagnostic.CA2201.severity = none
 dotnet_diagnostic.IDE0008.severity = none
 dotnet_diagnostic.IDE0039.severity = none
 dotnet_diagnostic.IDE0058.severity = none
+dotnet_diagnostic.RZ10007.severity = none
 
 [**/Entities/*.cs]
 dotnet_diagnostic.CS8618.severity = none

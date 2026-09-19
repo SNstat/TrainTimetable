@@ -11,7 +11,9 @@ public class TrainServiceTests
     {
         // Arrange
         var repository = new FakeBaseRepository<Train>();
-        var trainService = new TrainService(repository);
+        var repositoryTrainManufacturer = new FakeBaseRepository<TrainManufacturer>();
+        var trainService = new TrainService(repository, repositoryTrainManufacturer);
+
         var train = new Train
         {
             Name = "Thomas",
@@ -36,7 +38,9 @@ public class TrainServiceTests
     {
         // Arange
         var repository = new FakeBaseRepository<Train>();
-        var trainService = new TrainService(repository);
+        var repositoryTrainManufacturer = new FakeBaseRepository<TrainManufacturer>();
+        var trainService = new TrainService(repository, repositoryTrainManufacturer);
+
         Train train = null!;
 
         // Act
@@ -59,7 +63,9 @@ public class TrainServiceTests
     {
         // Arrange
         var repository = new FakeBaseRepository<Train>();
-        var trainService = new TrainService(repository);
+        var repositoryTrainManufacturer = new FakeBaseRepository<TrainManufacturer>();
+        var trainService = new TrainService(repository, repositoryTrainManufacturer);
+
         var train = new Train {
             Name = name,
             SeatCount = seatCount,
@@ -80,7 +86,9 @@ public class TrainServiceTests
     {
         // Arrange
         var repository = new FakeBaseRepository<Train>();
-        var trainService = new TrainService(repository);
+        var repositoryTrainManufacturer = new FakeBaseRepository<TrainManufacturer>();
+        var trainService = new TrainService(repository, repositoryTrainManufacturer);
+
         var train = new Train
         {
             Name = "Thomas",
@@ -111,7 +119,9 @@ public class TrainServiceTests
     {
         // Arrange
         var repository = new FakeBaseRepository<Train>();
-        var trainService = new TrainService(repository);
+        var repositoryTrainManufacturer = new FakeBaseRepository<TrainManufacturer>();
+        var trainService = new TrainService(repository, repositoryTrainManufacturer);
+
         var train = new Train
         {
             Name = "Thomas",
@@ -140,7 +150,9 @@ public class TrainServiceTests
     {
         // Arrange
         var repository = new FakeBaseRepository<Train>();
-        var trainService = new TrainService(repository);
+        var repositoryTrainManufacturer = new FakeBaseRepository<TrainManufacturer>();
+        var trainService = new TrainService(repository, repositoryTrainManufacturer);
+
         var train = new Train
         {
             Name = "Thomas",
@@ -166,7 +178,9 @@ public class TrainServiceTests
     {
         // Arrange
         var repository = new FakeBaseRepository<Train>();
-        var trainService = new TrainService(repository);
+        var repositoryTrainManufacturer = new FakeBaseRepository<TrainManufacturer>();
+        var trainService = new TrainService(repository, repositoryTrainManufacturer);
+
         var train = new Train
         {
             ID = 1,
@@ -192,7 +206,9 @@ public class TrainServiceTests
     {
         // Arrange
         var repository = new FakeBaseRepository<Train>();
-        var trainService = new TrainService(repository);
+        var repositoryTrainManufacturer = new FakeBaseRepository<TrainManufacturer>();
+        var trainService = new TrainService(repository, repositoryTrainManufacturer);
+
         var train = new Train
         {
             ID = 1,
@@ -217,7 +233,9 @@ public class TrainServiceTests
     {
         // Arrange
         var repository = new FakeBaseRepository<Train>();
-        var trainService = new TrainService(repository);
+        var repositoryTrainManufacturer = new FakeBaseRepository<TrainManufacturer>();
+        var trainService = new TrainService(repository, repositoryTrainManufacturer);
+
         var train = new Train
         {
             Name = "Thomas",
@@ -239,7 +257,9 @@ public class TrainServiceTests
     {
         // Arrange
         var repository = new FakeBaseRepository<Train>();
-        var trainService = new TrainService(repository);
+        var repositoryTrainManufacturer = new FakeBaseRepository<TrainManufacturer>();
+        var trainService = new TrainService(repository, repositoryTrainManufacturer);
+
         var lineSchedules = new List<LineSchedule>()
         {
             new() { ID = 1 },
@@ -272,7 +292,8 @@ public class TrainServiceTests
     {
         // Arrange
         var repository = new FakeBaseRepository<Train>();
-        var trainService = new TrainService(repository);
+        var repositoryTrainManufacturer = new FakeBaseRepository<TrainManufacturer>();
+        var trainService = new TrainService(repository, repositoryTrainManufacturer);
 
         // Act
         var demandedTrains = await trainService.FetchAllAsync();
@@ -286,7 +307,9 @@ public class TrainServiceTests
     {
         // Arrange
         var repository = new FakeBaseRepository<Train>();
-        var trainService = new TrainService(repository);
+        var repositoryTrainManufacturer = new FakeBaseRepository<TrainManufacturer>();
+        var trainService = new TrainService(repository, repositoryTrainManufacturer);
+
         var lineSchedules = new List<LineSchedule>()
         {
             new() { ID = 1 },
@@ -325,7 +348,8 @@ public class TrainServiceTests
     {
         // Arrange
         var repository = new FakeBaseRepository<Train>();
-        var trainService = new TrainService(repository);
+        var repositoryTrainManufacturer = new FakeBaseRepository<TrainManufacturer>();
+        var trainService = new TrainService(repository, repositoryTrainManufacturer);
 
         var trains = new List<Train>()
         {
@@ -350,7 +374,9 @@ public class TrainServiceTests
     {
         // Arrange
         var repository = new FakeBaseRepository<Train>();
-        var trainService = new TrainService(repository);
+        var repositoryTrainManufacturer = new FakeBaseRepository<TrainManufacturer>();
+        var trainService = new TrainService(repository, repositoryTrainManufacturer);
+
         var lineSchedules = new List<LineSchedule>()
         {
             new() { ID = 1 },
@@ -389,7 +415,9 @@ public class TrainServiceTests
     {
         // Arrange
         var repository = new FakeBaseRepository<Train>();
-        var trainService = new TrainService(repository);
+        var repositoryTrainManufacturer = new FakeBaseRepository<TrainManufacturer>();
+        var trainService = new TrainService(repository, repositoryTrainManufacturer);
+
         var lineSchedules = new List<LineSchedule>()
     {
         new() { ID = 1 },
