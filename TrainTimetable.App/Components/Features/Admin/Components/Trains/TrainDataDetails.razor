@@ -37,7 +37,8 @@
                                          Style="background-color: var(--mud-palette-surface);"
                                          Label="Train Number"
                                          Variant="Variant.Outlined"
-                                         @bind-Value="Model!.TrainNumber"
+                                         Value="Model!.TrainNumber"
+                                         ValueChanged="CheckUniqueConstraint"
                                          For="@(() => Model!.TrainNumber)"
                                          Min="1" Max="100000" />
                     </MudItem>
@@ -46,7 +47,8 @@
                                       Style="background-color: var(--mud-palette-surface);"
                                       Class="mt-3"
                                       Variant="Variant.Outlined"
-                                      @bind-Value="Model?.Name"
+                                      Value="Model?.Name"
+                                      ValueChanged="CheckUniqueConstraint"
                                       For="@(() => Model!.Name)" />
                     </MudItem>
                     <MudItem md="4" sm="12">
@@ -130,7 +132,10 @@
 
     private bool IsNewItem { get; set; }
 
-    [Required]
+    private int OriginalTrainNumber { get; set; } = 0;
+    private string OriginalTrainName { get; set; } = String.Empty;
+
+    [Required(ErrorMessage = "Train Manufacturer is required.")]
     private string SelectedManufacturerName { get; set; } = String.Empty;
 
     protected override async Task OnInitializedAsync()
@@ -148,6 +153,9 @@
             TitleText = "Editing Train Number " + Id;
             Model = await TrainService.FetchByIdAsync(Id);
             SelectedManufacturerName = Model!.TrainManufacturer!.Name;
+
+            OriginalTrainNumber = Model.TrainNumber;
+            OriginalTrainName = Model.Name;
         }
     }
 
@@ -169,7 +177,7 @@
 
     private async Task ValidSubmit()
     {
-        if (Model != null && string.IsNullOrWhiteSpace(SelectedManufacturerName))
+        if (Model != null && !string.IsNullOrWhiteSpace(SelectedManufacturerName))
         {
             int trainManufacturerID = await TrainManufacturerService.IdentifyTrainManufacturerAsync(SelectedManufacturerName);
 
@@ -191,5 +199,15 @@
     private void GoBack()
     {
         NavigationManager.NavigateTo("admin/trains");
+    }
+
+    private void CheckUniqueConstraint()
+    {
+        if (Model != null)
+        {
+            bool IsNameUnique = TrainService.IsNameUnique(Model.Name, OriginalTrainName);
+
+            if ()
+        }
     }
 }

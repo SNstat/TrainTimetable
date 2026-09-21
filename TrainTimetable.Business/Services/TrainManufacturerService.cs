@@ -57,7 +57,7 @@ public class TrainManufacturerService(IBaseRepository<TrainManufacturer> trainMa
                 query = await trainManufacturerRepository.BuildQueryAsync(_ => _.Name == name);
             }
 
-            return query.FirstOrDefault().ID;
+            return query.FirstOrDefault()!.ID;
         }
 
         return 0;

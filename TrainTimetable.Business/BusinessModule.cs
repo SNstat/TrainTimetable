@@ -17,6 +17,7 @@ public static class BusinessModule
         services.AddScoped<IBaseRepository<TicketSchedule>, BaseRepository<TicketSchedule>>();
 
         services.AddScoped<ITrainService, TrainService>();
+        services.AddScoped<ITrainManufacturerService, TrainManufacturerService>();
         services.AddScoped<ITimetableService, TimetableService>();
         services.AddScoped<IStationService, StationService>();
         services.AddScoped<ITicketService, TicketService>();

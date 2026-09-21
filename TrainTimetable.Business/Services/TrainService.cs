@@ -17,22 +17,22 @@ public interface ITrainService
 
     Task<IEnumerable<Train>> FetchAllAsync();
 
-    Task<IEnumerable<Train>> FetchAllActiveAsync();
+    Task<bool> IsTrainNumberUnique(int trainNumber, int exception);
 
-    Task<IEnumerable<Train>> FetchAllInactiveAsync();
-
-    Task<IEnumerable<TrainManufacturer>> FetchAllTrainManufacturersAsync();
-
-    Task AddTrainManufacturerAsync(string name);
+    Task<bool> IsNameUnique(string name, string exception);
 }
 
 public class TrainService(
-    IBaseRepository<Train> trainRepository,
-    IBaseRepository<TrainManufacturer> trainManufacturerRepository) : ITrainService
+    IBaseRepository<Train> trainRepository) : ITrainService
 {
     private static async Task ValidateTrain(Train train)
     {
         ArgumentNullException.ThrowIfNull(train);
+
+        if (train.TrainNumber < 1)
+        {
+            throw new ApplicationException("Invalid Train Number. Train Number must be at least 1.");
+        }
 
         if (string.IsNullOrWhiteSpace(train.Name) || train.Name.Length > 250)
         {
@@ -84,7 +84,10 @@ public class TrainService(
         if (id <= 0)
             throw new ApplicationException("Invalid search ID. ID must be at least 1.");
 
-        return await trainRepository.GetByIDAsync(id);
+        var query = await trainRepository.BuildQueryAsync(_ => _.ID == id,
+            _ => _.Include(_ => _.TrainManufacturer));
+
+        return query.FirstOrDefault();
     }
 
     public async Task<IEnumerable<Train>> FetchAllAsync()
@@ -95,42 +98,21 @@ public class TrainService(
         return query ?? [];
     }
 
-    public async Task<IEnumerable<Train>> FetchAllActiveAsync()
+    public async Task<bool> IsTrainNumberUnique(int trainNumber, int exception = 0)
     {
-        var query = await trainRepository.BuildQueryAsync(_ => _.IsActive == true,
-            _ => _.Include(_ => _.TrainManufacturer));
+        var query = await trainRepository.BuildQueryAsync(
+            _ => _.TrainNumber == trainNumber && _.TrainNumber != exception
+        );
 
-        return query;
+        return !query.Any();
     }
 
-    public async Task<IEnumerable<Train>> FetchAllInactiveAsync()
+    public async Task<bool> IsNameUnique(string name, string exception = "")
     {
-        var query = await trainRepository.BuildQueryAsync(_ => _.IsActive == false,
-            _ => _.Include(_ => _.TrainManufacturer));
+        var query = await trainRepository.BuildQueryAsync(
+            _ => _.Name == name && _.Name != exception
+        );
 
-        return query;
-    }
-
-    public async Task<IEnumerable<TrainManufacturer>> FetchAllTrainManufacturersAsync()
-    {
-        return await trainManufacturerRepository.GetAllAsync() ?? [];
-    }
-
-    public async Task AddTrainManufacturerAsync(string name)
-    {
-        if (!string.IsNullOrEmpty(name))
-        {
-            var query = await trainManufacturerRepository.BuildQueryAsync(_ => _.Name == name);
-
-            if (query.IsNullOrEmpty())
-            {
-                var trainManufacturer = new TrainManufacturer()
-                {
-                    Name = name
-                };
-
-                await trainManufacturerRepository.InsertAsync(trainManufacturer);
-            }
-        }
+        return !query.Any();
     }
 }
