@@ -131,14 +131,24 @@
                 </MudStep>
                 <MudStep Title="Checkout" Disabled="!hasPayed" Completed="hasPayed">
                     <MudText Typo="Typo.h6" Class="ma-5">You have succesfully bought the ticket!</MudText>
-                    <MudButton Variant="Variant.Filled"
-                               Color="Color.Primary"
-                               Size="Size.Large"
-                               Class="ml-5"
-                               EndIcon="@Icons.Material.Filled.Home"
-                               @onclick="@(() => NavigationManager.NavigateTo("/", true))">
-                        Go to home
-                    </MudButton>
+                    <MudStack Row="true">
+                        <MudButton Variant="Variant.Filled"
+                                   Color="Color.Primary"
+                                   Size="Size.Large"
+                                   Class="ml-5"
+                                   EndIcon="@Icons.Material.Filled.Home"
+                                   @onclick="@(() => NavigationManager.NavigateTo("/", true))">
+                            Go to home
+                        </MudButton>
+                        <MudButton Variant="Variant.Filled"
+                                   Color="Color.Primary"
+                                   Size="Size.Large"
+                                   Class="ml-2"
+                                   EndIcon="@Icons.Material.Filled.Bookmark"
+                                   @onclick="@(() => NavigationManager.NavigateTo("/tickets", true))">
+                            View all tickets
+                        </MudButton>
+                    </MudStack>
                 </MudStep>
             </MudStepper>
         } else

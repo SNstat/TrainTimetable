@@ -27,7 +27,7 @@
     </MudStack>
 } else
 {
-    <EditForm T="Train" Model="@Model" OnValidSubmit="ValidSubmit">
+    <EditForm T="Train" EditContext="editContext" OnValidSubmit="ValidSubmit">
         <DataAnnotationsValidator />
         <MudCard style="background-color: var(--mud-palette-drawer-background);">
             <MudCardContent>
@@ -38,9 +38,9 @@
                                          Label="Train Number"
                                          Variant="Variant.Outlined"
                                          Value="Model!.TrainNumber"
-                                         ValueChanged="CheckUniqueConstraint"
+                                         ValueChanged="@(async (int _) => await TrainNumberChanged(_))"
                                          For="@(() => Model!.TrainNumber)"
-                                         Min="1" Max="100000" />
+                                         Min="1" Max="1000000" />
                     </MudItem>
                     <MudItem md="6" sm="12">
                         <MudTextField Label="Train Name"
@@ -48,7 +48,7 @@
                                       Class="mt-3"
                                       Variant="Variant.Outlined"
                                       Value="Model?.Name"
-                                      ValueChanged="CheckUniqueConstraint"
+                                      ValueChanged="@(async (string _) => await TrainNameChanged(_))"
                                       For="@(() => Model!.Name)" />
                     </MudItem>
                     <MudItem md="4" sm="12">
@@ -87,16 +87,16 @@
                                          AdornmentIcon="@Icons.Material.Filled.PedalBike" />
                     </MudItem>
                     <MudItem md="12">
-                        <MudAutocomplete T="string"
+                        <MudAutocomplete T="TrainManufacturer"
                                          Label="Train Manufacturer"
                                          Style="background-color: var(--mud-palette-surface);"
-                                         @bind-Value="SelectedManufacturerName"
+                                         @bind-Value="Model.TrainManufacturer"
                                          SearchFunc="@SearchTrainManufacturers"
+                                         ToStringFunc="@(_ => _?.Name)"
+                                         For="@(() => Model.TrainManufacturer)"
                                          ResetValueOnEmptyText="true"
                                          OpenOnFocus="true"
                                          Clearable="true"
-                                         CoerceValue="true"
-                                         CoerceText="false"
                                          Variant="Variant.Outlined"/>
                     </MudItem>
                 </MudGrid>
@@ -128,15 +128,15 @@
 
     private Train? Model { get; set; }
 
+    private EditContext? editContext;
+    private ValidationMessageStore? messageStore;
+
     private string TitleText { get; set; } = String.Empty;
 
     private bool IsNewItem { get; set; }
 
     private int OriginalTrainNumber { get; set; } = 0;
     private string OriginalTrainName { get; set; } = String.Empty;
-
-    [Required(ErrorMessage = "Train Manufacturer is required.")]
-    private string SelectedManufacturerName { get; set; } = String.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -145,17 +145,24 @@
         if (IsNewItem)
         {
             TitleText = "Adding New Train";
-            Model = new();
-            Model.SeatCount = 1;
-            Model.TrainNumber = 1;
+            Model = new()
+                {
+                    SeatCount = 1,
+                    TrainNumber = 1
+                };
         } else
         {
             TitleText = "Editing Train Number " + Id;
             Model = await TrainService.FetchByIdAsync(Id);
-            SelectedManufacturerName = Model!.TrainManufacturer!.Name;
 
-            OriginalTrainNumber = Model.TrainNumber;
-            OriginalTrainName = Model.Name;
+            OriginalTrainNumber = Model!.TrainNumber;
+            OriginalTrainName = Model!.Name;
+        }
+
+        if (Model != null)
+        {
+            editContext = new EditContext(Model);
+            messageStore = new ValidationMessageStore(editContext);
         }
     }
 
@@ -168,26 +175,22 @@
         }
     }
 
-    private async Task<IEnumerable<String>> SearchTrainManufacturers(string search, CancellationToken token)
+    private async Task<IEnumerable<TrainManufacturer>> SearchTrainManufacturers(string search, CancellationToken token)
     {
-        var manufacturers = await TrainManufacturerService.FetchTrainManufacturerItemsAsync(search);
-
-        return manufacturers.Select(_ => _.Name);
+        return await TrainManufacturerService.FetchTrainManufacturerItemsAsync(search ?? string.Empty);
     }
 
     private async Task ValidSubmit()
     {
-        if (Model != null && !string.IsNullOrWhiteSpace(SelectedManufacturerName))
+        if (Model != null)
         {
-            int trainManufacturerID = await TrainManufacturerService.IdentifyTrainManufacturerAsync(SelectedManufacturerName);
-
-            Model?.TrainManufacturer = null!;
-            Model?.TrainManufacturerID = trainManufacturerID;
-
             if (IsNewItem)
             {
+                Model.TrainManufacturerID = Model.TrainManufacturer.ID;
+                Model.TrainManufacturer = null!;
                 await TrainService.RegisterAsync(Model!);
-            } else
+            }
+            else
             {
                 await TrainService.UpdateInfoAsync(Model!);
             }
@@ -201,13 +204,50 @@
         NavigationManager.NavigateTo("admin/trains");
     }
 
-    private void CheckUniqueConstraint()
+    private async Task TrainNumberChanged(int trainNumber)
     {
-        if (Model != null)
+        if (Model != null && editContext != null && messageStore != null)
         {
-            bool IsNameUnique = TrainService.IsNameUnique(Model.Name, OriginalTrainName);
+            var fieldIdentifier = editContext.Field(nameof(Model.TrainNumber));
+            messageStore.Clear(fieldIdentifier);
 
-            if ()
+            if (IsNewItem || trainNumber != OriginalTrainNumber)
+            {
+                bool IsTrainNumberUnique = await TrainService.IsTrainNumberUniqueAsync(trainNumber, OriginalTrainNumber);
+
+                if (!IsTrainNumberUnique)
+                {
+                    messageStore.Add(fieldIdentifier, $"The train number {trainNumber} is not unique.");
+                } else
+                {
+                    Model.TrainNumber = trainNumber;
+                }
+            }
+
+            editContext.NotifyValidationStateChanged();
+        }
+    }
+    private async Task TrainNameChanged(string trainName)
+    {
+        if (Model != null && editContext != null && messageStore != null)
+        {
+            var fieldIdentifier = editContext.Field(nameof(Model.Name));
+            messageStore.Clear(fieldIdentifier);
+
+            if (IsNewItem || trainName != OriginalTrainName)
+            {
+                bool IsTrainNameUnique = await TrainService.IsNameUniqueAsync(trainName, OriginalTrainName);
+
+                if (!IsTrainNameUnique)
+                {
+                    messageStore.Add(fieldIdentifier, $"The name {trainName} is not unique.");
+                } else
+                {
+                    Model.Name = trainName;
+                }
+            }
+
+            editContext.NotifyValidationStateChanged();
         }
     }
 }

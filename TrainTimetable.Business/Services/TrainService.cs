@@ -17,9 +17,9 @@ public interface ITrainService
 
     Task<IEnumerable<Train>> FetchAllAsync();
 
-    Task<bool> IsTrainNumberUnique(int trainNumber, int exception);
+    Task<bool> IsTrainNumberUniqueAsync(int trainNumber, int exception);
 
-    Task<bool> IsNameUnique(string name, string exception);
+    Task<bool> IsNameUniqueAsync(string name, string exception);
 }
 
 public class TrainService(
@@ -44,7 +44,7 @@ public class TrainService(
             throw new ApplicationException("Invalid number of seats. Valid range is 1 to 1000.");
         }
 
-        if (train.TrainManufacturerID < 1)
+        if (train.TrainManufacturerID < 0)
         {
             throw new ApplicationException("Invalid manufacturer ID. Manufacturer ID must be at least 1.");
         }
@@ -98,7 +98,7 @@ public class TrainService(
         return query ?? [];
     }
 
-    public async Task<bool> IsTrainNumberUnique(int trainNumber, int exception = 0)
+    public async Task<bool> IsTrainNumberUniqueAsync(int trainNumber, int exception = 0)
     {
         var query = await trainRepository.BuildQueryAsync(
             _ => _.TrainNumber == trainNumber && _.TrainNumber != exception
@@ -107,7 +107,7 @@ public class TrainService(
         return !query.Any();
     }
 
-    public async Task<bool> IsNameUnique(string name, string exception = "")
+    public async Task<bool> IsNameUniqueAsync(string name, string exception = "")
     {
         var query = await trainRepository.BuildQueryAsync(
             _ => _.Name == name && _.Name != exception

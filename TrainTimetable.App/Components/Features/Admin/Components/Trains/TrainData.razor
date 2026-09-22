@@ -55,7 +55,14 @@
     {
         if (id > 0)
         {
-            // TODO: alert -> OK -> await RemoveTrainByIDAsync(id);
+            var train = await TrainService.FetchByIdAsync(id);
+            if (train != null)
+            {
+                await TrainService.RemoveAsync(train);
+                _loading = true;
+                Trains = await TrainService.FetchAllAsync();
+                _loading = false;
+            }
         }
     }
 }

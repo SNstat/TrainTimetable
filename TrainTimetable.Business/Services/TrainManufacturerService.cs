@@ -17,24 +17,24 @@ public class TrainManufacturerService(IBaseRepository<TrainManufacturer> trainMa
     {
         ArgumentNullException.ThrowIfNull(search);
 
-        IEnumerable<TrainManufacturer> manufacturers;
+        IEnumerable<TrainManufacturer> trainManufacturers;
 
         if (search == String.Empty)
         {
-            manufacturers = await trainManufacturerRepository.GetAllAsync();
+            trainManufacturers = await trainManufacturerRepository.GetAllAsync();
         }
         else
         {
-            manufacturers = await trainManufacturerRepository
+            trainManufacturers = await trainManufacturerRepository
                 .BuildQueryAsync(_ => _.Name.ToLower().StartsWith(search.ToLower()));
         }
 
-        if (manufacturers.IsNullOrEmpty())
+        if (trainManufacturers.IsNullOrEmpty())
         {
             return [];
         }
 
-        return manufacturers
+        return trainManufacturers
             .OrderBy(_ => _.Name)
             .Take(10);
     }
@@ -62,4 +62,6 @@ public class TrainManufacturerService(IBaseRepository<TrainManufacturer> trainMa
 
         return 0;
     }
+
+
 }
