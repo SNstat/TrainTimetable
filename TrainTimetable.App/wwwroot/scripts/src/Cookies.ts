@@ -7,7 +7,7 @@ namespace TrainTimetableScripts {
             document.cookie = `IsDarkMode=${isDarkTheme};path=/;expires=${date.toUTCString()};`;
         }
 
-        public static GetThemeCookie(): boolean {
+        public static GetThemeCookie() : boolean {
             const cookie = document.cookie.split(";").find(_ => _ == "IsDarkMode=true");
             if (cookie == undefined) {
                 return false;

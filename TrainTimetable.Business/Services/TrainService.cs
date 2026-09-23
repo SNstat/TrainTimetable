@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Transactions;
 using TrainTimetable.Data.Entities;
 using TrainTimetable.Data.Repositories;
 
@@ -25,11 +26,11 @@ public interface ITrainService
 public class TrainService(
     IBaseRepository<Train> trainRepository) : ITrainService
 {
-    private static async Task ValidateTrain(Train train)
+    private static async Task ValidateTrain(Train train, bool isNew = false)
     {
         ArgumentNullException.ThrowIfNull(train);
 
-        if (train.TrainNumber < 1)
+        if (train.TrainNumber < 1 || train.TrainNumber > 1000000)
         {
             throw new ApplicationException("Invalid Train Number. Train Number must be at least 1.");
         }
@@ -44,7 +45,7 @@ public class TrainService(
             throw new ApplicationException("Invalid number of seats. Valid range is 1 to 1000.");
         }
 
-        if (train.TrainManufacturerID < 0)
+        if (train.TrainManufacturerID < 1)
         {
             throw new ApplicationException("Invalid manufacturer ID. Manufacturer ID must be at least 1.");
         }
@@ -62,7 +63,7 @@ public class TrainService(
 
     public async Task RegisterAsync(Train train)
     {
-        await ValidateTrain(train);
+        await ValidateTrain(train, true);
 
         await trainRepository.InsertAsync(train);
     }

@@ -111,4 +111,44 @@ public class StationServiceTests
         // Assert
         await Assert.ThrowsAsync<ArgumentNullException>(method);
     }
+
+    [Fact]
+    internal async Task StationService_FetchAllAsync_ReturnsValidObjectList()
+    {
+        // Arrange
+        var repository = new FakeBaseRepository<Station>();
+        var stationService = new StationService(repository);
+        var stations = new List<Station>()
+        {
+            new() { ID = 1,  Name = "1 Station", CountryID = 1},
+            new() { ID = 2,  Name = "11 Station", CountryID = 1},
+            new() { ID = 3,  Name = "2 Station", CountryID = 1},
+            new() { ID = 4,  Name = "22 Station", CountryID = 1}
+        };
+
+        // Act
+        foreach (var station in stations)
+        {
+            await repository.InsertAsync(station);
+        }
+
+        var actualStations = await stationService.FetchAllAsync();
+
+        // Assert
+        Assert.Equivalent(stations, actualStations);
+    }
+
+    [Fact]
+    internal async Task StationService_FetchAllAsync_ReturnsEmptyObjectList()
+    {
+        // Arrange
+        var repository = new FakeBaseRepository<Station>();
+        var stationService = new StationService(repository);
+
+        // Act
+        var stations = await stationService.FetchAllAsync();
+
+        // Assert
+        Assert.Empty(stations);
+    }
 }

@@ -15,6 +15,7 @@ public class TrainServiceTests
 
         var train = new Train
         {
+            TrainNumber = 1000,
             Name = "Thomas",
             SeatCount = 20,
             TrainManufacturerID = 1
@@ -87,6 +88,7 @@ public class TrainServiceTests
 
         var train = new Train
         {
+            TrainNumber = 1000,
             Name = "Thomas",
             SeatCount = 20,
             TrainManufacturerID = 1
@@ -95,6 +97,7 @@ public class TrainServiceTests
         // Act
         await trainService.RegisterAsync(train);
 
+        train.TrainNumber = 1001;
         train.Name = "Henry";
         train.SeatCount = 30;
         train.TrainManufacturerID = 2;
@@ -105,6 +108,7 @@ public class TrainServiceTests
         var savedTrains = await repository.GetAllAsync();
         var savedTrain = Assert.Single(savedTrains);
 
+        Assert.Equal(1001, savedTrain.TrainNumber);
         Assert.Equal("Henry", savedTrain.Name);
         Assert.Equal(30, savedTrain.SeatCount);
         Assert.Equal(2, savedTrain.TrainManufacturerID);
@@ -119,6 +123,7 @@ public class TrainServiceTests
 
         var train = new Train
         {
+            TrainNumber= 1000,
             Name = "Thomas",
             SeatCount = 20,
             TrainManufacturerID = 1
@@ -136,12 +141,14 @@ public class TrainServiceTests
     }
 
     [Theory]
-    [InlineData("", 20, 1)]
-    [InlineData("Thomas", 0, 1)]
-    [InlineData("Thomas", 1001, 1)]
-    [InlineData("Thomas", 20, 0)]
-    [InlineData("Thomas", 20, -1)]
-    internal async Task TrainService_UpdateIndoAsync_ThrowsApplicationException(string name, int seatCount, int trainManufacturerID)
+    [InlineData(1001, "", 20, 1)]
+    [InlineData(1001, "Thomas", 0, 1)]
+    [InlineData(1001, "Thomas", 1001, 1)]
+    [InlineData(1001, "Thomas", 20, 0)]
+    [InlineData(1001, "Thomas", 20, -1)]
+    [InlineData(-1, "Thomas", 20, 1)]
+    [InlineData(9999999, "Thomas", 20, 1)]
+    internal async Task TrainService_UpdateInfoAsync_ThrowsApplicationException(int trainNumber, string name, int seatCount, int trainManufacturerID)
     {
         // Arrange
         var repository = new FakeBaseRepository<Train>();
@@ -149,6 +156,7 @@ public class TrainServiceTests
 
         var train = new Train
         {
+            TrainNumber = 1000,
             Name = "Thomas",
             SeatCount = 20,
             TrainManufacturerID = 1
@@ -157,6 +165,7 @@ public class TrainServiceTests
         // Act
         await trainService.RegisterAsync(train);
 
+        train.TrainNumber = trainNumber;
         train.Name = name;
         train.SeatCount = seatCount;
         train.TrainManufacturerID = trainManufacturerID;
@@ -177,6 +186,7 @@ public class TrainServiceTests
         var train = new Train
         {
             ID = 1,
+            TrainNumber = 1000,
             Name = "Thomas",
             SeatCount = 20,
             TrainManufacturerID = 1
@@ -204,6 +214,7 @@ public class TrainServiceTests
         var train = new Train
         {
             ID = 1,
+            TrainNumber = 1000,
             Name = "Thomas",
             SeatCount = 20,
             TrainManufacturerID = 1
@@ -229,6 +240,7 @@ public class TrainServiceTests
 
         var train = new Train
         {
+            TrainNumber = 1000,
             Name = "Thomas",
             SeatCount = 20,
             TrainManufacturerID = 1
@@ -248,6 +260,7 @@ public class TrainServiceTests
     {
         // Arrange
         var repository = new FakeBaseRepository<Train>();
+        var repositoryTrainManufacturer = new FakeBaseRepository<TrainManufacturer>();
         var trainService = new TrainService(repository);
 
         var lineSchedules = new List<LineSchedule>()
@@ -257,15 +270,26 @@ public class TrainServiceTests
             new() { ID = 3 }
         };
 
+        var trainManufacturers = new List<TrainManufacturer>()
+        {
+            new() { ID = 1, Name = "Manufacturer1" },
+            new() { ID = 2, Name = "Manufacturer2" }
+        };
+
         var trains = new List<Train>()
         {
-            new() { ID = 1, TrainManufacturerID = 1, Name = "Marcus", SeatCount = 60, LineSchedules = lineSchedules },
-            new() { ID = 2, TrainManufacturerID = 2, Name = "Piercy", SeatCount = 50, LineSchedules = lineSchedules },
-            new() { ID = 3, TrainManufacturerID = 1, Name = "Henry", SeatCount = 76 },
-            new() { ID = 4, TrainManufacturerID = 2, Name = "Thomas", SeatCount = 100 }
+            new() { ID = 1, TrainNumber = 1001, TrainManufacturerID = 1, Name = "Marcus", SeatCount = 60, LineSchedules = lineSchedules },
+            new() { ID = 2, TrainNumber = 1002, TrainManufacturerID = 2, Name = "Piercy", SeatCount = 50, LineSchedules = lineSchedules },
+            new() { ID = 3, TrainNumber = 1003, TrainManufacturerID = 1, Name = "Henry", SeatCount = 76 },
+            new() { ID = 4, TrainNumber = 1004, TrainManufacturerID = 2, Name = "Thomas", SeatCount = 100 }
         };
 
         // Act
+        foreach (var manufacturer in trainManufacturers)
+        {
+            await repositoryTrainManufacturer.InsertAsync(manufacturer);
+        }
+
         foreach (var train in trains)
         {
             await trainService.RegisterAsync(train);
@@ -289,5 +313,157 @@ public class TrainServiceTests
 
         // Assert
         Assert.Empty(demandedTrains);
+    }
+
+    [Fact]
+    internal async Task TrainService_IsTrainNumberUniqueAsync_ReturnsTrue()
+    {
+        // Arrange
+        var repository = new FakeBaseRepository<Train>();
+        var trainService = new TrainService(repository);
+
+        int uniqueTrainNumber = 1000;
+
+        var lineSchedules = new List<LineSchedule>()
+        {
+            new() { ID = 1 },
+            new() { ID = 2 },
+            new() { ID = 3 }
+        };
+
+        var trains = new List<Train>()
+        {
+            new() { ID = 1, TrainNumber = 1001, TrainManufacturerID = 1, Name = "Marcus", SeatCount = 60, LineSchedules = lineSchedules },
+            new() { ID = 2, TrainNumber = 1002, TrainManufacturerID = 2, Name = "Piercy", SeatCount = 50, LineSchedules = lineSchedules },
+            new() { ID = 3, TrainNumber = 1003, TrainManufacturerID = 1, Name = "Henry", SeatCount = 76 },
+            new() { ID = 4, TrainNumber = 1004, TrainManufacturerID = 2, Name = "Thomas", SeatCount = 100 }
+        };
+
+        // Act
+
+        foreach (var trainsItem in trains)
+        {
+            await repository.InsertAsync(trainsItem);
+        }
+
+        bool isTrainNumberUnique = await trainService.IsTrainNumberUniqueAsync(uniqueTrainNumber);
+
+        // Assert
+        Assert.True(isTrainNumberUnique);
+    }
+
+    [Theory]
+    [InlineData(1001)]
+    [InlineData(1002)]
+    [InlineData(1003)]
+    [InlineData(1004)]
+    internal async Task TrainService_IsTrainNumberUniqueAsync_ReturnsFalse(int trainNumber)
+    {
+        // Arrange
+        var repository = new FakeBaseRepository<Train>();
+        var trainService = new TrainService(repository);
+
+        var lineSchedules = new List<LineSchedule>()
+        {
+            new() { ID = 1 },
+            new() { ID = 2 },
+            new() { ID = 3 }
+        };
+
+        var trains = new List<Train>()
+        {
+            new() { ID = 1, TrainNumber = 1001, TrainManufacturerID = 1, Name = "Marcus", SeatCount = 60, LineSchedules = lineSchedules },
+            new() { ID = 2, TrainNumber = 1002, TrainManufacturerID = 2, Name = "Piercy", SeatCount = 50, LineSchedules = lineSchedules },
+            new() { ID = 3, TrainNumber = 1003, TrainManufacturerID = 1, Name = "Henry", SeatCount = 76 },
+            new() { ID = 4, TrainNumber = 1004, TrainManufacturerID = 2, Name = "Thomas", SeatCount = 100 }
+        };
+
+        // Act
+
+        foreach (var trainsItem in trains)
+        {
+            await repository.InsertAsync(trainsItem);
+        }
+
+        bool isTrainNumberUnique = await trainService.IsTrainNumberUniqueAsync(trainNumber);
+
+        // Assert
+        Assert.False(isTrainNumberUnique);
+    }
+
+    [Fact]
+    internal async Task TrainService_IsTrainNameUniqueAsync_ReturnsTrue()
+    {
+        // Arrange
+        var repository = new FakeBaseRepository<Train>();
+        var trainService = new TrainService(repository);
+
+        string uniqueTrainName = "TrainName";
+
+        var lineSchedules = new List<LineSchedule>()
+        {
+            new() { ID = 1 },
+            new() { ID = 2 },
+            new() { ID = 3 }
+        };
+
+        var trains = new List<Train>()
+        {
+            new() { ID = 1, TrainNumber = 1001, TrainManufacturerID = 1, Name = "Marcus", SeatCount = 60, LineSchedules = lineSchedules },
+            new() { ID = 2, TrainNumber = 1002, TrainManufacturerID = 2, Name = "Piercy", SeatCount = 50, LineSchedules = lineSchedules },
+            new() { ID = 3, TrainNumber = 1003, TrainManufacturerID = 1, Name = "Henry", SeatCount = 76 },
+            new() { ID = 4, TrainNumber = 1004, TrainManufacturerID = 2, Name = "Thomas", SeatCount = 100 }
+        };
+
+        // Act
+
+        foreach (var trainsItem in trains)
+        {
+            await repository.InsertAsync(trainsItem);
+        }
+
+        bool isTrainNumberUnique = await trainService.IsNameUniqueAsync(uniqueTrainName);
+
+        // Assert
+        Assert.True(isTrainNumberUnique);
+    }
+
+    [Theory]
+    [InlineData("Marcus")]
+    [InlineData("Piercy")]
+    [InlineData("Henry")]
+    [InlineData("Thomas")]
+    internal async Task TrainService_IsTrainNameUniqueAsync_ReturnsFalse(string trainName)
+    {
+        // Arrange
+        var repository = new FakeBaseRepository<Train>();
+        var trainService = new TrainService(repository);
+
+        var lineSchedules = new List<LineSchedule>()
+        {
+            new() { ID = 1 },
+            new() { ID = 2 },
+            new() { ID = 3 }
+        };
+
+        var trains = new List<Train>()
+        {
+            new() { ID = 1, TrainNumber = 1001, TrainManufacturerID = 1, Name = "Marcus", SeatCount = 60, LineSchedules = lineSchedules },
+            new() { ID = 2, TrainNumber = 1002, TrainManufacturerID = 2, Name = "Piercy", SeatCount = 50, LineSchedules = lineSchedules },
+            new() { ID = 3, TrainNumber = 1003, TrainManufacturerID = 1, Name = "Henry", SeatCount = 76 },
+            new() { ID = 4, TrainNumber = 1004, TrainManufacturerID = 2, Name = "Thomas", SeatCount = 100 }
+        };
+
+        // Act
+
+        foreach (var trainsItem in trains)
+        {
+            await repository.InsertAsync(trainsItem);
+        }
+
+        bool isTrainNumberUnique = await trainService.IsNameUniqueAsync(trainName);
+
+        // Assert
+        Assert.False(isTrainNumberUnique);
     }
 }
